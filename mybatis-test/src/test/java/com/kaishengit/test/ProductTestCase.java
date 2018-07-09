@@ -74,7 +74,7 @@ public class ProductTestCase {
     public void testDeleteById() {
         SqlSession sqlSession = MybatisUtils.getSqlSession();
 
-        Product product = sqlSession.selectOne("com.kaishengit.mapper.ProductMapper.deleteById", 6);
+        sqlSession.delete("com.kaishengit.mapper.ProductMapper.deleteById", 7);
         sqlSession.close();
     }
 
