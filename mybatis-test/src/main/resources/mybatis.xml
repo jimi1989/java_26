@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
@@ -37,5 +38,6 @@
         <!-- 配置mapper文件的classpath加载路径-->
         <mapper resource="mapper/ProductMapper.xml"/>
     </mappers>
+
 
 </configuration>
