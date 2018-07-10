@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.mapper.MovieMapper">
+
+    <select id="findByKeys" resultType="com.kaishengit.entity.Movie">
+        select * from movie
+        <if test="title != null and title != ''">
+          where title like #{title}
+        </if>
+
+    </select>
+
+    <select id="findByParam" resultType="com.kaishengit.entity.Movie" parameterType="map">
+        select * from movie
+       <trim prefix="where" prefixOverrides="and | or">
+            <if test="title != null and title != ''">
+                and title like #{title}
+            </if>
+            <if test="director != null and director !=''">
+                and director like #{director}
+            </if>
+       </trim>
+    </select>
+
+    <select id="findByIds" resultType="com.kaishengit.entity.Movie">
+        SELECT
+            *
+        FROM
+            movie
+        WHERE
+            id IN
+        <foreach collection="idList" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+
+    </select>
+
+
+
+</mapper>

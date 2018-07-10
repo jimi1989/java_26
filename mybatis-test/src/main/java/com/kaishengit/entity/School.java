@@ -24,4 +24,12 @@ public class School {
     public void setSchoolName(String schoolName) {
         this.schoolName = schoolName;
     }
+
+    @Override
+    public String toString() {
+        return "School{" +
+                "id=" + id +
+                ", schoolName='" + schoolName + '\'' +
+                '}';
+    }
 }

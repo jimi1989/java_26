@@ -37,6 +37,8 @@
     <mappers>
         <!-- 配置mapper文件的classpath加载路径-->
         <mapper resource="mapper/ProductMapper.xml"/>
+        <mapper resource="mapper/StudentMapper.xml"/>
+        <mapper resource="mapper/MovieMapper.xml"/>
     </mappers>
 
 

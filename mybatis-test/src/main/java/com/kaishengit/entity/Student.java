@@ -1,5 +1,7 @@
 package com.kaishengit.entity;
 
+import java.util.List;
+
 /**
  * @author jinjianghao
  * @date 2018/7/10
@@ -9,7 +11,10 @@ public class Student {
     private Integer id;
     private String userName;
     private String address;
-    private Integer SchoolId;
+    private Integer schoolId;
+
+    private School school;
+    private List<Tag> tagList;
 
     public Integer getId() {
         return id;
@@ -35,12 +40,30 @@ public class Student {
         this.address = address;
     }
 
+
+    public List<Tag> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(List<Tag> tagList) {
+        this.tagList = tagList;
+    }
+
+    public School getSchool() {
+        return school;
+    }
+
+    public void setSchool(School school) {
+        this.school = school;
+    }
+
+
     public Integer getSchoolId() {
-        return SchoolId;
+        return schoolId;
     }
 
     public void setSchoolId(Integer schoolId) {
-        SchoolId = schoolId;
+        this.schoolId = schoolId;
     }
 
     @Override
@@ -49,7 +72,9 @@ public class Student {
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", address='" + address + '\'' +
-                ", SchoolId=" + SchoolId +
+                ", schoolId=" + schoolId +
+                ", school=" + school +
+                ", tagList=" + tagList +
                 '}';
     }
 }

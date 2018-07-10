@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.mapper.StudentMapper">
+
+    <resultMap id="baseMap" type="com.kaishengit.entity.Student">
+        <id column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="address" property="address"/>
+        <result column="school_id" property="schoolId"/>
+    </resultMap>
+
+
+    <resultMap id="studentWithTagMap" type="com.kaishengit.entity.Student" extends="baseMap">
+        <collection property="tagList" ofType="com.kaishengit.entity.Tag">
+            <id column="tag_id" property="id"/>
+            <result column="tag_name" property="tagName"/>
+        </collection>
+    </resultMap>
+
+    <insert id="addBatch" parameterType="list">
+        insert into tag (tag_name) values
+        <foreach collection="tagList" separator="," item="tag" >
+            (#{tag.tagName})
+        </foreach>
+    </insert>
+
+    <select id="findWithTagById" resultMap="studentWithTagMap">
+        SELECT
+            student.id,
+            user_name,
+            address,
+            school_id,
+            tag.id AS 'tag_id',
+            tag_name
+        FROM
+            student
+        LEFT JOIN user_tag ON student.id = user_tag.user_id
+        LEFT JOIN tag ON tag.id = user_tag.tag_id
+        WHERE
+            student.id = #{id}
+
+    </select>
+
+
+    <resultMap id="studentMap" type="com.kaishengit.entity.Student" extends="baseMap">
+
+        <association property="school" javaType="com.kaishengit.entity.School">
+            <id column="school_id" property="id"/>
+            <result column="school_name" property="schoolName"/>
+        </association>
+    </resultMap>
+
+    <select id="findWithSchoolById" resultMap="studentMap" parameterType="int">
+        SELECT
+            student.id, user_name, address, school_id, school_name
+        FROM
+            student
+        INNER JOIN school ON student.school_id = school.id
+        where student.id = #{id}
+
+    </select>
+
+    <!--<select id="findWithSchoolById" resultType="com.kaishengit.entity.Student" parameterType="int">
+        SELECT
+        student.id,
+        user_name,
+        address,
+        school_id,
+        school.id as 'school.id',
+	    school.school_name as 'school.schoolName'
+    FROM
+        student
+    INNER JOIN school ON student.school_id = school.id
+    WHERE
+         student.id = #{id}
+
+    </select>-->
+
+</mapper>
