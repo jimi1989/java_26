@@ -36,10 +36,15 @@
 
     <mappers>
         <!-- 配置mapper文件的classpath加载路径-->
-        <mapper resource="mapper/ProductMapper.xml"/>
+        <mapper resource="mapper/StudentMapper.xml"/>
+        <!--<mapper resource="mapper/ProductMapper.xml"/>
         <mapper resource="mapper/StudentMapper.xml"/>
         <mapper resource="mapper/MovieMapper.xml"/>
-        <mapper resource="mapper/SchoolMapper.xml"/>
+        <mapper resource="mapper/SchoolMapper.xml"/>-->
+        <mapper class="com.kaishengit.mapper.ProductMapper"/>
+        <!--<mapper class="com.kaishengit.mapper.StudentMapper"/>-->
+        <mapper class="com.kaishengit.mapper.SchoolMapper"/>
+        <mapper class="com.kaishengit.mapper.TagMapper"/>
     </mappers>
 
 

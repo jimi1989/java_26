@@ -63,7 +63,7 @@ public class ProductMapperTestCase {
 
     @Test
     public void testFindById() {
-        Product product = productMapper.findById(5);
+        Product product = productMapper.findById(15);
         logger.debug("product：{}" , product.toString());
     }
 
@@ -93,7 +93,7 @@ public class ProductMapperTestCase {
 
     @Test
     public void testUpdate() {
-        Product product = productMapper.findById(10);
+        Product product = productMapper.findById(15);
         product.setProductInventory(199);
 
         productMapper.update(product);
@@ -102,7 +102,7 @@ public class ProductMapperTestCase {
 
     @Test
     public void testDeleteById() {
-        productMapper.deleteById(10);
+        productMapper.deleteById(14);
         sqlSession.commit();
     }
 
