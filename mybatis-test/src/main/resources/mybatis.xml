@@ -39,6 +39,7 @@
         <mapper resource="mapper/ProductMapper.xml"/>
         <mapper resource="mapper/StudentMapper.xml"/>
         <mapper resource="mapper/MovieMapper.xml"/>
+        <mapper resource="mapper/SchoolMapper.xml"/>
     </mappers>
 
 

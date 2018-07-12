@@ -1,12 +1,13 @@
 package com.kaishengit.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author jinjianghao
  * @date 2018/7/10
  */
-public class Student {
+public class Student implements Serializable {
 
     private Integer id;
     private String userName;

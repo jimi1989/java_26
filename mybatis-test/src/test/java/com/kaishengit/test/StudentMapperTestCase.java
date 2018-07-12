@@ -1,7 +1,9 @@
 package com.kaishengit.test;
 
+import com.kaishengit.entity.School;
 import com.kaishengit.entity.Student;
 import com.kaishengit.entity.Tag;
+import com.kaishengit.mapper.SchoolMapper;
 import com.kaishengit.mapper.StudentMapper;
 import com.kaishengit.util.MybatisUtils;
 import org.apache.ibatis.session.SqlSession;
@@ -34,6 +36,13 @@ public class StudentMapperTestCase {
     @After
     public void after() {
         sqlSession.close();
+    }
+
+    @Test
+    public void testFindBySchoolId() {
+        SchoolMapper schoolMapper = sqlSession.getMapper(SchoolMapper.class);
+        School school = schoolMapper.findById(1);
+        System.out.println(school);
     }
 
     @Test

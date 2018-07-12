@@ -4,6 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kaishengit.mapper.StudentMapper">
 
+    <cache size="2048" readOnly="false" eviction="LRU" flushInterval="30000"/>
+
     <resultMap id="baseMap" type="com.kaishengit.entity.Student">
         <id column="id" property="id"/>
         <result column="user_name" property="userName"/>
@@ -19,7 +21,7 @@
         </collection>
     </resultMap>
 
-    <insert id="addBatch" parameterType="list">
+    <insert id="addBatch" parameterType="list" >
         insert into tag (tag_name) values
         <foreach collection="tagList" separator="," item="tag" >
             (#{tag.tagName})
@@ -44,7 +46,7 @@
     </select>
 
 
-    <resultMap id="studentMap" type="com.kaishengit.entity.Student" extends="baseMap">
+    <!--<resultMap id="studentMap" type="com.kaishengit.entity.Student" extends="baseMap">
 
         <association property="school" javaType="com.kaishengit.entity.School">
             <id column="school_id" property="id"/>
@@ -60,7 +62,25 @@
         INNER JOIN school ON student.school_id = school.id
         where student.id = #{id}
 
+    </select>-->
+    <select id="findById" resultType="com.kaishengit.entity.Student" useCache="false">
+        select * from student where id = #{id}
     </select>
+
+
+    <resultMap id="studentMap" type="com.kaishengit.entity.Student" extends="baseMap">
+        <association property="school" javaType="com.kaishengit.entity.School"
+                     column="school_id" select="com.kaishengit.mapper.SchoolMapper.findById"/>
+    </resultMap>
+
+    <select id="findWithSchoolById" resultMap="studentMap" parameterType="int">
+        SELECT
+            student.id, user_name, address, school_id
+        FROM
+            student
+        where student.id = #{id}
+    </select>
+
 
     <!--<select id="findWithSchoolById" resultType="com.kaishengit.entity.Student" parameterType="int">
         SELECT

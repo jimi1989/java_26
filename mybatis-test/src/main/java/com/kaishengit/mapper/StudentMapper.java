@@ -12,6 +12,8 @@ import java.util.List;
  */
 public interface StudentMapper {
 
+    Student findById(Integer id);
+
     Student findWithSchoolById(Integer id);
 
     Student findWithTagById(Integer id);

@@ -1,10 +1,12 @@
 package com.kaishengit.entity;
 
+import java.io.Serializable;
+
 /**
  * @author jinjianghao
  * @date 2018/7/10
  */
-public class School {
+public class School implements Serializable {
 
     private Integer id;
     private String schoolName;
