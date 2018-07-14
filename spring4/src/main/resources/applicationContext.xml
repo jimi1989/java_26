@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="studentService" class="com.kaishengit.service.StudentService" autowire="constructor"/>
+
+    <bean id="studentDao" class="com.kaishengit.dao.StudentDao"/>
+    <bean id="studentDaoyyyy" class="com.kaishengit.dao.StudentDao"/>
+
+
+   <!-- <bean id="studentService" class="com.kaishengit.service.StudentService">
+        &lt;!&ndash;
+            name:构造方法参数的名称
+            ref:注入bean在spring容器中的id
+        &ndash;&gt;
+
+        &lt;!&ndash;<constructor-arg name="studentDao" ref="studentDao"/>&ndash;&gt;
+        &lt;!&ndash;
+            index 构造方法参数的位置索引
+        &ndash;&gt;
+        &lt;!&ndash;<constructor-arg index="0" ref="studentDao"/>&ndash;&gt;
+
+        &lt;!&ndash;
+            type 构造方法参数的类型
+        &ndash;&gt;
+        <constructor-arg type="com.kaishengit.dao.StudentDao" ref="studentDao"/>
+
+    </bean>
+
+
+    <bean id="studentDao" class="com.kaishengit.dao.StudentDao"/>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+   <!-- <bean id="userDao" class="com.kaishengit.dao.UserDao" lazy-init="true" init-method="init" destroy-method="destroy"/>-->
+    <!--<alias name="userDao" alias="userDao2"/>-->
+
+   <!-- <bean id="baseService" class="com.kaishengit.service.BaseService">
+        <property name="id" value="123"/>
+        <property name="name" value="jack"/>
+        <property name="score" value="99.90"/>
+        <property name="strList">
+            <list>
+                <value>abc</value>
+                <value>123</value>
+                <value>xyz</value>
+            </list>
+        </property>
+        <property name="numSets">
+            <set>
+                <value>123</value>
+                <value>456</value>
+            </set>
+        </property>
+        <property name="maps">
+            <map>
+                <entry key="name" value="rose"/>
+                <entry key="addr" value="jiaozuo"/>
+            </map>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="driver">com.mysql.jdbc.Driver</prop>
+                <prop key="username">root</prop>
+            </props>
+        </property>
+    </bean>-->
+
+
+
+
+    <!--<bean id="studentService" class="com.kaishengit.service.StudentService" p:studentDao-ref="studentDao"/>
+    <bean id="studentDao" class="com.kaishengit.dao.StudentDao"/>
+-->
+
+    <!--<bean id="studentService" class="com.kaishengit.service.StudentService">
+        &lt;!&ndash;
+            name:被注入的属性的set方法名去掉set，首字母小写之后的名称（只不过恰好和属性相同）
+            ref:spring容器中注入对象的id
+        &ndash;&gt;
+        &lt;!&ndash;<property name="studentDao" ref="studentDao"/>&ndash;&gt;
+        <property name="studentDao">
+            &lt;!&ndash;<ref bean="studentDao"/>&ndash;&gt;
+            <bean class="com.kaishengit.dao.StudentDao"/>
+        </property>
+
+
+
+    </bean>
+    <bean id="studentDao" class="com.kaishengit.dao.StudentDao"/>-->
+
+
+
+</beans>
