@@ -17,7 +17,16 @@
             <!--定义切入点：在什么类的什么方法上添加功能-->
             <aop:pointcut id="myPoint" expression="execution(* com.kaishengit.proxy..*.*(..))"/>
             <!-- 加入前置通知-->
-            <aop:before method="beforeAdvice" pointcut-ref="myPoint"/>
+            <!--<aop:before method="beforeAdvice" pointcut-ref="myPoint"/>-->
+            <!-- 加入后置通知 -->
+            <!--<aop:after-returning method="afterAdvice" pointcut-ref="myPoint" returning="result"/>-->
+            <!-- 加入异常通知 -->
+            <!--<aop:after-throwing method="exceptionAdvice" pointcut-ref="myPoint" throwing="ex"/>-->
+            <!-- 加入最终通知 -->
+            <!--<aop:after method="finallyAdvice" pointcut-ref="myPoint"/>-->
+
+            <!-- 环绕通知-->
+            <aop:around method="aroundAdvice" pointcut-ref="myPoint"/>
         </aop:aspect>
 
     </aop:config>
