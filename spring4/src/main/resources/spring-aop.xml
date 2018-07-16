@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 将通知类放入spring容器 -->
+    <bean id="aopAspect" class="com.kaishengit.aop.AopAspect"/>
+
+    <bean id="lenovo" class="com.kaishengit.proxy.Lenovo"/>
+
+    <!-- aop配置 -->
+    <aop:config>
+        <!-- 配置依赖的通知类 -->
+        <aop:aspect ref="aopAspect">
+            <!--定义切入点：在什么类的什么方法上添加功能-->
+            <aop:pointcut id="myPoint" expression="execution(* com.kaishengit.proxy..*.*(..))"/>
+            <!-- 加入前置通知-->
+            <aop:before method="beforeAdvice" pointcut-ref="myPoint"/>
+        </aop:aspect>
+
+    </aop:config>
+
+
+</beans>

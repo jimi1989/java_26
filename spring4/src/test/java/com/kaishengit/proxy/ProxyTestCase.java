@@ -36,6 +36,9 @@ public class ProxyTestCase {
                 Dell.class.getInterfaces(),
                 invocationHandler);
 
+        // 获得类的完全限定名
+        System.out.println(sale.getClass().getName());
+
         sale.salePc();
 
     }

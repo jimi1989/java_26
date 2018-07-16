@@ -18,4 +18,9 @@ public class Proxy implements Sale {
         System.out.println("一套鼠标键盘200元");
         System.out.println("送鼠标垫..");
     }
+
+    @Override
+    public int salePrice() {
+        return 0;
+    }
 }

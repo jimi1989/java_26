@@ -8,4 +8,6 @@ public interface Sale {
 
     void salePc();
 
+    int salePrice();
+
 }
