@@ -1,5 +1,6 @@
 package com.kaishengit.dao;
 
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,20 @@ public class UserDaoTestCase {
         userDao.save();
     }
 
+    public void testDataSource() {
+
+        BasicDataSource basicDataSource = new BasicDataSource();
+        basicDataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        basicDataSource.setUrl("jdbc:mysql:///db_26");
+        basicDataSource.setUsername("root");
+        basicDataSource.setPassword("rootroot");
+        System.out.println("---------------------");
+        basicDataSource.setInitialSize(5);
+        basicDataSource.setMinIdle(5);
+        basicDataSource.setMaxIdle(10);
+        basicDataSource.setMaxWaitMillis(5000);
+
+    }
 
 
 }

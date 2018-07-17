@@ -13,6 +13,8 @@
     <properties>
         <spring-version>4.3.18.RELEASE</spring-version>
         <junit-version>4.12</junit-version>
+        <driver-version>5.1.45</driver-version>
+        <dbcp2-version>2.1.1</dbcp2-version>
     </properties>
 
     <dependencies>
@@ -44,6 +46,26 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring-version}</version>
+        </dependency>
+
+        <!-- spring-jdbc -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+
+        <!-- mysql jdbc driver -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${driver-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>${dbcp2-version}</version>
         </dependency>
 
         <!-- JSR330 -->
