@@ -1,10 +1,7 @@
 package com.kaishengit.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author jinjianghao
@@ -14,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class HelloController {
 
     // @RequestMapping(value = "/hello", method = {RequestMethod.POST,RequestMethod.GET})
-    @GetMapping("/hello")
-    @PostMapping("/hello")
+    @GetMapping("/hello2")
+    //@PostMapping("/hello2")
     public String hello() {
         System.out.println("hello,springMvc");
         return "hello";
     }
+
+
 
 }
