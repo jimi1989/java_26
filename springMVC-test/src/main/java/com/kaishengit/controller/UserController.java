@@ -4,15 +4,26 @@ import com.kaishengit.entity.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author jinjianghao
  * @date 2018/7/20
  */
+// @Controller
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
+    @GetMapping
+    public String index() {
+        return "user/index";
+    }
 
     @GetMapping("/new")
     public String addUser() {
@@ -42,7 +53,7 @@ public class UserController {
     }
 
     @GetMapping("/{id:\\d+}")
-    public String showUser(@RequestParam(defaultValue = "1") Integer p,
+    public String showUser(@RequestParam(name = "pageNo", defaultValue = "1") Integer p,
             @PathVariable(name = "id") Integer userId, Model model) {
         System.out.println("pageNo:" + p);
         System.out.println("get user..." + userId);
@@ -50,8 +61,9 @@ public class UserController {
         return "user/home";
     }
 
-    @GetMapping("/{type:v-\\d+}/{id:\\d+}")
+    @GetMapping("/{type:v-.+}/{id:\\d+}")
     public ModelAndView showUser(
+            String name,
             @PathVariable String type,
             @PathVariable(name = "id") Integer userId) {
        /* ModelAndView modelAndView = new ModelAndView();
@@ -63,7 +75,45 @@ public class UserController {
 
         System.out.println("userId: " + userId);
         System.out.println("userType: " + type);
+
+        /*try {
+            name = new String(name.getBytes("ISO8859-1"),"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }*/
+        System.out.println("name:" + name);
         return modelAndView;
+    }
+
+//    @GetMapping(value = "/save", produces = "text/plain;charset=UTF-8")
+    @RequestMapping(value = "/save",method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public String saveUser() {
+        System.out.println("save success！");
+        return "保存成功";
+    }
+
+    @GetMapping("/{id:\\d+}.json")
+    @ResponseBody
+    public User showUser(@PathVariable Integer id) {
+        User user = new User();
+        user.setId(id);
+        user.setUsername("jack");
+        user.setAddress("beijing");
+        return user;
+    }
+
+
+    @GetMapping("/list.json")
+    @ResponseBody
+    public List<User> allUser() {
+        List<User> userList = Arrays.asList(
+                new User(10011, "jack", "newyork"),
+                new User(10012, "rose", "newyork"),
+                new User(10013, "tom", "newyork")
+        );
+        return userList;
+
     }
 
 }

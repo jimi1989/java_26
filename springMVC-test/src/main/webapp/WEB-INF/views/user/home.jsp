@@ -13,5 +13,6 @@
 <body>
     this is home page!
     welcome，${userId},${type}
+    <img src="http://localhost/static/img/1.jpg">
 </body>
 </html>

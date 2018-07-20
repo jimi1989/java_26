@@ -10,6 +10,15 @@ public class User {
     private String username;
     private String address;
 
+    public User() {
+    }
+
+    public User(Integer id, String username, String address) {
+        this.id = id;
+        this.username = username;
+        this.address = address;
+    }
+
     public Integer getId() {
         return id;
     }
