@@ -13,7 +13,7 @@
 <body>
     <h4>新增用户</h4>
     <form action="" method="post">
-        <input type="text" name="username"/> <br>
+        <input type="text" name="username" value="${name}"/> <br>
         <input type="text" name="address"/> <br>
         <input type="text" name="tel"/> <br>
         <button>save</button>

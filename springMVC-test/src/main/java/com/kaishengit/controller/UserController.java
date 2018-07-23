@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
@@ -26,13 +31,31 @@ public class UserController {
     }
 
     @GetMapping("/new")
-    public String addUser() {
-
+    public String addUser(@CookieValue(name = "userName") String name, Model model,@RequestHeader(name="user-Agent") String userAgent) {
+        model.addAttribute("name", name);
+        System.out.println(userAgent);
         return "user/new";
     }
 
     @PostMapping("/new")
-    public String addUser(User user, String tel) {
+    public String addUser(User user, String tel, HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
+        // cookie存值
+        Cookie cookie = new Cookie("userName", user.getUsername());
+
+        cookie.setDomain("localhost");
+        cookie.setPath("/");
+        cookie.setMaxAge(60 * 60 * 24 * 7);
+        cookie.setHttpOnly(true);
+
+        resp.addCookie(cookie);
+
+        // session.getAttribute("curr_admin");
+        /*String tel1 = req.getParameter("tel");
+        System.out.println(tel1);*/
+
+        /*HttpSession session1 = req.getSession();
+        ServletContext context = req.getServletContext();*/
+
         System.out.println("username:" + user.getUsername());
         System.out.println("address:" + user.getAddress());
         System.out.println("tel:" + tel);
