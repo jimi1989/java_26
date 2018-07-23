@@ -22,7 +22,9 @@
 <!-- Site wrapper -->
 <div class="wrapper">
     <%@ include file="../include/header.jsp" %>
-    <%@ include file="../include/sider.jsp" %>
+    <jsp:include page="../include/sider.jsp">
+        <param name="menu" value="parts">%>
+    </jsp:include>
     <!-- 右侧内容部分 -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
