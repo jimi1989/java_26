@@ -118,7 +118,7 @@
       #{inPrice,jdbcType=DECIMAL}, #{salePrice,jdbcType=DECIMAL}, #{inventory,jdbcType=INTEGER}, 
       #{typeId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.kaishengit.entity.Parts">
+  <insert id="insertSelective" parameterType="com.kaishengit.entity.Parts" useGeneratedKeys="true" keyProperty="id">
     insert into parts
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -189,6 +189,23 @@
 
     <select id="findPageWithType" resultMap="partsListWithType">
         SELECT parts.*,type.type_name FROM parts, type where parts.type_id = type.id
+    </select>
+
+    <select id="findPageWithTypeByQueryMap" resultMap="partsListWithType">
+        SELECT p.*, t.type_name
+        FROM
+        parts as p
+        LEFT JOIN `type` as t
+        ON  p.type_id = t.id
+        <where>
+            <if test="partsName != null and partsName != ''">
+                AND  p.parts_name like concat('%',#{partsName},'%')
+            </if>
+            <if test="partsType != null and partsType != ''">
+                AND  p.type_id = #{partsType}
+            </if>
+        </where>
+
     </select>
     <update id="updateByExampleSelective" parameterType="map">
     update parts

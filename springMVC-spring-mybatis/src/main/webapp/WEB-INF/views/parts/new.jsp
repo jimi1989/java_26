@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -32,61 +32,47 @@
         <!-- Main content -->
         <section class="content">
 
-            <div class="box no-border">
-                <div class="box-body">
-                    <form class="form-inline pull-left">
-                        <input type="text" name="partsName" placeholder="配件名称" class="form-control">
-                        <select class="form-control" name="partsType" id="partsType">
-                            <option value="">请选择配件类型</option>
-                            <option value="1">机油</option>
-                            <option value="2">机滤</option>
-                            <option value="3">轮胎</option>
-                        </select>
-                        <button class="btn btn-default">搜索</button>
-                    </form>
-                </div>
-            </div>
-
             <!-- Default box -->
             <div class="box">
                 <div class="box-body">
-                    <form action="" id="addForm">
+                    <form action="" method="post" id="addForm">
                         <div class="form-group">
                             <label class=" control-label">配件编号:</label>
-                            <input type="text" class="form-control" placeholder="请输入配件编号">
+                            <input type="text" name="partsNo" class="form-control" placeholder="请输入配件编号">
                         </div>
                         <div class="form-group">
                             <label>配件名称:</label>
-                            <input type="text" class="form-control" placeholder="请输入配件名称">
+                            <input type="text" name="partsName" class="form-control" placeholder="请输入配件名称">
                         </div>
 
                         <div class="form-group">
                             <label>入库数量:</label>
-                            <input type="text" class="form-control" placeholder="请输入入库数量">
+                            <input type="text" name="inventory" class="form-control" placeholder="请输入入库数量">
                         </div>
                         <div class="form-group">
                             <label>进价:</label>
-                            <input type="text" class="form-control" placeholder="请输入进价">
+                            <input type="text" name="inPrice" class="form-control" placeholder="请输入进价">
                         </div>
                         <div class="form-group">
                             <label>售价:</label>
-                            <input type="text" class="form-control" placeholder="请输入售价">
+                            <input type="text" name="salePrice" class="form-control" placeholder="请输入售价">
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2">类型:</label>
-                            <select name="" id="" class="form-control">
+                            <label>类型:</label>
+                            <select name="typeId" id="" class="form-control">
                                 <option>请选择类型</option>
-                                <option>机油</option>
-                                <option>机滤</option>
-                                <option>空气滤芯</option>
+                                <c:forEach items="${typeList}" var="type">
+                                    <option value="${type.id}" >${type.typeName}</option>
+                                </c:forEach>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>产地:</label>
-                            <input type="text" class="form-control" placeholder="请输入产地">
+                            <input type="text" name="address" class="form-control" placeholder="请输入产地">
                         </div>
-                        <button class="btn btn-primary pull-left">保存</button>
+
                     </form>
+                    <button class="btn btn-primary pull-left" id="saveBtn">保存</button>
                 </div>
                 <!-- /.box-body -->
 
@@ -105,7 +91,16 @@
 
 <%@ include file="../include/js.jsp" %>
 <script>
+    $(function(){
+        $("#saveBtn").click(function() {
+            $("#addForm").submit();
+        })
 
+        /*$("#addForm").validate({
+
+        })*/
+
+    })
 </script>
 </body>
 </html>

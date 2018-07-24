@@ -34,12 +34,14 @@
             <div class="box no-border">
                 <div class="box-body">
                     <form class="form-inline pull-left">
-                        <input type="text" name="partsName" placeholder="配件名称" class="form-control">
+                        <input type="text" name="partsName" value="${param.partsName}" placeholder="配件名称" class="form-control">
+                        <input type="text" name="inventory" value="${param.inventory}" placeholder="库存量" class="form-control">
                         <select class="form-control" name="partsType" id="partsType">
                             <option value="">请选择配件类型</option>
-                            <option value="1">机油</option>
-                            <option value="2">机滤</option>
-                            <option value="3">轮胎</option>
+                            <c:forEach items="${typeList}" var="type">
+                                <option value="${type.id}" ${param.partsType == type.id ? 'selected': ''} >${type.typeName}</option>
+                            </c:forEach>
+
                         </select>
                         <button class="btn btn-default">搜索</button>
                     </form>
@@ -72,7 +74,8 @@
                                 <td>${parts.salePrice}</td>
                                 <td>${parts.type.typeName}</td>
                                 <td>${parts.address}</td>
-                                <td><a href="#">更新</a> <a href="">删除</a> </td>
+                                <td><a href="/parts/${parts.id}/edit">更新</a>
+                                    <a href="javascript:;" class="del" ref="${parts.id}">删除</a> </td>
                             </tr>
                         </c:forEach>
 
@@ -99,6 +102,19 @@
 <%@ include file="../include/js.jsp" %>
 <script>
     $(function(){
+        var message = "${message}";
+        if(message) {
+            layer.msg(message);
+        }
+
+        $(".del").click(function(){
+            var id = $(this).attr("ref");
+            layer.confirm("确定要删除么？",function () {
+                window.location.href = "/parts/" + id + "/del";
+            })
+        })
+
+
         $("#pagination").twbsPagination({
             totalPages : ${page.pages},
             visiblePages : 5,
@@ -106,7 +122,7 @@
             last:'末页',
             prev:'上一页',
             next:'下一页',
-            href:"?p={{number}}"
+            href:"?p={{number}}&partsName=" + encodeURIComponent('${param.partsName}') + "&partsType=${param.partsType}"
         });
 
         var locale = {
