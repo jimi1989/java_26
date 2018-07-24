@@ -90,6 +90,11 @@
             <version>${mybatis-spring-version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>5.0.0</version>
+        </dependency>
         <!--jdbc-->
         <dependency>
             <groupId>org.springframework</groupId>

@@ -18,6 +18,8 @@ public interface PartsMapper {
 
     List<Parts> selectByExample(PartsExample example);
 
+    List<Parts> findPageWithType();
+
     Parts selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") Parts record, @Param("example") PartsExample example);

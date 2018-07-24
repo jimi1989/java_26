@@ -47,6 +47,9 @@ public class Parts implements Serializable {
      */
     private String address;
 
+    private Type type;
+
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -113,59 +116,26 @@ public class Parts implements Serializable {
         this.address = address;
     }
 
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        Parts other = (Parts) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getPartsNo() == null ? other.getPartsNo() == null : this.getPartsNo().equals(other.getPartsNo()))
-            && (this.getPartsName() == null ? other.getPartsName() == null : this.getPartsName().equals(other.getPartsName()))
-            && (this.getInPrice() == null ? other.getInPrice() == null : this.getInPrice().equals(other.getInPrice()))
-            && (this.getSalePrice() == null ? other.getSalePrice() == null : this.getSalePrice().equals(other.getSalePrice()))
-            && (this.getInventory() == null ? other.getInventory() == null : this.getInventory().equals(other.getInventory()))
-            && (this.getTypeId() == null ? other.getTypeId() == null : this.getTypeId().equals(other.getTypeId()))
-            && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()));
+    public Type getType() {
+        return type;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getPartsNo() == null) ? 0 : getPartsNo().hashCode());
-        result = prime * result + ((getPartsName() == null) ? 0 : getPartsName().hashCode());
-        result = prime * result + ((getInPrice() == null) ? 0 : getInPrice().hashCode());
-        result = prime * result + ((getSalePrice() == null) ? 0 : getSalePrice().hashCode());
-        result = prime * result + ((getInventory() == null) ? 0 : getInventory().hashCode());
-        result = prime * result + ((getTypeId() == null) ? 0 : getTypeId().hashCode());
-        result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
-        return result;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", partsNo=").append(partsNo);
-        sb.append(", partsName=").append(partsName);
-        sb.append(", inPrice=").append(inPrice);
-        sb.append(", salePrice=").append(salePrice);
-        sb.append(", inventory=").append(inventory);
-        sb.append(", typeId=").append(typeId);
-        sb.append(", address=").append(address);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "Parts{" +
+                "id=" + id +
+                ", partsNo='" + partsNo + '\'' +
+                ", partsName='" + partsName + '\'' +
+                ", inPrice=" + inPrice +
+                ", salePrice=" + salePrice +
+                ", inventory=" + inventory +
+                ", typeId=" + typeId +
+                ", address='" + address + '\'' +
+                ", type=" + type +
+                '}';
     }
 }

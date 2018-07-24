@@ -1,5 +1,6 @@
 package com.kaishengit.service;
 
+import com.github.pagehelper.PageInfo;
 import com.kaishengit.entity.Parts;
 
 /**
@@ -13,4 +14,11 @@ public interface PartsService {
      * @return
      */
     Parts findById(Integer id);
+
+    /**
+     * 根据页码获得对应的数据集合
+     * @param pageNo 页码 1，2，3
+     * @return pageInfo对象
+     */
+    PageInfo<Parts> findPage(Integer pageNo);
 }

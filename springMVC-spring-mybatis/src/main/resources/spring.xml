@@ -39,10 +39,23 @@
                 <property name="mapUnderscoreToCamelCase" value="true"/>
             </bean>
         </property>
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <!-- 这里的几个配置主要演示如何使用，如果不理解，一定要去掉下面的配置 -->
+                    <property name="properties">
+                        <value>
+                            helperDialect=mysql
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
     </bean>
 
     <!--扫描mapper接口并动态创建实现类对象并放入spring容器-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.kaishengit.mapper"/>
     </bean>
+
 </beans>
