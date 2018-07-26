@@ -7,7 +7,7 @@
     <section class="sidebar">
         <!-- 菜单 -->
         <ul class="sidebar-menu">
-            <li class="header">系统功能</li>
+            <li class="header ${param.menu == 'home' ? 'active' : ''}">系统功能</li>
             <!-- 保养服务 -->
             <li class="treeview">
                 <a href="#">
@@ -37,7 +37,7 @@
                 </ul>
             </li>
             <!-- 库存管理 -->
-            <li class="treeview">
+            <li class="treeview  ${param.menu == 'parts'? 'active' : ''}">
                 <a href="#">
                     <i class="fa fa-home"></i> <span>库存管理</span>
                     <span class="pull-right-container">

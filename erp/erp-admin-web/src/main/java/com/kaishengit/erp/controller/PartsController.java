@@ -1,9 +1,9 @@
 package com.kaishengit.erp.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.kaishengit.entity.Parts;
-import com.kaishengit.entity.Type;
-import com.kaishengit.service.PartsService;
+import com.kaishengit.erp.entity.Parts;
+import com.kaishengit.erp.entity.Type;
+import com.kaishengit.erp.service.PartsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
