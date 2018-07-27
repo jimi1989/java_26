@@ -34,6 +34,13 @@ public interface RolePermissionService {
 
 
     /**
+     * 根据id查找对应的权限对象
+     * @param id
+     * @return permission
+     */
+    Permission findPermissionById(Integer id);
+
+    /**
      * 新增角色
      * @param role
      * @param permissionIds 关联的权限id
@@ -51,4 +58,10 @@ public interface RolePermissionService {
      * @param id
      */
     void delPermission(Integer id) throws ServiceException;
+
+    /**
+     * 更新权限
+     * @param permission
+     */
+    void editPermission(Permission permission);
 }

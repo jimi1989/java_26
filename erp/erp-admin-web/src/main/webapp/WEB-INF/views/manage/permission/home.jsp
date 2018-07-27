@@ -63,7 +63,7 @@
                                 <td>${permission.url}</td>
                                 <td>${permission.permissionType}</td>
                                 <td>
-                                    <a class="btn btn-primary btn-xs" href="" title="编辑"><i class="fa fa-pencil"></i></a>
+                                    <a class="btn btn-primary btn-xs" href="/manage/permission/${permission.id}/edit" title="编辑"><i class="fa fa-pencil"></i></a>
                                     <a class="btn btn-danger btn-xs delLink" rel="${permission.id}" href="javascript:;" title="删除"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>

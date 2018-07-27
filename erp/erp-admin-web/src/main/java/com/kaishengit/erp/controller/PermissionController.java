@@ -55,4 +55,24 @@ public class PermissionController {
         return ResppnseBean.success();
     }
 
+    @GetMapping("/{id:\\d+}/edit")
+    public String permissionEdit(@PathVariable Integer id, Model model) {
+        Permission permission = rolePermissionService.findPermissionById(id);
+
+        // 封装所有菜单权限列表
+        List<Permission> menuPermissionList = rolePermissionService.findPermissionListByType(Permission.PERMISSION_TYPE_MENU);
+        // 排除当前permission对象
+        menuPermissionList.remove(permission);
+
+        model.addAttribute("menuPermissionList", menuPermissionList);
+        model.addAttribute("permission", permission);
+        return "manage/permission/edit";
+    }
+
+    @PostMapping("/{id:\\d+}/edit")
+    public String perMissionEdit(Permission permission) {
+        rolePermissionService.editPermission(permission);
+        return "redirect:/manage/permission";
+    }
+
 }
