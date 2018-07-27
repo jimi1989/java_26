@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- Bootstrap 3.3.6 -->
 <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
 <!-- Font Awesome -->

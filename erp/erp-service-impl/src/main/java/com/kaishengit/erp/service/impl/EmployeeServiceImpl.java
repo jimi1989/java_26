@@ -44,7 +44,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee login(String userTel, String password, String loginIp) throws ServiceException{
 
-        System.out.println(DigestUtils.md5Hex("123123"));
         // 根据userTel获得对应的employee对象
         EmployeeExample employeeExample = new EmployeeExample();
         employeeExample.createCriteria().andEmployeeTelEqualTo(userTel);

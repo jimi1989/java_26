@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html;charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -82,6 +82,8 @@
             <li class="header">系统管理</li>
             <!-- 部门员工管理 -->
             <li><a href="#"><i class="fa fa-users"></i> <span>员工管理</span></a></li>
+            <li><a href="#"><i class="fa fa-users"></i> <span>角色管理</span></a></li>
+            <li><a href="#"><i class="fa fa-users"></i> <span>权限管理</span></a></li>
         </ul>
     </section>
     <!-- /.sidebar -->
