@@ -89,15 +89,18 @@
                 layer.close(index);
                 $.get("/manage/roles/"+id+"/del").done(function (result) {
                     if(result.status == 'success') {
-                        window.history.go(0);
+                        layer.msg("删除成功", {icon:2, time:1000},function () {
+                            history.go(0);
+                        });
                     } else {
-                        layer.msg(result.message);
+                        layer.msg(result.message, {icon:2, time:1000});
                     }
                 }).error(function () {
                     layer.msg("服务器忙");
                 });
             })
         });
+
     });
 </script>
 </body>

@@ -90,8 +90,8 @@
 
         $(".delLink").click(function() {
             var id = $(this).attr("rel");
-            layer.confirm("确定要删除改权限么？",function() {
-                // window.location.href = "/manage/permission/" + id + "/del";
+            layer.confirm("确定要删除改权限么？",function(index) {
+                layer.close(index);
                 $.get("/manage/permission/" + id + "/del").done(function(res){
                     if(res.state == "success") {
                         layer.msg("删除成功", {icon:2, time:1000},function () {

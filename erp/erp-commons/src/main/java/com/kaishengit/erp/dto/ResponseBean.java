@@ -4,7 +4,7 @@ package com.kaishengit.erp.dto;
  * @author jinjianghao
  * @date 2018/7/27
  */
-public class ResppnseBean {
+public class ResponseBean {
 
     private static final String RESPONSEBEAN_STATE_SUCCESS = "success";
     private static final String RESPONSEBEAN_STATE_ERROR = "error";
@@ -14,24 +14,24 @@ public class ResppnseBean {
     private String message;
 
 
-    public static ResppnseBean success() {
-        ResppnseBean resppnseBean = new ResppnseBean();
-        resppnseBean.setState(RESPONSEBEAN_STATE_SUCCESS);
-        return resppnseBean;
+    public static ResponseBean success() {
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setState(RESPONSEBEAN_STATE_SUCCESS);
+        return responseBean;
     }
 
-    public static ResppnseBean success(Object obj) {
-        ResppnseBean resppnseBean = new ResppnseBean();
-        resppnseBean.setState(RESPONSEBEAN_STATE_SUCCESS);
-        resppnseBean.setData(obj);
-        return resppnseBean;
+    public static ResponseBean success(Object obj) {
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setState(RESPONSEBEAN_STATE_SUCCESS);
+        responseBean.setData(obj);
+        return responseBean;
     }
 
-    public static ResppnseBean error(String message) {
-        ResppnseBean resppnseBean = new ResppnseBean();
-        resppnseBean.setState(RESPONSEBEAN_STATE_ERROR);
-        resppnseBean.setMessage(message);
-        return resppnseBean;
+    public static ResponseBean error(String message) {
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setState(RESPONSEBEAN_STATE_ERROR);
+        responseBean.setMessage(message);
+        return responseBean;
     }
 
     public String getState() {

@@ -5,6 +5,7 @@ import com.kaishengit.erp.entity.Role;
 import com.kaishengit.erp.exception.ServiceException;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 权限控制的业务层
@@ -30,7 +31,7 @@ public interface RolePermissionService {
      * 查询所有的权限列表
      * @return
      */
-    List<Permission> findList();
+    List<Permission> findAllPermission();
 
 
     /**
@@ -64,4 +65,31 @@ public interface RolePermissionService {
      * @param permission
      */
     void editPermission(Permission permission);
+
+    /**
+     * 根据id删除角色
+     * @param id
+     * @throws ServiceException
+     */
+    void delRoleById(Integer id) throws ServiceException;
+
+    /**
+     * 根据id查找角色附带角色的权限列表
+     * @return role
+     */
+    Role findRoleWithPermission(Integer id);
+
+    /**
+     * 在编辑页面判断当前权限的复选框是否被checked
+     * @param rolesPermissionList 当前角色拥有的权限
+     * @return 有顺序的map集合，如果被选择则value为true
+     */
+    Map<Permission, Boolean> permissionBooleanMap(List<Permission> rolesPermissionList);
+
+    /**
+     * 更新角色
+     * @param role
+     * @param permissionId
+     */
+    void editRole(Role role, Integer[] permissionId);
 }

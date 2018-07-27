@@ -170,6 +170,22 @@
         LEFT JOIN role_permission AS rp ON r.id = rp.role_id
         LEFT JOIN permission AS p ON p.id = rp.permission_id
     </select>
+    <select id="findByIdWithPermission" resultMap="roleWithPermissionMap">
+        SELECT
+            r.*, p.id AS permission_id,
+            p.permission_name,
+            p.permission_code,
+            p.permission_type,
+            p.pid,
+            p.create_time,
+            p.url
+        FROM
+            role AS r
+        LEFT JOIN role_permission AS rp ON r.id = rp.role_id
+        LEFT JOIN permission AS p ON p.id = rp.permission_id
+        WHERE
+        r.id = #{id}
+    </select>
 
     <resultMap id="roleWithPermissionMap" type="com.kaishengit.erp.entity.Role" extends="BaseResultMap">
         <collection property="permissionList" ofType="com.kaishengit.erp.entity.Permission" >
