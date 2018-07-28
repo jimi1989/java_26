@@ -69,7 +69,7 @@ public class PermissionController {
 
         // 封装所有菜单权限列表
         List<Permission> menuPermissionList = rolePermissionService.findPermissionListByType(Permission.PERMISSION_TYPE_MENU);
-        // 排除当前permission对象及其子类对象
+        // 排除当前permission对象及其子权限对象
         remove(menuPermissionList,permission);
 
         model.addAttribute("menuPermissionList", menuPermissionList);

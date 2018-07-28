@@ -37,7 +37,7 @@
             <div class="box no-border">
                 <div class="box-body">
                     <form class="form-inline">
-                        <input type="text" name="nameMobile" placeholder="账号或手机号码" class="form-control" value="${param.userTel}">
+                        <input type="text" name="nameMobile" placeholder="账号或手机号码" class="form-control" value="${param.nameMobile}">
                         <select name="roleId" class="form-control">
                             <option value="">所有账号</option>
                             <c:forEach items="${rolesList}" var="role">
