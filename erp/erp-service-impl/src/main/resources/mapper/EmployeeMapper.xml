@@ -116,7 +116,7 @@
       #{password,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.kaishengit.erp.entity.Employee">
+  <insert id="insertSelective" parameterType="com.kaishengit.erp.entity.Employee" useGeneratedKeys="true" keyProperty="id">
     insert into employee
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -165,6 +165,70 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <select id="findAllWithRoles" resultMap="employeeWithRoleMap">
+        SELECT
+            employee.*, role.id AS roleId,
+            role.role_code,
+            role.role_name,
+            role.create_time AS roleCreateTime,
+            role.update_time AS roleUpdateTime
+        FROM
+            employee
+        LEFT JOIN employee_role ON employee.id = employee_role.employee_id
+        LEFT JOIN role ON role.id = employee_role.role_id
+        order by employee.id desc
+    </select>
+  <select id="findAllWithRolesByQueryParam" resultMap="employeeWithRoleMap">
+    SELECT
+    employee.*, role.id AS roleId,
+    role.role_code,
+    role.role_name,
+    role.create_time AS roleCreateTime,
+    role.update_time AS roleUpdateTime
+    FROM
+    employee
+    LEFT JOIN employee_role ON employee.id = employee_role.employee_id
+    LEFT JOIN role ON role.id = employee_role.role_id
+    <choose>
+      <when test="roleId != null and roleId != 0">
+        inner JOIN (
+        SELECT
+        id
+        FROM
+        employee
+        INNER JOIN employee_role ON employee_role.employee_id = employee.id
+        <where>
+          employee_role.role_id = #{roleId}
+          <if test="nameMobile != null and nameMobile != ''">
+            and( (employee.employee_name like concat('%',#{nameMobile},'%'))
+            or
+            (employee.employee_mobile like concat('%',#{nameMobile},'%')))
+          </if>
+        </where>
+        ) AS temp ON employee.id = temp.id
+      </when>
+      <otherwise>
+        <where>
+          <if test="nameMobile != null and nameMobile != ''">
+            (employee.employee_name like concat('%',#{nameMobile},'%'))
+            or
+            (employee.employee_mobile like concat('%',#{nameMobile},'%'))
+          </if>
+        </where>
+      </otherwise>
+    </choose>
+    order by employee.id desc
+  </select>
+  <resultMap id="employeeWithRoleMap" type="com.kaishengit.erp.entity.Employee" extends="BaseResultMap">
+    <collection property="roleList" ofType="com.kaishengit.erp.entity.Role">
+      <id property="id" column="roleId"/>
+      <result property="updateTime" column="roleUpdateTime"/>
+      <result property="createTime" column="roleCreateTime"/>
+      <result property="roleCode" column="role_code"/>
+      <result property="roleName" column="role_name"/>
+    </collection>
+  </resultMap>
+
   <update id="updateByExampleSelective" parameterType="map">
     update employee
     <set>

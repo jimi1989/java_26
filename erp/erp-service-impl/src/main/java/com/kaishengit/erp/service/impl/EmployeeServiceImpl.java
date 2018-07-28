@@ -3,18 +3,22 @@ package com.kaishengit.erp.service.impl;
 import com.kaishengit.erp.entity.Employee;
 import com.kaishengit.erp.entity.EmployeeExample;
 import com.kaishengit.erp.entity.EmployeeLoginLog;
+import com.kaishengit.erp.entity.EmployeeRole;
 import com.kaishengit.erp.exception.ServiceException;
 import com.kaishengit.erp.mapper.EmployeeLoginLogMapper;
 import com.kaishengit.erp.mapper.EmployeeMapper;
+import com.kaishengit.erp.mapper.EmployeeRoleMapper;
 import com.kaishengit.erp.service.EmployeeService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author jinjianghao
@@ -30,6 +34,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private EmployeeLoginLogMapper employeeLoginLogMapper;
+
+    @Autowired
+    private EmployeeRoleMapper employeeRoleMapper;
+
 
     /**
      * 员工登录
@@ -79,5 +87,54 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
 
+    }
+
+    /**
+     * @param requestParam
+     * @return
+     */
+    @Override
+    public List<Employee> findAllAccountWithRolesByQueryParam(Map<String, Object> requestParam) {
+        return employeeMapper.findAllWithRoles();
+    }
+
+    /**
+     * 新增员工
+     *
+     * @param employee
+     * @param roleIds
+     */
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void saveEmployee(Employee employee, Integer[] roleIds) {
+        //对密码进行MD5加密
+        String codePassword = DigestUtils.md5Hex(employee.getPassword());
+        employee.setPassword(codePassword);
+
+        //账号默认状态
+        employee.setState(Employee.EMPLOYEE_STATE_NORMAL);
+
+        //添加账号和角色的对应关系表
+        employeeMapper.insertSelective(employee);
+
+        for(Integer roleId : roleIds) {
+            EmployeeRole employeeRole = new EmployeeRole();
+            employeeRole.setEmployeeId(employee.getId());
+            employeeRole.setRoleId(roleId);
+
+            employeeRoleMapper.insertSelective(employeeRole);
+        }
+
+    }
+
+    /**
+     * 根据id查询账号信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Employee findEmployeeById(Integer id) {
+        return employeeMapper.selectByPrimaryKey(id);
     }
 }

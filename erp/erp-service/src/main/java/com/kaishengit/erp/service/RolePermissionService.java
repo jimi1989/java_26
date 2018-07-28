@@ -92,4 +92,18 @@ public interface RolePermissionService {
      * @param permissionId
      */
     void editRole(Role role, Integer[] permissionId);
+
+
+    /**
+     * 获得所有的角色列表
+     * @return
+     */
+    List<Role> findAllRoles();
+
+    /**
+     * 查找id具有的角色列表
+     * @param id
+     * @return
+     */
+    List<Role> findRoleListByEmployeeId(Integer id);
 }

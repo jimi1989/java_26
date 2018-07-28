@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.kaishengit.erp.entity.*;
 import com.kaishengit.erp.exception.ServiceException;
+import com.kaishengit.erp.mapper.EmployeeRoleMapper;
 import com.kaishengit.erp.mapper.PermissionMapper;
 import com.kaishengit.erp.mapper.RoleMapper;
 import com.kaishengit.erp.mapper.RolePermissionMapper;
@@ -39,6 +40,10 @@ public class RolePermissionServiceImpl implements RolePermissionService {
 
     @Autowired
     private RolePermissionMapper rolePermissionMapper;
+
+    @Autowired
+    private EmployeeRoleMapper employeeRoleMapper;
+
 
     /**
      * 新增权限
@@ -181,6 +186,7 @@ public class RolePermissionServiceImpl implements RolePermissionService {
         // 设置更新时间
         permission.setUpdateTime(new Date());
         permissionMapper.updateByPrimaryKeySelective(permission);
+
         logger.info("更新权限 {}",permission);
     }
 
@@ -194,13 +200,20 @@ public class RolePermissionServiceImpl implements RolePermissionService {
     @Transactional(rollbackFor = RuntimeException.class)
     public void delRoleById(Integer id) throws ServiceException {
         //查询是否被账号引用，如果引用则不能删除
-        //  TODO
+        EmployeeRoleExample employeeRoleExample = new EmployeeRoleExample();
+        employeeRoleExample.createCriteria().andRoleIdEqualTo(id);
+        List<EmployeeRole> employeeRoleList = employeeRoleMapper.selectByExample(employeeRoleExample);
+
+        if(employeeRoleList != null && !employeeRoleList.isEmpty()) {
+            throw new ServiceException("该角色被账号引用，不能删除");
+        }
 
         //删除角色和权限的关系记录
         RolePermissionExample rolePermissionExample = new RolePermissionExample();
         rolePermissionExample.createCriteria().andRoleIdEqualTo(id);
 
         rolePermissionMapper.deleteByExample(rolePermissionExample);
+
         //删除角色
         Role role = roleMapper.selectByPrimaryKey(id);
         if(role != null) {
@@ -258,14 +271,13 @@ public class RolePermissionServiceImpl implements RolePermissionService {
         //将角色原有和权限的对应关系删除
         RolePermissionExample rolePermissionExample = new RolePermissionExample();
         rolePermissionExample.createCriteria().andRoleIdEqualTo(role.getId());
-
         rolePermissionMapper.deleteByExample(rolePermissionExample);
+
         //重建角色和权限的对应关系
         for(Integer permissionId : permissionIds) {
             RolePermission rolePermission = new RolePermission();
             rolePermission.setPermissionId(permissionId);
             rolePermission.setRoleId(role.getId());
-
             rolePermissionMapper.insert(rolePermission);
         }
         //修改角色对象
@@ -273,6 +285,26 @@ public class RolePermissionServiceImpl implements RolePermissionService {
 
         logger.info("修改角色 {}",role);
 
+    }
+
+    /**
+     * 获得多有的角色列表
+     * @return
+     */
+    @Override
+    public List<Role> findAllRoles() {
+        RoleExample roleExample = new RoleExample();
+        return roleMapper.selectByExample(roleExample);
+    }
+
+    /**
+     * 查找id具有的角色列表
+     * @param id
+     * @return
+     */
+    @Override
+    public List<Role> findRoleListByEmployeeId(Integer id) {
+        return roleMapper.findListByEmployeeId(id);
     }
 
 

@@ -186,6 +186,21 @@
         WHERE
         r.id = #{id}
     </select>
+    <select id="findListByEmployeeId" resultType="com.kaishengit.erp.entity.Role">
+      SELECT
+          *
+      FROM
+          role
+      WHERE
+          id IN (
+              SELECT
+                  role_id
+              FROM
+                  employee_role
+              WHERE
+                  employee_id = #{id}
+          );
+    </select>
 
     <resultMap id="roleWithPermissionMap" type="com.kaishengit.erp.entity.Role" extends="BaseResultMap">
         <collection property="permissionList" ofType="com.kaishengit.erp.entity.Permission" >

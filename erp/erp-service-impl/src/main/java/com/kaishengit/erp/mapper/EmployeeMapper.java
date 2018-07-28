@@ -3,6 +3,8 @@ package com.kaishengit.erp.mapper;
 import com.kaishengit.erp.entity.Employee;
 import com.kaishengit.erp.entity.EmployeeExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface EmployeeMapper {
@@ -27,4 +29,8 @@ public interface EmployeeMapper {
     int updateByPrimaryKeySelective(Employee record);
 
     int updateByPrimaryKey(Employee record);
+
+    List<Employee> findAllWithRoles();
+
+    List<Employee> findAllWithRolesByQueryParam(Map<String, Object> requestParam);
 }

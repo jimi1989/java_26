@@ -2,6 +2,7 @@ package com.kaishengit.erp.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author 
@@ -44,7 +45,20 @@ public class Employee implements Serializable {
      */
     private Integer state;
 
+    /**
+     * 账号对应的角色列表
+     */
+    private List<Role> roleList;
+
     private static final long serialVersionUID = 1L;
+
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
+    }
 
     public Integer getId() {
         return id;
