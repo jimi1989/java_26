@@ -4,16 +4,13 @@ import com.kaishengit.erp.controller.exceptionHandler.NotFoundException;
 import com.kaishengit.erp.dto.ResponseBean;
 import com.kaishengit.erp.entity.Permission;
 import com.kaishengit.erp.entity.Role;
-import com.kaishengit.erp.entity.RolePermission;
 import com.kaishengit.erp.exception.ServiceException;
 import com.kaishengit.erp.service.RolePermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

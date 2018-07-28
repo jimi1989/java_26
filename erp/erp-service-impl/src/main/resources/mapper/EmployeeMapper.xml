@@ -193,7 +193,7 @@
       <when test="roleId != null and roleId != 0">
         inner JOIN (
         SELECT
-        id
+        employee.id
         FROM
         employee
         INNER JOIN employee_role ON employee_role.employee_id = employee.id
@@ -202,7 +202,7 @@
           <if test="nameMobile != null and nameMobile != ''">
             and( (employee.employee_name like concat('%',#{nameMobile},'%'))
             or
-            (employee.employee_mobile like concat('%',#{nameMobile},'%')))
+            (employee.employee_tel like concat('%',#{nameMobile},'%')))
           </if>
         </where>
         ) AS temp ON employee.id = temp.id
@@ -212,7 +212,7 @@
           <if test="nameMobile != null and nameMobile != ''">
             (employee.employee_name like concat('%',#{nameMobile},'%'))
             or
-            (employee.employee_mobile like concat('%',#{nameMobile},'%'))
+            (employee.employee_tel like concat('%',#{nameMobile},'%'))
           </if>
         </where>
       </otherwise>

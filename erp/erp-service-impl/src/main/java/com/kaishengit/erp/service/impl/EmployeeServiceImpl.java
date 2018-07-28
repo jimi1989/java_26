@@ -95,7 +95,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public List<Employee> findAllAccountWithRolesByQueryParam(Map<String, Object> requestParam) {
-        return employeeMapper.findAllWithRoles();
+        return employeeMapper.findAllWithRolesByQueryParam(requestParam);
     }
 
     /**
@@ -125,6 +125,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             employeeRoleMapper.insertSelective(employeeRole);
         }
 
+        logger.info("新增账号 {}", employee);
     }
 
     /**

@@ -38,10 +38,10 @@
                 <div class="box-body">
                     <form class="form-inline">
                         <input type="text" name="nameMobile" placeholder="账号或手机号码" class="form-control" value="${param.userTel}">
-                        <select name="rolesId" class="form-control">
+                        <select name="roleId" class="form-control">
                             <option value="">所有账号</option>
-                            <c:forEach items="${rolesList}" var="roles">
-                                <option value="${roles.id}" ${param.roleId == role.id ? 'selected' : ''}>${roles.roleName}</option>
+                            <c:forEach items="${rolesList}" var="role">
+                                <option value="${role.id}" ${param.roleId == role.id ? 'selected' : ''}>${role.roleName}</option>
                             </c:forEach>
                         </select>
                         <button class="btn btn-default">搜索</button>

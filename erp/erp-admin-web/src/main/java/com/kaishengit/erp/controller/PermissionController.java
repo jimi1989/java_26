@@ -70,26 +70,33 @@ public class PermissionController {
         // 封装所有菜单权限列表
         List<Permission> menuPermissionList = rolePermissionService.findPermissionListByType(Permission.PERMISSION_TYPE_MENU);
         // 排除当前permission对象及其子类对象
-        menuPermissionList.remove(permission);
-
-        // remove(menuPermissionList,permission.getId());
+        remove(menuPermissionList,permission);
 
         model.addAttribute("menuPermissionList", menuPermissionList);
         model.addAttribute("permission", permission);
         return "manage/permission/edit";
     }
 
-    /*private void remove(List<Permission> menuPermissionList, Integer permissionId) {
-
-        for(int i = 0; i < menuPermissionList.size(); i++) {
-            if(menuPermissionList.get(i).getPid().equals(permissionId)) {
-                menuPermissionList.remove(i);
+    /**
+     * 递归去除所有的子权限
+     * @param menuPermissionList 源list
+     * @param permission 要去除的权限对象
+     */
+    private void remove(List<Permission> menuPermissionList, Permission permission) {
+        // 通过临时变量来存储所有的list元素防止漏删
+        List<Permission> temp = Lists.newArrayList(menuPermissionList);
+        for(int i = 0; i < temp.size(); i++) {
+            // 判断有没有子权限要去除
+            if(temp.get(i).getPid().equals(permission.getId())) {
+                remove(menuPermissionList,temp.get(i));
             }
         }
-    }*/
+        // 去除当前权限
+        menuPermissionList.remove(permission);
+    }
 
     @PostMapping("/{id:\\d+}/edit")
-    public String perMissionEdit(Permission permission) {
+    public String permissionEdit(Permission permission) {
         rolePermissionService.editPermission(permission);
         return "redirect:/manage/permission";
     }
