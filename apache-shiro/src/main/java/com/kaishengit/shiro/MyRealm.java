@@ -8,14 +8,17 @@ import org.apache.shiro.realm.Realm;
  * @date 2018/7/30
  */
 public class MyRealm implements Realm {
+    @Override
     public String getName() {
         return "myRealm";
     }
 
+    @Override
     public boolean supports(AuthenticationToken authenticationToken) {
         return authenticationToken instanceof UsernamePasswordToken;
     }
 
+    @Override
     public AuthenticationInfo getAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) authenticationToken;
         String username = usernamePasswordToken.getUsername();
