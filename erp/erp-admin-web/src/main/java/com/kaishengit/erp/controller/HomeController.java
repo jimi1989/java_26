@@ -1,14 +1,14 @@
 package com.kaishengit.erp.controller;
 
-import com.kaishengit.erp.entity.Employee;
-import com.kaishengit.erp.exception.ServiceException;
 import com.kaishengit.erp.service.EmployeeService;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +42,26 @@ public class HomeController {
                         HttpSession session,
                         HttpServletRequest request,
                         RedirectAttributes redirectAttributes){
-        // 获得请求的ip
+
+        // 创建subject主体对象
+        Subject subject = SecurityUtils.getSubject();
+        // 获得登录的IP
+        String loginIp = request.getRemoteAddr();
+        // 通过userTel、password封装UsernamePasswordToken对象进行登录
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(userTel, DigestUtils.md5Hex(password),loginIp);
+
+        try {
+            subject.login(usernamePasswordToken);
+            return "redirect:/home";
+        }catch (UnknownAccountException|IncorrectCredentialsException e) {
+            redirectAttributes.addFlashAttribute("message", "用户名或者密码错误");
+        } catch (LockedAccountException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+        } catch (AuthenticationException e) {
+            redirectAttributes.addFlashAttribute("message", "登录失败");
+        }
+        return "redirect:/";
+        /* // 获得请求的ip
         String loginIp = request.getRemoteAddr();
 
         try {
@@ -52,15 +71,21 @@ public class HomeController {
         }catch (ServiceException e) {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/";
-        }
+        }*/
 
     }
 
-    @GetMapping("/logout")
-    public void logout(HttpSession session) {
-        // session强制退出
-        session.invalidate();
-    }
+    /*@GetMapping("/logout")
+    public String logout(RedirectAttributes redirectAttributes) {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        redirectAttributes.addFlashAttribute("message", "已退出，请重新登录");
+        return "redirect:/";
+    }*/
 
+    @GetMapping("/401")
+    public String unauthorizedUrl() {
+        return "error/401";
+    }
 
 }

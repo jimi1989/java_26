@@ -1,6 +1,7 @@
 package com.kaishengit.erp.service;
 
 import com.kaishengit.erp.entity.Employee;
+import com.kaishengit.erp.entity.EmployeeLoginLog;
 import com.kaishengit.erp.exception.ServiceException;
 
 import java.util.List;
@@ -41,4 +42,17 @@ public interface EmployeeService {
      * @return
      */
     Employee findEmployeeById(Integer id);
+
+    /**
+     * 根据电话号码查询账号对象
+     * @param userTel 电话号码
+     * @return employee对象
+     */
+    Employee findEmployeeByTel(String userTel);
+
+    /**
+     * 记录登录日志
+     * @param employeeLoginLog
+     */
+    void saveLoginLog(EmployeeLoginLog employeeLoginLog);
 }

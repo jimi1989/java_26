@@ -23,6 +23,7 @@ public class MyReamQuickStart {
 
         // 2.设置安全管理器
         SecurityUtils.setSecurityManager(securityManager);
+
         // 3.通过SecurityUtils的getSubject()获得subject对象（主体账号）
         Subject subject = SecurityUtils.getSubject();
         if(!subject.isAuthenticated()) {
