@@ -5,6 +5,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.SavedRequest;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +34,16 @@ public class HomeController {
 
     @GetMapping("/")
     public String login() {
+        Subject subject = SecurityUtils.getSubject();
+
+        // 判断当前是否已经通过认证，如果通过则退出登录
+        if(subject.isAuthenticated()) {
+            subject.logout();
+        }
+
+        if(subject.isRemembered()) {
+            return "home";
+        }
         return "index";
     }
 
@@ -39,7 +51,6 @@ public class HomeController {
     public String login(String userTel,
                         String password,
                         String remember,
-                        HttpSession session,
                         HttpServletRequest request,
                         RedirectAttributes redirectAttributes){
 
@@ -48,11 +59,20 @@ public class HomeController {
         // 获得登录的IP
         String loginIp = request.getRemoteAddr();
         // 通过userTel、password封装UsernamePasswordToken对象进行登录
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(userTel, DigestUtils.md5Hex(password),loginIp);
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(userTel, DigestUtils.md5Hex(password),remember != null ,loginIp);
 
         try {
             subject.login(usernamePasswordToken);
-            return "redirect:/home";
+
+            // 判断跳转路径
+            SavedRequest savedRequest = WebUtils.getSavedRequest(request);
+            String url = "/home";
+            if(savedRequest != null) {
+                // 获得callback的url
+                url = savedRequest.getRequestUrl();
+            }
+
+            return "redirect:" + url;
         }catch (UnknownAccountException|IncorrectCredentialsException e) {
             redirectAttributes.addFlashAttribute("message", "用户名或者密码错误");
         } catch (LockedAccountException e) {
@@ -61,27 +81,9 @@ public class HomeController {
             redirectAttributes.addFlashAttribute("message", "登录失败");
         }
         return "redirect:/";
-        /* // 获得请求的ip
-        String loginIp = request.getRemoteAddr();
-
-        try {
-            Employee employee = employeeService.login(userTel, password, loginIp);
-            session.setAttribute("curr_emp", employee);
-            return "redirect:/home";
-        }catch (ServiceException e) {
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-            return "redirect:/";
-        }*/
 
     }
 
-    /*@GetMapping("/logout")
-    public String logout(RedirectAttributes redirectAttributes) {
-        Subject subject = SecurityUtils.getSubject();
-        subject.logout();
-        redirectAttributes.addFlashAttribute("message", "已退出，请重新登录");
-        return "redirect:/";
-    }*/
 
     @GetMapping("/401")
     public String unauthorizedUrl() {

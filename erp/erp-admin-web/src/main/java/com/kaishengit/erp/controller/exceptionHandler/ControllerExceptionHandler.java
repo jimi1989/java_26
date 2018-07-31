@@ -1,7 +1,9 @@
 package com.kaishengit.erp.controller.exceptionHandler;
 
+import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.util.NestedServletException;
 
 import java.io.IOException;
 
@@ -15,6 +17,11 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(IOException.class)
     public String ioExceptionHandler() {
         return "error/500";
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public String authorizationException() {
+        return "error/401";
     }
 
 }

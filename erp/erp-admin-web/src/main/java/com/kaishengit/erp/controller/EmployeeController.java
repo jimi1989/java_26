@@ -5,6 +5,7 @@ import com.kaishengit.erp.entity.Employee;
 import com.kaishengit.erp.entity.Role;
 import com.kaishengit.erp.service.EmployeeService;
 import com.kaishengit.erp.service.RolePermissionService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,6 +49,7 @@ public class EmployeeController {
      * @return
      */
     @GetMapping("/new")
+    @RequiresPermissions("employee:add")
     public String newEmployee(Model model) {
         List<Role> roleList = rolePermissionService.findAllRoles();
 
@@ -56,6 +58,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/new")
+    @RequiresPermissions("employee:add")
     public String newAccount(Employee employee, Integer[] roleIds) {
         employeeService.saveEmployee(employee,roleIds);
         return "redirect:/manage/employee";
