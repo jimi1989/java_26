@@ -6,6 +6,7 @@ import com.kaishengit.erp.entity.Permission;
 import com.kaishengit.erp.entity.Role;
 import com.kaishengit.erp.exception.ServiceException;
 import com.kaishengit.erp.service.RolePermissionService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

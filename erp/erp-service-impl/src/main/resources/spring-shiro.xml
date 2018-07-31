@@ -34,6 +34,15 @@
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
 
+    <bean id="filterChainDefinitionMap" class="com.kaishengit.erp.shiro.CustomerFilterChainDefinition">
+        <property name="filterChainDefinitions">
+            <value>
+                /favicon.ico = anon
+                /static/** = anon
+                /logout = logout
+            </value>
+        </property>
+    </bean>
 
     <!--配置shiroFilter过滤器-->
     <!--id属性值必须和web.xml中的filter的filter-name节点保持一致-->
@@ -46,8 +55,9 @@
         <property name="successUrl" value="/home"/>
         <!--访问没有权限的资源跳转的url-->
         <property name="unauthorizedUrl" value="/401"/>
+        <property name="filterChainDefinitionMap" ref="filterChainDefinitionMap"/>
         <!--规则-->
-        <property name="filterChainDefinitions">
+       <!-- <property name="filterChainDefinitions">
             <value>
                 /favicon.ico = anon
                 /static/** = anon
@@ -55,7 +65,7 @@
                 # /manage/employee/new = perms[employee:add]
                 /** = user
             </value>
-        </property>
+        </property>-->
     </bean>
 
 </beans>

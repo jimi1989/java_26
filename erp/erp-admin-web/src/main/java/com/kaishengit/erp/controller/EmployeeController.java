@@ -49,7 +49,6 @@ public class EmployeeController {
      * @return
      */
     @GetMapping("/new")
-    @RequiresPermissions("employee:add")
     public String newEmployee(Model model) {
         List<Role> roleList = rolePermissionService.findAllRoles();
 
@@ -58,7 +57,6 @@ public class EmployeeController {
     }
 
     @PostMapping("/new")
-    @RequiresPermissions("employee:add")
     public String newAccount(Employee employee, Integer[] roleIds) {
         employeeService.saveEmployee(employee,roleIds);
         return "redirect:/manage/employee";

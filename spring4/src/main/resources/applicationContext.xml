@@ -8,7 +8,7 @@
 
     <bean id="studentDao" class="com.kaishengit.dao.StudentDao"/>
     <bean id="studentDaoyyyy" class="com.kaishengit.dao.StudentDao"/>
-
+    <bean id="studentFactory" class="com.kaishengit.factory.SpringStudentFactory"/>
 
    <!-- <bean id="studentService" class="com.kaishengit.service.StudentService">
         &lt;!&ndash;
