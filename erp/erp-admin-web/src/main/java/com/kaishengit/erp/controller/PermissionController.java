@@ -8,6 +8,7 @@ import com.kaishengit.erp.entity.Permission;
 import com.kaishengit.erp.exception.ServiceException;
 import com.kaishengit.erp.service.RolePermissionService;
 import com.kaishengit.erp.dto.ResponseBean;
+import com.kaishengit.erp.shiro.CustomerFilterChainDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,9 @@ public class PermissionController {
 
     @Autowired
     private RolePermissionService rolePermissionService;
+
+    @Autowired
+    private CustomerFilterChainDefinition customerFilterChainDefinition;
 
     @GetMapping
     public String home(Model model) {
@@ -45,6 +49,8 @@ public class PermissionController {
     @PostMapping("/new")
     public String permissionNew(Permission permission) {
         rolePermissionService.savePermission(permission);
+        // 刷新权限
+        customerFilterChainDefinition.updatePermission();
         return "redirect:/manage/permission";
     }
 
@@ -53,6 +59,8 @@ public class PermissionController {
     public ResponseBean permissionDel(@PathVariable Integer id) {
         try {
             rolePermissionService.delPermission(id);
+            // 刷新权限
+            customerFilterChainDefinition.updatePermission();
         } catch (ServiceException e) {
             return ResponseBean.error(e.getMessage());
         }
@@ -98,6 +106,8 @@ public class PermissionController {
     @PostMapping("/{id:\\d+}/edit")
     public String permissionEdit(Permission permission) {
         rolePermissionService.editPermission(permission);
+        // 刷新权限
+        customerFilterChainDefinition.updatePermission();
         return "redirect:/manage/permission";
     }
 

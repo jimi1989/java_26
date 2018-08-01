@@ -50,7 +50,9 @@
                                         角色名称：<strong>${role.roleName}</strong>
                                         <span class="pull-right">
                                         <a style="color: #fff;" href="/manage/roles/${role.id}/edit"><i class="fa fa-pencil"></i></a>
-                                        <a style="color: #fff;" class="delLink" rel="${role.id}" href="javascript:;"><i class="fa fa-trash"></i></a>
+                                        <shiro:hasPermission name="roles:del">
+                                            <a style="color: #fff;" class="delLink" rel="${role.id}" href="javascript:;"><i class="fa fa-trash"></i></a>
+                                        </shiro:hasPermission>
                                     </span>
                                     </td>
                                 </tr>

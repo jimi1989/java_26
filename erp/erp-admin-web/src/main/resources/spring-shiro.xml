@@ -35,6 +35,7 @@
 
 
     <bean id="filterChainDefinitionMap" class="com.kaishengit.erp.shiro.CustomerFilterChainDefinition">
+        <property name="shiroFilter" ref="shiroFilter"/>
         <property name="filterChainDefinitions">
             <value>
                 /favicon.ico = anon
@@ -55,17 +56,7 @@
         <property name="successUrl" value="/home"/>
         <!--访问没有权限的资源跳转的url-->
         <property name="unauthorizedUrl" value="/401"/>
-        <property name="filterChainDefinitionMap" ref="filterChainDefinitionMap"/>
-        <!--规则-->
-       <!-- <property name="filterChainDefinitions">
-            <value>
-                /favicon.ico = anon
-                /static/** = anon
-                /logout = logout
-                # /manage/employee/new = perms[employee:add]
-                /** = user
-            </value>
-        </property>-->
+
     </bean>
 
 </beans>

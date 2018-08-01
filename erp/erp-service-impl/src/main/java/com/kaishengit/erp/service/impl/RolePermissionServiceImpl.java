@@ -45,6 +45,7 @@ public class RolePermissionServiceImpl implements RolePermissionService {
     private EmployeeRoleMapper employeeRoleMapper;
 
 
+
     /**
      * 新增权限
      *
@@ -186,7 +187,6 @@ public class RolePermissionServiceImpl implements RolePermissionService {
         // 设置更新时间
         permission.setUpdateTime(new Date());
         permissionMapper.updateByPrimaryKeySelective(permission);
-
         logger.info("更新权限 {}",permission);
     }
 

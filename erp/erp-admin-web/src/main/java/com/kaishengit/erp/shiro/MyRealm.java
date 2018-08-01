@@ -1,14 +1,15 @@
 package com.kaishengit.erp.shiro;
 
-import com.kaishengit.erp.entity.*;
+import com.kaishengit.erp.entity.Employee;
+import com.kaishengit.erp.entity.EmployeeLoginLog;
+import com.kaishengit.erp.entity.Permission;
+import com.kaishengit.erp.entity.Role;
 import com.kaishengit.erp.service.EmployeeService;
 import com.kaishengit.erp.service.RolePermissionService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.realm.AuthenticatingRealm;
 import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.realm.Realm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
