@@ -26,15 +26,21 @@ public class Car implements Serializable {
      */
     private String carNo;
 
+
+    /**
+     * 车辆颜色
+     */
+    private String color;
+
     /**
      * 客户ID
      */
     private Integer customerId;
 
     /**
-     * 车辆颜色
+     * 客户信息
      */
-    private String color;
+    private Customer customer;
 
     private static final long serialVersionUID = 1L;
 
@@ -134,5 +140,13 @@ public class Car implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

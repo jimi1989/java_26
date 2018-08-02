@@ -47,7 +47,7 @@
                         <tr>
                             <td class="td_title">车牌号:</td>
                             <td style="width: 280px">
-                                <input type="text" class="form-control" value="豫H888255">
+                                <input type="text" id="carLisence" class="form-control" value="${car.licenceNo}">
 
                             </td>
                             <td >
@@ -56,18 +56,18 @@
                             </span>
                             </td>
                             <td class="td_title">客户姓名:</td>
-                            <td>张三</td>
+                            <td id="userName">${customer.userName}</td>
                             <td class="td_title">身份证号:</td>
-                            <td>410523199008051982</td>
+                            <td>${customer.idCard}</td>
                         </tr>
                         <tr>
                             <td class="td_title">车主电话:</td>
-                            <td>159283756352</td>
+                            <td>${customer.tel}</td>
                             <td></td>
                             <td class="td_title">车型:</td>
-                            <td>大众CC</td>
+                            <td id="carType">${car.carType}</td>
                             <td class="td_title">车辆识别码:</td>
-                            <td>SN38643FDH341251</td>
+                            <td>${car.carNo}</td>
 
                         </tr>
                     </table>
@@ -178,45 +178,40 @@
                             <h4 class="modal-title">添加用户</h4>
                         </div>
                         <div class="modal-body">
-                            <form action="" class="">
-                                <input type="hidden" name="" value="豫H8898" class="form-control" disabled>
+                            <form id="addCarForm" action="/car/new" method="post" class="form">
+                                <div class="form-group">
+                                    <label>车牌号码：</label>
+                                    <input type="text" id="newCarLisence" name="licenceNo" class="form-control">
+                                </div>
                                 <div class="form-group">
                                     <label>车辆识别码：</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="carNo" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>车辆型号</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label>车牌号码：</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="carType" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>车主姓名：</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="userName" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>车主身份证：</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="idCard" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>车主电话：</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label>车型：</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="tel" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>颜色：</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="color" class="form-control">
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            <button type="button" class="btn btn-primary">添加</button>
+                            <button type="button" class="btn btn-primary" id="addCar">添加</button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
@@ -239,12 +234,32 @@
     $(function() {
         //点击放大镜
         $("#search").click(function() {
+            // 如果车牌号未空，不能发起请求
+            $.get("/car/check",{"licenseNo":$("#carLisence").val()}).done(function(res){
 
-            $("#addUserModal").modal({
-                show:true,
-                backdrop:'static'
-            });
+                if (res.state == 'success') {
+                    // 如果已存在显示车辆信息
+                    $("#userName").text(res.data.customer.userName);
+                    $("#carType").text(res.data.carType);
+
+                } else {
+                    // 如果不存在则打开模态框新增车辆信息
+                    $("#newCarLisence").val($("#carLisence").val());
+                    $("#addUserModal").modal({
+                        show:true,
+                        backdrop:'static'
+                    });
+                }
+            }).error(function(){
+                layer.msg("系统异常")
+            })
+
+
         });
+
+        $("#addCar").click(function() {
+            $("#addCarForm").submit();
+        })
 
     })
 </script>

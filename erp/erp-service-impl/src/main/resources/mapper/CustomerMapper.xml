@@ -113,7 +113,7 @@
     values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, 
       #{tel,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.kaishengit.erp.entity.Customer">
+  <insert id="insertSelective" parameterType="com.kaishengit.erp.entity.Customer" useGeneratedKeys="true" keyProperty="id">
     insert into customer
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

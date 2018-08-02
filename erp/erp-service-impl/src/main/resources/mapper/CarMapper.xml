@@ -165,7 +165,28 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+  <resultMap id="resultWithCustomer" type="com.kaishengit.erp.entity.Car" extends="BaseResultMap">
+      <association property="customer" javaType="com.kaishengit.erp.entity.Customer">
+          <id property="id" column="customer_id"/>
+          <result property="userName" column="user_name"/>
+          <result property="tel" column="tel"/>
+          <result property="idCard" column="id_card"/>
+      </association>
+  </resultMap>
+    <select id="findWithCustomerByLicenseNo" resultMap="resultWithCustomer">
+
+    SELECT
+        car.*, customer.user_name,
+        customer.id_card,
+        customer.tel
+    FROM
+        car
+    LEFT JOIN customer ON car.customer_id = customer.id
+    WHERE
+        car.licence_no = #{licenseNo}
+
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
     update car
     <set>
       <if test="record.id != null">
