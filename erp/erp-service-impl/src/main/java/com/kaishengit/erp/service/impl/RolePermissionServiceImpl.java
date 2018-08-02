@@ -128,13 +128,15 @@ public class RolePermissionServiceImpl implements RolePermissionService {
     public void saveRole(Role role, Integer[] permissionIds) {
         // 新增角色
         roleMapper.insertSelective(role);
-        // 新增角色权限关联关系
-        for(Integer permissionId : permissionIds) {
-            RolePermission rolePermission = new RolePermission();
-            rolePermission.setRoleId(role.getId());
-            rolePermission.setPermissionId(permissionId);
+        if(permissionIds != null) {
+            // 新增角色权限关联关系
+            for(Integer permissionId : permissionIds) {
+                RolePermission rolePermission = new RolePermission();
+                rolePermission.setRoleId(role.getId());
+                rolePermission.setPermissionId(permissionId);
 
-            rolePermissionMapper.insert(rolePermission);
+                rolePermissionMapper.insert(rolePermission);
+            }
         }
     }
 
