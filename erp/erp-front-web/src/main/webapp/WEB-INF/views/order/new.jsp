@@ -58,16 +58,16 @@
                             <td class="td_title">客户姓名:</td>
                             <td id="userName">${customer.userName}</td>
                             <td class="td_title">身份证号:</td>
-                            <td>${customer.idCard}</td>
+                            <td id="idCard">${customer.idCard}</td>
                         </tr>
                         <tr>
                             <td class="td_title">车主电话:</td>
-                            <td>${customer.tel}</td>
+                            <td id="tel">${customer.tel}</td>
                             <td></td>
                             <td class="td_title">车型:</td>
                             <td id="carType">${car.carType}</td>
                             <td class="td_title">车辆识别码:</td>
-                            <td>${car.carNo}</td>
+                            <td id="carNo">${car.carNo}</td>
 
                         </tr>
                     </table>
@@ -235,26 +235,31 @@
         //点击放大镜
         $("#search").click(function() {
             // 如果车牌号未空，不能发起请求
-            $.get("/car/check",{"licenseNo":$("#carLisence").val()}).done(function(res){
+            var licenseNo = $("#carLisence").val();
+            if(licenseNo) {
+                $.get("/car/check",{"licenseNo":licenseNo}).done(function(res){
+                    if (res.state == 'success') {
+                        // 如果已存在显示车辆信息
+                        $("#userName").text(res.data.customer.userName);
+                        $("#tel").text(res.data.customer.tel);
+                        $("#idCard").text(res.data.customer.idCard);
+                        $("#carType").text(res.data.carType);
+                        $("#carNo").text(res.data.carNo);
 
-                if (res.state == 'success') {
-                    // 如果已存在显示车辆信息
-                    $("#userName").text(res.data.customer.userName);
-                    $("#carType").text(res.data.carType);
-
-                } else {
-                    // 如果不存在则打开模态框新增车辆信息
-                    $("#newCarLisence").val($("#carLisence").val());
-                    $("#addUserModal").modal({
-                        show:true,
-                        backdrop:'static'
-                    });
-                }
-            }).error(function(){
-                layer.msg("系统异常")
-            })
-
-
+                    } else {
+                        // 如果不存在则打开模态框新增车辆信息
+                        $("#newCarLisence").val($("#carLisence").val());
+                        $("#addUserModal").modal({
+                            show:true,
+                            backdrop:'static'
+                        });
+                    }
+                }).error(function(){
+                    layer.msg("系统异常")
+                })
+            } else {
+                layer.alert("请填写车牌")
+            }
         });
 
         $("#addCar").click(function() {

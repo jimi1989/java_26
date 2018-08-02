@@ -35,6 +35,7 @@ public class CarController {
     @GetMapping("/check")
     @ResponseBody
     public ResponseBean checkCarInfo(String licenseNo){
+        // 根据车牌号码查询车辆信息
         Car car = carService.findCarInfoWithCustomer(licenseNo);
         if(car != null) {
             return ResponseBean.success(car);
