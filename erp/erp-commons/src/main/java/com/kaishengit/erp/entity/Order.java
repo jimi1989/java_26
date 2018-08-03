@@ -33,7 +33,7 @@ public class Order implements Serializable {
     /**
      * 工时费
      */
-    private Long hourFee;
+    private Integer serviceTypeId;
 
     private static final long serialVersionUID = 1L;
 
@@ -77,12 +77,12 @@ public class Order implements Serializable {
         this.carId = carId;
     }
 
-    public Long getHourFee() {
-        return hourFee;
+    public Integer getServiceTypeId() {
+        return serviceTypeId;
     }
 
-    public void setHourFee(Long hourFee) {
-        this.hourFee = hourFee;
+    public void setServiceTypeId(Integer serviceTypeId) {
+        this.serviceTypeId = serviceTypeId;
     }
 
     @Override
@@ -102,7 +102,7 @@ public class Order implements Serializable {
             && (this.getState() == null ? other.getState() == null : this.getState().equals(other.getState()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getCarId() == null ? other.getCarId() == null : this.getCarId().equals(other.getCarId()))
-            && (this.getHourFee() == null ? other.getHourFee() == null : this.getHourFee().equals(other.getHourFee()));
+            && (this.getServiceTypeId() == null ? other.getServiceTypeId() == null : this.getServiceTypeId().equals(other.getServiceTypeId()));
     }
 
     @Override
@@ -114,7 +114,7 @@ public class Order implements Serializable {
         result = prime * result + ((getState() == null) ? 0 : getState().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getCarId() == null) ? 0 : getCarId().hashCode());
-        result = prime * result + ((getHourFee() == null) ? 0 : getHourFee().hashCode());
+        result = prime * result + ((getServiceTypeId() == null) ? 0 : getServiceTypeId().hashCode());
         return result;
     }
 
@@ -129,7 +129,7 @@ public class Order implements Serializable {
         sb.append(", state=").append(state);
         sb.append(", createTime=").append(createTime);
         sb.append(", carId=").append(carId);
-        sb.append(", hourFee=").append(hourFee);
+        sb.append(", serviceTypeId=").append(serviceTypeId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -3,6 +3,7 @@ package com.kaishengit.erp.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kaishengit.erp.entity.Parts;
+import com.kaishengit.erp.entity.PartsExample;
 import com.kaishengit.erp.entity.Type;
 import com.kaishengit.erp.entity.TypeExample;
 import com.kaishengit.erp.service.PartsService;
@@ -123,4 +124,19 @@ public class PartsServiceImpl implements PartsService {
         partsMapper.updateByPrimaryKeySelective(parts);
         logger.debug("更新配件：{}", parts);
     }
+
+    /**
+     * 根据id查找配件列表
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public List<Parts> findPartsByType(Integer id) {
+        PartsExample partsExample = new PartsExample();
+        partsExample.createCriteria().andTypeIdEqualTo(id);
+        return partsMapper.selectByExample(partsExample);
+    }
+
+
 }

@@ -7,9 +7,9 @@
     <section class="sidebar">
         <!-- 菜单 -->
         <ul class="sidebar-menu">
-            <li class="header ${param.menu == 'order' ? 'active' : ''}">车辆服务</li>
+            <li class="header">系统功能</li>
             <!-- 汽车服务 -->
-            <li class="treeview">
+            <li class="treeview ${param.menu == 'order' ? 'active' : ''}">
                 <a href="#">
                     <i class="fa fa-share-alt"></i> <span>汽车服务</span>
                     <span class="pull-right-container">

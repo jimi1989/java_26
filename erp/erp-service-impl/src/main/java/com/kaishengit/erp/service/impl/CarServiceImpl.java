@@ -1,11 +1,10 @@
 package com.kaishengit.erp.service.impl;
 
-import com.kaishengit.erp.entity.Car;
-import com.kaishengit.erp.entity.Customer;
-import com.kaishengit.erp.entity.CustomerExample;
+import com.kaishengit.erp.entity.*;
 import com.kaishengit.erp.exception.ServiceException;
 import com.kaishengit.erp.mapper.CarMapper;
 import com.kaishengit.erp.mapper.CustomerMapper;
+import com.kaishengit.erp.mapper.ServiceTypeMapper;
 import com.kaishengit.erp.service.CarService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -30,6 +29,9 @@ public class CarServiceImpl implements CarService {
 
     @Autowired
     private CarMapper carMapper;
+
+    @Autowired
+    private ServiceTypeMapper serviceTypeMapper;
 
     /**
      * 添加车辆信息
@@ -64,16 +66,17 @@ public class CarServiceImpl implements CarService {
 
     /**
      * 通过车牌号码查找车辆附带车主信息
-     * @param licenseNo
+     * @param licenceNo
      * @return car
      */
     @Override
-    public Car findCarInfoWithCustomer(String licenseNo) {
-        if(StringUtils.isEmpty(licenseNo)) {
+    public Car findCarInfoWithCustomer(String licenceNo) {
+        if(StringUtils.isEmpty(licenceNo)) {
             throw new ServiceException("参数异常");
         }
 
-        Car car = carMapper.findWithCustomerByLicenseNo(licenseNo);
+        Car car = carMapper.findWithCustomerByLicenceNo(licenceNo);
         return car;
     }
+
 }

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app">
+        <select name="" id="" v-model="phone">
+            <option value="111">apple</option>
+            <option value="222">huawei</option>
+            <option value="333">xiaomi</option>
+        </select>
+        <p>{{phone}}</p>
+        <hr>  
+        <input type="checkbox" value="1" v-model="checkVal"> apple
+        <div>{{checkVal}}</div>      
+        <hr>
+        <input type="text" v-model="num">  
+        <div>{{num}}</div>      
+        <hr>
+        <p>{{message}}</p>
+        <h4 v-if="ok">show</h4>
+        <h4 v-else>hide</h4>
+        <template v-if="ok">
+            <p>hello1</p>
+            <p>hello2</p>
+        </template>
+        <h5>--------------------------</h5>
+        <template v-if="loginType === 'username'">
+            <label>Username</label>
+            <input placeholder="Enter your username" key="username-input">
+          </template>
+          <template v-else>
+            <label>Email</label>
+            <input placeholder="Enter your email address" key="email-input">
+          </template>
+          <button @click="changeType">用邮箱登录</button>
+
+          <hr>
+          <h4 v-show="ok">hello,show</h4>
+        <hr>
+          <ul>
+              <li v-for="(item, index) in users">{{index}} --> {{item.name}}--><button @click="delItem(item)">delItem</button></li>
+          </ul>
+        <button @click="addItem">addItem</button>
+
+    </div>
+<script src="js/vue.js"></script>
+<script>
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            message: 'hello,vuejs',
+            ok: false,
+            loginType: 'username',
+            users: [],
+            num:'',
+            checkVal:'',
+            phone:''
+        },
+        methods:{
+            changeType:function(){
+                this.loginType = 'email'
+            },
+            addItem: function(){
+                this.users.push({
+                    name: "alex",age: 23,address: 'beijing'
+                })
+            },
+            delItem: function(item){
+                var index = this.users.indexOf(item);
+                this.users.splice(index, 1);
+            }
+        },
+        mounted: function() {
+            this.users = [
+                {name: "jack",age: 23,address: 'beijing'},
+                {name: "tom",age: 33,address: 'beijing'},
+                {name: "rose",age: 24,address: 'jiaozuo'}
+            ]
+        },
+    })
+
+</script>
+</body>
+</html>

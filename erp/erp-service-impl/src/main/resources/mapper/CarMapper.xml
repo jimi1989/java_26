@@ -116,7 +116,7 @@
       #{carNo,jdbcType=VARCHAR}, #{customerId,jdbcType=INTEGER}, #{color,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.kaishengit.erp.entity.Car">
+  <insert id="insertSelective" parameterType="com.kaishengit.erp.entity.Car" useGeneratedKeys="true" keyProperty="id">
     insert into car
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -173,7 +173,7 @@
           <result property="idCard" column="id_card"/>
       </association>
   </resultMap>
-    <select id="findWithCustomerByLicenseNo" resultMap="resultWithCustomer">
+    <select id="findWithCustomerByLicenceNo" resultMap="resultWithCustomer">
 
     SELECT
         car.*, customer.user_name,
@@ -183,7 +183,7 @@
         car
     LEFT JOIN customer ON car.customer_id = customer.id
     WHERE
-        car.licence_no = #{licenseNo}
+        car.licence_no = #{licenceNo}
 
     </select>
     <update id="updateByExampleSelective" parameterType="map">

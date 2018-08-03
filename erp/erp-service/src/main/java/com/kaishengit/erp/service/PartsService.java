@@ -53,4 +53,11 @@ public interface PartsService {
     void delPartsById(Integer id);
 
     void partsEdit(Parts parts);
+
+    /**
+     * 根据id查找配件列表
+     * @param id
+     * @return
+     */
+    List<Parts> findPartsByType(Integer id);
 }
