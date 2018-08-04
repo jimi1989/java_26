@@ -359,6 +359,7 @@
                     },
                     success: function(json){
                         if(json.state == "success") {
+                            window.location.href = "/order/undone/list";
                         }
                     }
                 });

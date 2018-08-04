@@ -1,18 +1,23 @@
 package com.kaishengit.erp.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.kaishengit.erp.dto.ResponseBean;
-import com.kaishengit.erp.entity.Parts;
-import com.kaishengit.erp.entity.ServiceType;
-import com.kaishengit.erp.entity.Type;
+import com.kaishengit.erp.entity.*;
 import com.kaishengit.erp.service.OrderService;
 import com.kaishengit.erp.service.PartsService;
 import com.kaishengit.erp.vo.OrderVo;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author jinjianghao
@@ -28,10 +33,53 @@ public class OrderController {
     @Autowired
     private PartsService partsService;
 
-    @GetMapping("/list")
-    public String undoneList() {
+    @GetMapping("/undone/list")
+    public String undoneList(@RequestParam(name = "p",defaultValue = "1",required = false) Integer pageNo,
+                            @RequestParam(required = false) String licenceNo,
+                            @RequestParam(required = false) String tel,
+                            @RequestParam(required = false) String startTime,
+                            @RequestParam(required = false) String endTime,
+                            Model model) {
 
+        // 封装筛选的queryMap集合
+        Map<String,Object> queryMap = new HashMap<>();
+        queryMap.put("pageNo", pageNo);
+        queryMap.put("licenceNo", licenceNo);
+        queryMap.put("tel", tel);
+        queryMap.put("startTime", startTime);
+        queryMap.put("endTime", endTime);
+        queryMap.put("exState", Order.ORDER_STATE_DONE);
+
+
+        PageInfo<Order> page = orderService.findPageByParam(queryMap);
+
+        model.addAttribute("type","");
+        model.addAttribute("page", page);
         return "order/list";
+    }
+
+    @GetMapping("/done/list")
+    public String doneList(@RequestParam(name = "p",defaultValue = "1",required = false) Integer pageNo,
+                           @RequestParam(required = false) String licenceNo,
+                           @RequestParam(required = false) String tel,
+                           @RequestParam(required = false) String startTime,
+                           @RequestParam(required = false) String endTime,
+                           Model model) {
+
+        // 封装筛选的queryMap集合
+        Map<String,Object> queryMap = new HashMap<>();
+        queryMap.put("pageNo", pageNo);
+        queryMap.put("licenceNo", licenceNo);
+        queryMap.put("tel", tel);
+        queryMap.put("startTime", startTime);
+        queryMap.put("endTime", endTime);
+
+        queryMap.put("state", Order.ORDER_STATE_DONE);
+
+        PageInfo<Order> page = orderService.findPageByParam(queryMap);
+        model.addAttribute("type","done");
+        model.addAttribute("page", page);
+        return "order/hisList";
     }
 
     @GetMapping("/new")
@@ -42,10 +90,13 @@ public class OrderController {
     @PostMapping("/new")
     @ResponseBody
     public ResponseBean newOrder(String json){
-        System.out.println(json);
+        // 将前端数据转化成对对象
         Gson gson = new Gson();
         OrderVo orderVo = gson.fromJson(json, OrderVo.class);
-        System.out.println(orderVo);
+        // 获得当前登录的员工对象
+        Subject subject = SecurityUtils.getSubject();
+        Employee employee = (Employee) subject.getPrincipal();
+        orderService.newOrder(orderVo, employee.getId());
         return ResponseBean.success();
     }
 

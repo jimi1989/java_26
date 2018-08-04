@@ -36,8 +36,8 @@
                     <form class="form-inline">
                         <input type="text" name="licenceNo" placeholder="车牌号码" class="form-control" value="${param.licenceNo}">
                         <input type="text" name="tel" placeholder="车主手机号码" class="form-control"  value="${param.tel}">
-                        <input type="hidden" name="startTime" id="startTime"  value="${param.startTime}">
-                        <input type="hidden" name="endTime" id="endTime"  value="${param.endTime}">
+                        <input type="hidden" name="startTime" id="startTime" >
+                        <input type="hidden" name="endTime" id="endTime">
                         <input type="text" class="form-control" id="time" placeholder="下单日期选择">
                         <button class="btn btn-default">搜索</button>
                     </form>
@@ -83,7 +83,9 @@
                     </table>
                     <ul id="pagination" class="pagination pull-right"></ul>
                 </div>
-                <!-- /.box-body -->/div>
+                <!-- /.box-body -->
+
+            </div>
             <!-- /.box -->
 
         </section>
@@ -106,13 +108,13 @@
         }
 
         $("#pagination").twbsPagination({
-            totalPages : ${page.pages},
+            totalPages :  ${page.pages},
             visiblePages : 7,
             first : '首页',
             last:'末页',
             prev:'上一页',
             next:'下一页',
-            href:"/order/undone/list?p={{number}}&startTime=" + startDate + "&endTime=" + endDate + "&licenceNo=" + encodeURIComponent('${param.licenceNo}') + "&tel=${param.tel}"
+            href:"/order/done/list?p={{number}}&startTime=" + startDate + "&endTime=" + endDate + "&licenceNo=" + encodeURIComponent('${param.licenceNo}') + "&tel=${param.tel}"
         });
 
         var locale = {

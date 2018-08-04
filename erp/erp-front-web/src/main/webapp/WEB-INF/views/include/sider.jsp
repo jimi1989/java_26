@@ -17,7 +17,7 @@
               </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/order/list"><i class="fa fa-circle-o"></i>订单查询</a></li>
+                    <li><a href="/order/undone/list"><i class="fa fa-circle-o"></i>订单查询</a></li>
                     <li><a href="/order/new"><i class="fa fa-circle-o"></i>新增订单</a></li>
                 </ul>
             </li>

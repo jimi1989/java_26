@@ -76,7 +76,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from order
+    from `order`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -95,29 +95,29 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from order
+    from `order`
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from order
+    delete from `order`
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kaishengit.erp.entity.OrderExample">
-    delete from order
+    delete from `order`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.kaishengit.erp.entity.Order">
-    insert into order (id, order_money, state, 
+    insert into `order` (id, order_money, state,
       create_time, car_id, service_type_id
       )
     values (#{id,jdbcType=INTEGER}, #{orderMoney,jdbcType=DECIMAL}, #{state,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{carId,jdbcType=INTEGER}, #{serviceTypeId,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.kaishengit.erp.entity.Order">
-    insert into order
+  <insert id="insertSelective" parameterType="com.kaishengit.erp.entity.Order" useGeneratedKeys="true" keyProperty="id">
+    insert into `order`
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -160,13 +160,60 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kaishengit.erp.entity.OrderExample" resultType="java.lang.Long">
-    select count(*) from order
+    select count(*) from `order`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+    <resultMap id="orderMapWithDetail" type="com.kaishengit.erp.entity.Order" extends="BaseResultMap">
+        <association property="car" javaType="com.kaishengit.erp.entity.Car">
+            <id property="id" column="car_id" />
+            <result property="carNo" column="car_no"/>
+            <result property="licenceNo" column="licence_no"/>
+            <result property="carType" column="car_type"/>
+        </association>
+        <association property="customer" javaType="com.kaishengit.erp.entity.Customer">
+            <id property="id" column="customer_id" />
+            <result property="userName" column="user_name"/>
+            <result property="idCard" column="id_card"/>
+            <result property="tel" column="tel"/>
+        </association>
+    </resultMap>
+  <select id="findUndonePageByParam" resultMap="orderMapWithDetail">
+    SELECT
+        `order`.*, car.car_type,
+        car.licence_no,
+        car.car_no,
+        car.customer_id,
+        customer.user_name,
+        customer.id_card,
+        customer.tel
+    FROM
+        `order`
+    LEFT JOIN car ON `order`.car_id = car.id
+    LEFT JOIN customer ON car.customer_id = customer.id
+    <where>
+        <if test="licenceNo != null and licenceNo != ''">
+          And car.licence_no = #{licenceNo}
+        </if>
+        <if test="tel != null and tel != ''">
+          And customer.tel = #{tel}
+        </if>
+        <if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+          AND (order.create_time >= #{startTime} and order.create_time &lt;= #{endTime})
+        </if>
+        <if test="state != null and state != ''">
+            And order.state =  #{state}
+        </if>
+        <if test="exState != null and exState != ''">
+            And order.state !=  #{exState}
+        </if>
+    </where>
+    order by order.create_time desc
+
+  </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update order
+    update `order`
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
@@ -192,7 +239,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update order
+    update `order`
     set id = #{record.id,jdbcType=INTEGER},
       order_money = #{record.orderMoney,jdbcType=DECIMAL},
       state = #{record.state,jdbcType=VARCHAR},
@@ -204,7 +251,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.kaishengit.erp.entity.Order">
-    update order
+    update `order`
     <set>
       <if test="orderMoney != null">
         order_money = #{orderMoney,jdbcType=DECIMAL},
@@ -225,7 +272,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kaishengit.erp.entity.Order">
-    update order
+    update `order`
     set order_money = #{orderMoney,jdbcType=DECIMAL},
       state = #{state,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},

@@ -1,22 +1,21 @@
 package com.kaishengit.erp.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.kaishengit.erp.entity.*;
-import com.kaishengit.erp.exception.ServiceException;
-import com.kaishengit.erp.mapper.CarMapper;
-import com.kaishengit.erp.mapper.CustomerMapper;
-import com.kaishengit.erp.mapper.ServiceTypeMapper;
-import com.kaishengit.erp.mapper.TypeMapper;
-import com.kaishengit.erp.service.CarService;
+import com.kaishengit.erp.mapper.*;
 import com.kaishengit.erp.service.OrderService;
-import org.apache.commons.lang3.StringUtils;
+import com.kaishengit.erp.util.Constant;
+import com.kaishengit.erp.vo.OrderVo;
+import com.kaishengit.erp.vo.PartsVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author jinjianghao
@@ -32,6 +31,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private TypeMapper typeMapper;
+
+    @Autowired
+    private OrderMapper orderMapper;
+
+    @Autowired
+    private OrderEmployeeMapper orderEmployeeMapper;
+
+    @Autowired
+    private OrderPartsMapper orderPartsMapper;
 
     /**
      * 查询所有的类型
@@ -53,6 +61,58 @@ public class OrderServiceImpl implements OrderService {
     public List<Type> findAllPartsType() {
         TypeExample typeExample = new TypeExample();
         return typeMapper.selectByExample(typeExample);
+    }
+
+    /**
+     * 新增订单
+     *
+     * @param orderVo 前端订单信息
+     * @param employeeId 操作的员工id
+     */
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void newOrder(OrderVo orderVo, Integer employeeId) {
+        // 新增订单
+        Order order = new Order();
+        order.setCarId(orderVo.getCarId());
+        order.setOrderMoney(orderVo.getFee());
+        order.setServiceTypeId(orderVo.getServiceTypeId());
+        order.setState(Order.ORDER_STATE_NEW);
+
+        orderMapper.insertSelective(order);
+
+        // 新增订单和员工关联关系表
+        OrderEmployee orderEmployee = new OrderEmployee();
+        orderEmployee.setOrderId(order.getId());
+        orderEmployee.setEmployeeId(employeeId);
+        orderEmployeeMapper.insertSelective(orderEmployee);
+
+        // 新增订单和配件关系表
+        List<PartsVo> partsVoList = orderVo.getPartsLists();
+        for(PartsVo partsVo : partsVoList) {
+            OrderParts orderParts = new OrderParts();
+            orderParts.setOrderId(order.getId());
+            orderParts.setPartsId(partsVo.getId());
+            orderParts.setNum(partsVo.getNum());
+
+            orderPartsMapper.insertSelective(orderParts);
+        }
+
+        logger.info("{}新增订单{}", employeeId, order.getId());
+    }
+
+    /**
+     * 通过参数查询订单
+     * @return
+     */
+    @Override
+    public PageInfo<Order> findPageByParam(Map<String,Object> queryMap) {
+        PageHelper.startPage(Integer.parseInt(String.valueOf(queryMap.get("pageNo"))),Constant.DEFAULT_PAGE_SIZE);
+
+        List<Order> orderList = orderMapper.findUndonePageByParam(queryMap);
+
+        PageInfo<Order> pageInfo = new PageInfo<>(orderList);
+        return pageInfo;
     }
 
 
