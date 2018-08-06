@@ -4,17 +4,25 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
+ * 接受前端数据
  * @author jinjianghao
  * @date 2018/8/3
  */
 public class OrderVo {
 
+    private Integer id;
     private Integer carId;
     private Integer serviceTypeId;
     private BigDecimal fee;
     private List<PartsVo> partsLists;
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getServiceTypeId() {
         return serviceTypeId;

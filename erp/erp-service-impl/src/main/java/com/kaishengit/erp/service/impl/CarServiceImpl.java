@@ -56,7 +56,7 @@ public class CarServiceImpl implements CarService {
         }else {
             customerId = customerList.get(0).getId();
         }
-        // 校验车辆是否存在
+        // 校验车辆是否存在 TODO
         // 不存在则添加车辆信息
         car.setCustomerId(customerId);
         carMapper.insertSelective(car);

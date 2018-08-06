@@ -6,6 +6,7 @@ import com.kaishengit.erp.dto.ResponseBean;
 import com.kaishengit.erp.entity.*;
 import com.kaishengit.erp.service.OrderService;
 import com.kaishengit.erp.service.PartsService;
+import com.kaishengit.erp.vo.OrderInfoVo;
 import com.kaishengit.erp.vo.OrderVo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -136,6 +137,43 @@ public class OrderController {
         model.addAttribute("serviceType", serviceType);
         model.addAttribute("partsList", partsList);
         return "order/detail";
+    }
+
+    @GetMapping("/{id:\\d+}/edit")
+    public String orderEidt(@PathVariable Integer id, Model model) {
+
+        model.addAttribute("orderId", id);
+        return "order/edit";
+    }
+
+    @GetMapping("/{id:\\d+}/info")
+    @ResponseBody
+    public ResponseBean orderInfo(@PathVariable Integer id) {
+        // 获得订单信息
+        Order order = orderService.findOrderById(id);
+
+        // 获得订单服务类型信息
+        ServiceType serviceType = orderService.findServiceTypeById(order.getServiceTypeId());
+
+        // 获得订单配件列表
+        List<Parts> partsList = partsService.findPartsByOrderId(order.getId());
+
+        OrderInfoVo orderInfoVo = new OrderInfoVo();
+        orderInfoVo.setOrder(order);
+        orderInfoVo.setServiceType(serviceType);
+        orderInfoVo.setPartsList(partsList);
+
+        return ResponseBean.success(orderInfoVo);
+    }
+
+    @PostMapping("/{id:\\d+}/edit")
+    @ResponseBody
+    public ResponseBean orderEdit(String json) {
+        // 将前端数据转化成对对象
+        Gson gson = new Gson();
+        OrderVo orderVo = gson.fromJson(json, OrderVo.class);
+        orderService.editOrder(orderVo);
+        return ResponseBean.success();
     }
 
 }

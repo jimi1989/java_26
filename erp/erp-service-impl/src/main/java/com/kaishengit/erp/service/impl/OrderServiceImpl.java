@@ -89,14 +89,7 @@ public class OrderServiceImpl implements OrderService {
 
         // 新增订单和配件关系表
         List<PartsVo> partsVoList = orderVo.getPartsLists();
-        for(PartsVo partsVo : partsVoList) {
-            OrderParts orderParts = new OrderParts();
-            orderParts.setOrderId(order.getId());
-            orderParts.setPartsId(partsVo.getId());
-            orderParts.setNum(partsVo.getNum());
-
-            orderPartsMapper.insertSelective(orderParts);
-        }
+        addOrderParts(order.getId(), partsVoList);
 
         logger.info("{}新增订单{}", employeeId, order.getId());
     }
@@ -136,6 +129,50 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ServiceType findServiceTypeById(Integer serviceTypeId) {
         return serviceTypeMapper.selectByPrimaryKey(serviceTypeId);
+    }
+
+    /**
+     * 更新订单
+     *
+     * @param orderVo
+     */
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void editOrder(OrderVo orderVo) {
+        // 更新订单
+        Order order = orderMapper.selectByPrimaryKey(orderVo.getId());
+        if(order != null) {
+            order.setOrderMoney(orderVo.getFee());
+            order.setCarId(orderVo.getCarId());
+            order.setServiceTypeId(orderVo.getServiceTypeId());
+        }
+
+        orderMapper.updateByPrimaryKeySelective(order);
+
+        // 删除原有的关联关系
+        OrderPartsExample orderPartsExample = new OrderPartsExample();
+        orderPartsExample.createCriteria().andOrderIdEqualTo(orderVo.getId());
+        orderPartsMapper.deleteByExample(orderPartsExample);
+
+        // 新增订单和配件关系表
+        List<PartsVo> partsVoList = orderVo.getPartsLists();
+        addOrderParts(order.getId(), partsVoList);
+
+        logger.info("更新订单{}", order.getId());
+    }
+
+    /**
+     *    新增配件订单关联关系
+      */
+    private void addOrderParts(Integer orderId, List<PartsVo> partsVoList) {
+        for(PartsVo partsVo : partsVoList) {
+            OrderParts orderParts = new OrderParts();
+            orderParts.setOrderId(orderId);
+            orderParts.setPartsId(partsVo.getId());
+            orderParts.setNum(partsVo.getNum());
+
+            orderPartsMapper.insertSelective(orderParts);
+        }
     }
 
 

@@ -59,7 +59,7 @@
                         </tr>
                         <tr>
                             <td class="td_title">订单金额:</td>
-                            <td>${order.orderMoney}</td>
+                            <td>￥${order.orderMoney}</td>
                             <td class="td_title">订单状态:</td>
                             <td>${order.stateName}</td>
                         </tr>
@@ -114,12 +114,12 @@
                         <tr>
                             <td>${serviceType.serviceNo}</td>
                             <td>${serviceType.serviceName}</td>
-                            <td>${serviceType.serviceHour * 50}</td>
+                            <td>￥${serviceType.serviceHour * 50.0}</td>
                         </tr>
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td colspan="4" class="td_title">小计 ：${serviceType.serviceHour * 50} 元</td>
+                            <td colspan="4" class="td_title">小计 ：￥${serviceType.serviceHour * 50.0} </td>
                         </tr>
                         </tfoot>
                     </table>
@@ -155,7 +155,7 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td colspan="4" class="td_title">小计 ：${order.orderMoney - serviceType.serviceHour * 50} 元</td>
+                            <td colspan="4" class="td_title">小计 ：${order.orderMoney - serviceType.serviceHour * 50} </td>
                         </tr>
                         </tfoot>
                     </table>

@@ -51,4 +51,10 @@ public interface OrderService {
      * @return
      */
     ServiceType findServiceTypeById(Integer serviceTypeId);
+
+    /**
+     * 更新订单
+     * @param orderVo
+     */
+    void editOrder(OrderVo orderVo);
 }
