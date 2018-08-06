@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8"  pageEncoding="UTF-8"%>
 <!-- 底部 -->
-<footer class="main-footer">
+<footer class="main-footer hidden-print">
     <div class="pull-right hidden-xs">
         <b>Version</b> 1.0
     </div>

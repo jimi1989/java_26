@@ -49,6 +49,10 @@ public class Parts implements Serializable {
 
     private Type type;
 
+    /**
+     * 订单选择数量
+     */
+    private Integer num;
 
     private static final long serialVersionUID = 1L;
 
@@ -137,5 +141,13 @@ public class Parts implements Serializable {
                 ", address='" + address + '\'' +
                 ", type=" + type +
                 '}';
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
     }
 }

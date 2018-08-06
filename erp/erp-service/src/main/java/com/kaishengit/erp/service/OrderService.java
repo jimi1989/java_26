@@ -38,4 +38,17 @@ public interface OrderService {
     PageInfo<Order> findPageByParam(Map<String,Object> queryMap);
 
 
+    /**
+     * 查看订单详情
+     * @param id
+     * @return order
+     */
+    Order findOrderById(Integer id);
+
+    /**
+     * 获得服务类型
+     * @param serviceTypeId
+     * @return
+     */
+    ServiceType findServiceTypeById(Integer serviceTypeId);
 }

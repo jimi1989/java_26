@@ -31,4 +31,6 @@ public interface OrderMapper {
     int updateByPrimaryKey(Order record);
 
     List<Order> findUndonePageByParam(Map<String,Object> queryMap);
+
+    Order findWithCarInfoById(Integer id);
 }

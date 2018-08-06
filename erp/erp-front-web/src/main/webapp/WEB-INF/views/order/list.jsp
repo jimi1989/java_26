@@ -83,7 +83,7 @@
                     </table>
                     <ul id="pagination" class="pagination pull-right"></ul>
                 </div>
-                <!-- /.box-body -->/div>
+                <!-- /.box-body -->
             <!-- /.box -->
 
         </section>

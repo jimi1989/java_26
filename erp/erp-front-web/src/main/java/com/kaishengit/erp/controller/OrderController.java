@@ -121,4 +121,21 @@ public class OrderController {
         return ResponseBean.success(partsList);
     }
 
+    @GetMapping("/{id:\\d+}/detail")
+    public String orderDetail(@PathVariable Integer id, Model model) {
+        // 获得订单信息
+        Order order = orderService.findOrderById(id);
+
+        // 获得订单服务类型信息
+        ServiceType serviceType = orderService.findServiceTypeById(order.getServiceTypeId());
+
+        // 获得订单配件列表
+        List<Parts> partsList = partsService.findPartsByOrderId(order.getId());
+
+        model.addAttribute("order", order);
+        model.addAttribute("serviceType", serviceType);
+        model.addAttribute("partsList", partsList);
+        return "order/detail";
+    }
+
 }

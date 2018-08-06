@@ -115,5 +115,28 @@ public class OrderServiceImpl implements OrderService {
         return pageInfo;
     }
 
+    /**
+     * 查看订单详情
+     *
+     * @param id
+     * @return order
+     */
+    @Override
+    public Order findOrderById(Integer id) {
+        Order order = orderMapper.findWithCarInfoById(id);
+        return order;
+    }
+
+    /**
+     * 获得服务类型
+     *
+     * @param serviceTypeId
+     * @return
+     */
+    @Override
+    public ServiceType findServiceTypeById(Integer serviceTypeId) {
+        return serviceTypeMapper.selectByPrimaryKey(serviceTypeId);
+    }
+
 
 }
