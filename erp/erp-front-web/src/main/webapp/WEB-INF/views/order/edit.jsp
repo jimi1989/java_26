@@ -237,7 +237,7 @@
 <script>
     $(function() {
         var orderId = ${orderId};
-            var vm = new Vue({
+        var vm = new Vue({
             el:"#app",
             data: {
                 car:{},
@@ -362,6 +362,8 @@
                         success: function(json){
                             if(json.state == "success") {
                                 window.location.href = "/order/undone/list";
+                            } else {
+                                layer.msg("系统异常");
                             }
                         }
                     });
@@ -398,11 +400,15 @@
                 });
 
                 $.get("/order/" + orderId + "/info").done(function(resp){
-                    vm.car = resp.data.order.car;
-                    vm.customer = resp.data.order.customer;
-                    vm.serviceType = resp.data.serviceType;
-                    vm.choosePartsList = resp.data.partsList;
-                }).error(function(err){
+                    if(resp.state == "success") {
+                        vm.car = resp.data.order.car;
+                        vm.customer = resp.data.order.customer;
+                        vm.serviceType = resp.data.serviceType;
+                        vm.choosePartsList = resp.data.partsList;
+                    } else {
+                        layer.msg(resp.message);
+                    }
+                }).error(function(){
                     layer.msg("系统异常");
                 });
             }

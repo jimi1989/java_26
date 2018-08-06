@@ -3,6 +3,7 @@ package com.kaishengit.erp.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kaishengit.erp.entity.*;
+import com.kaishengit.erp.exception.ServiceException;
 import com.kaishengit.erp.mapper.*;
 import com.kaishengit.erp.service.OrderService;
 import com.kaishengit.erp.util.Constant;
@@ -115,8 +116,11 @@ public class OrderServiceImpl implements OrderService {
      * @return order
      */
     @Override
-    public Order findOrderById(Integer id) {
+    public Order findOrderById(Integer id) throws ServiceException{
         Order order = orderMapper.findWithCarInfoById(id);
+        if(order == null) {
+            throw new ServiceException("参数异常或者订单不存在");
+        }
         return order;
     }
 
@@ -138,14 +142,21 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void editOrder(OrderVo orderVo) {
+    public void editOrder(OrderVo orderVo) throws ServiceException{
         // 更新订单
         Order order = orderMapper.selectByPrimaryKey(orderVo.getId());
-        if(order != null) {
-            order.setOrderMoney(orderVo.getFee());
-            order.setCarId(orderVo.getCarId());
-            order.setServiceTypeId(orderVo.getServiceTypeId());
+        if(order == null) {
+            throw new ServiceException("参数异常或者订单不存在");
         }
+
+        // 只有状态为1的订单可以被修改
+        if(!order.getState().equals(Order.ORDER_STATE_NEW)) {
+            throw new ServiceException("该订单已生成，不能修改");
+        }
+
+        order.setOrderMoney(orderVo.getFee());
+        order.setCarId(orderVo.getCarId());
+        order.setServiceTypeId(orderVo.getServiceTypeId());
 
         orderMapper.updateByPrimaryKeySelective(order);
 
@@ -160,6 +171,28 @@ public class OrderServiceImpl implements OrderService {
 
         logger.info("更新订单{}", order.getId());
     }
+
+    /**
+     * 订单下发
+     *
+     * @param id
+     */
+    @Override
+    public void transOrder(Integer id) throws ServiceException{
+        Order order = orderMapper.selectByPrimaryKey(id);
+        if(order == null) {
+            throw new ServiceException("参数异常或订单不存在");
+        }
+
+        if(!order.getState().equals(Order.ORDER_STATE_NEW)){
+            throw new ServiceException(("该订单已经生成并下发，操作失败"));
+        }
+
+        // 设置订单状态为已下发
+        order.setState(Order.ORDER_STATE_TRANS);
+        orderMapper.updateByPrimaryKeySelective(order);
+    }
+
 
     /**
      *    新增配件订单关联关系

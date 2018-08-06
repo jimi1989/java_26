@@ -32,10 +32,12 @@
                 <h3 class="box-title">保养维修单</h3>
                 <div class="box-tools">
                     <a href="/order/undone/list" class="btn btn-primary btn-sm"><i class="fa fa-arrow-left"></i> 返回列表</a>
-                    <a href="/order/${order.id}/edit" class="btn bg-purple btn-sm"><i class="fa fa-pencil"></i> 修改订单</a>
                     <button class="btn bg-maroon btn-sm" id="printBtn"><i class="fa fa-print"></i> 打印</button>
-                    <a href="/order/${order.id}/trans" class="btn bg-orange btn-sm"><i class="fa fa-recycle"></i> 订单下发</a>
-                    <button class="btn btn-danger btn-sm" id="delBtn"><i class="fa fa-trash-o"></i> 删除</button>
+                    <c:if test="${order.state == '1'}">
+                        <a href="/order/${order.id}/edit" class="btn bg-purple btn-sm"><i class="fa fa-pencil"></i> 修改订单</a>
+                        <button class="btn bg-orange btn-sm" id="transBtn"><i class="fa fa-recycle"></i> 订单下发</button>
+                        <button class="btn btn-danger btn-sm" id="delBtn"><i class="fa fa-trash-o"></i> 删除</button>
+                    </c:if>
                 </div>
             </div>
         </section>
@@ -189,9 +191,31 @@
             });
         });
 
+        // 打印
         $("#printBtn").click(function(){
             window.print();
+        });
+
+        // 订单下发
+        $("#transBtn").click(function(){
+            layer.confirm("确定要下发订单么？如此将不能修改和删除订单！",function (index) {
+                layer.close(index);
+                $.get("/order/"+ orderId +"/trans").done(function(res){
+                    if(res.state == "success") {
+                        layer.msg("订单已生成并下发！等待维修中...",{time: 2000, icon:1},function(){
+                            history.go(0);
+                        });
+                    } else {
+                        layer.msg(res.message);
+                    }
+
+                }).error(function(){
+                    layer.msg("系统异常")
+                })
+            });
         })
+
+
     })
 </script>
 </body>

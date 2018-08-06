@@ -2,6 +2,7 @@ package com.kaishengit.erp.service;
 
 import com.github.pagehelper.PageInfo;
 import com.kaishengit.erp.entity.*;
+import com.kaishengit.erp.exception.ServiceException;
 import com.kaishengit.erp.vo.OrderVo;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public interface OrderService {
      * @param id
      * @return order
      */
-    Order findOrderById(Integer id);
+    Order findOrderById(Integer id) throws ServiceException;
 
     /**
      * 获得服务类型
@@ -56,5 +57,11 @@ public interface OrderService {
      * 更新订单
      * @param orderVo
      */
-    void editOrder(OrderVo orderVo);
+    void editOrder(OrderVo orderVo)  throws ServiceException;
+
+    /**
+     * 订单下发
+     * @param id
+     */
+    void transOrder(Integer id)  throws ServiceException;
 }

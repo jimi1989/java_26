@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.kaishengit.erp.dto.ResponseBean;
 import com.kaishengit.erp.entity.*;
+import com.kaishengit.erp.exception.ServiceException;
 import com.kaishengit.erp.service.OrderService;
 import com.kaishengit.erp.service.PartsService;
 import com.kaishengit.erp.vo.OrderInfoVo;
@@ -140,8 +141,7 @@ public class OrderController {
     }
 
     @GetMapping("/{id:\\d+}/edit")
-    public String orderEidt(@PathVariable Integer id, Model model) {
-
+    public String orderEdit(@PathVariable Integer id, Model model) {
         model.addAttribute("orderId", id);
         return "order/edit";
     }
@@ -149,21 +149,27 @@ public class OrderController {
     @GetMapping("/{id:\\d+}/info")
     @ResponseBody
     public ResponseBean orderInfo(@PathVariable Integer id) {
-        // 获得订单信息
-        Order order = orderService.findOrderById(id);
+        try {
+            // 获得订单信息
+            Order order = orderService.findOrderById(id);
 
-        // 获得订单服务类型信息
-        ServiceType serviceType = orderService.findServiceTypeById(order.getServiceTypeId());
+            // 获得订单服务类型信息
+            ServiceType serviceType = orderService.findServiceTypeById(order.getServiceTypeId());
 
-        // 获得订单配件列表
-        List<Parts> partsList = partsService.findPartsByOrderId(order.getId());
+            // 获得订单配件列表
+            List<Parts> partsList = partsService.findPartsByOrderId(order.getId());
 
-        OrderInfoVo orderInfoVo = new OrderInfoVo();
-        orderInfoVo.setOrder(order);
-        orderInfoVo.setServiceType(serviceType);
-        orderInfoVo.setPartsList(partsList);
+            OrderInfoVo orderInfoVo = new OrderInfoVo();
+            orderInfoVo.setOrder(order);
+            orderInfoVo.setServiceType(serviceType);
+            orderInfoVo.setPartsList(partsList);
 
-        return ResponseBean.success(orderInfoVo);
+            return ResponseBean.success(orderInfoVo);
+
+        }catch (ServiceException e) {
+            ResponseBean.error(e.getMessage());
+        }
+        return null;
     }
 
     @PostMapping("/{id:\\d+}/edit")
@@ -172,7 +178,22 @@ public class OrderController {
         // 将前端数据转化成对对象
         Gson gson = new Gson();
         OrderVo orderVo = gson.fromJson(json, OrderVo.class);
-        orderService.editOrder(orderVo);
+        try {
+            orderService.editOrder(orderVo);
+        }catch(ServiceException e) {
+            return ResponseBean.error(e.getMessage());
+        }
+        return ResponseBean.success();
+    }
+
+    @GetMapping("/{id:\\d+}/trans")
+    @ResponseBody
+    public ResponseBean orderTrans(@PathVariable Integer id) {
+        try {
+            orderService.transOrder(id);
+        } catch (ServiceException e) {
+            return ResponseBean.error(e.getMessage());
+        }
         return ResponseBean.success();
     }
 
