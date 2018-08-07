@@ -15,8 +15,8 @@ public class QueueTest {
         Connection connection = null;
         Session session = null;
         MessageProducer producer = null;
-        //1. 创建连接工厂
         try {
+            //1. 创建连接工厂
             ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
 
             //2. 创建连接 并 开启

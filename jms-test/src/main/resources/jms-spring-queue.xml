@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.springframework.org/schema/jms"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd">
+
+    <!--1. 配置ActiveMQ ConnectionFactory-->
+    <bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://localhost:61616"/>
+    </bean>
+
+    <!--2. Spring适配的连接工厂-->
+    <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+        <property name="targetConnectionFactory" ref="activeMQConnectionFactory"/>
+    </bean>
+
+    <!-- 3. 配置jmsTemplate-->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <!--配置的默认的目的地地址-->
+        <property name="defaultDestinationName" value="spring-queue"/>
+    </bean>
+
+    <!--4. 配置消费者的监听器-->
+    <bean id="consumerListener" class="com.kaishengit.mq.ConsumerListener"/>
+    <bean id="consumerListener2" class="com.kaishengit.mq.ConsumerListener2"/>
+
+    <!--5. 配置多个监听器-->
+    <jms:listener-container acknowledge="client" connection-factory="connectionFactory" concurrency="3-10">
+        <jms:listener destination="spring-queue" ref="consumerListener"/>
+        <jms:listener destination="spring-queue" ref="consumerListener2"/>
+    </jms:listener-container>
+
+
+    <!--5. 配置监听器容器-->
+    <!--<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">-->
+        <!--<property name="connectionFactory" ref="connectionFactory"/>-->
+        <!--<property name="destinationName" value="spring-queue"/>-->
+        <!--<property name="messageListener" ref="consumerListener"/>-->
+    <!--</bean>-->
+</beans>
