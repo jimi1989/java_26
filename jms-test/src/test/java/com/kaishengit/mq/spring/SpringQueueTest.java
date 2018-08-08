@@ -21,7 +21,7 @@ import java.io.IOException;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:jms-spring-queue.xml")
+@ContextConfiguration(locations = "classpath:jms-spring-queue3.xml")
 public class SpringQueueTest {
 
     @Autowired
@@ -31,14 +31,14 @@ public class SpringQueueTest {
     public void testSendMessage() throws InterruptedException {
 
         // Destination destination = new ActiveMQQueue("spring-queue");
-        while(true) {
+        //while(true) {
             jmsTemplate.send(new MessageCreator() {
                 public Message createMessage(Session session) throws JMSException {
                     return session.createTextMessage("spring,mq-" + System.currentTimeMillis());
                 }
             });
             Thread.sleep(1000);
-        }
+        //}
 
         /*jmsTemplate.send(new MessageCreator(){
 

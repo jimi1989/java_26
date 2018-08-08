@@ -22,7 +22,7 @@ import java.io.IOException;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:jms-spring-topic.xml")
+@ContextConfiguration(locations = "classpath:jms-spring-topic2.xml")
 public class SpringTopicTest {
 
     @Autowired
