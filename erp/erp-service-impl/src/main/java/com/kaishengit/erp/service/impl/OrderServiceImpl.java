@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.kaishengit.erp.dto.OrderInfoDto;
+import com.kaishengit.erp.dto.OrderStateDto;
 import com.kaishengit.erp.entity.*;
 import com.kaishengit.erp.exception.ServiceException;
 import com.kaishengit.erp.mapper.*;
@@ -209,6 +210,32 @@ public class OrderServiceImpl implements OrderService {
         // 订单下发后将订单信息发送到消息队列
        sendOrderInfoToMq(id);
 
+    }
+
+    /**
+     * 解析json数据改变订单状态
+     * @param json
+     */
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void editOrderState(String json) {
+        OrderStateDto orderStateDto = new Gson().fromJson(json, OrderStateDto.class);
+        Order order = orderMapper.selectByPrimaryKey(orderStateDto.getOrderId());
+
+        if(order == null) {
+            logger.error("{} 订单不存在", orderStateDto.getOrderId());
+        }
+
+        // 更改基础表的订单状态
+        order.setState(orderStateDto.getState());
+        orderMapper.updateByPrimaryKeySelective(order);
+
+        // 新增订单操作员工
+        OrderEmployee orderEmployee = new OrderEmployee();
+        orderEmployee.setEmployeeId(orderStateDto.getEmployeeId());
+        orderEmployee.setOrderId(order.getId());
+
+        orderEmployeeMapper.insertSelective(orderEmployee);
     }
 
     /**

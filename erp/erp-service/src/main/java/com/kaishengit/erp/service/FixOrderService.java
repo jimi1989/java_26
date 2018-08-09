@@ -1,5 +1,6 @@
 package com.kaishengit.erp.service;
 
+import com.kaishengit.erp.entity.Employee;
 import com.kaishengit.erp.entity.FixOrder;
 
 import java.util.List;
@@ -21,4 +22,17 @@ public interface FixOrderService {
      * @return
      */
     List<FixOrder> findFixOrderListWithParts();
+
+    /**
+     * 任务领取
+     * @param id
+     * @param Employee
+     */
+    void taskReceive(Integer id, Employee Employee);
+
+    /**
+     * 任务详情服务页面
+     * @param id
+     */
+    FixOrder getFixOrder(Integer id);
 }

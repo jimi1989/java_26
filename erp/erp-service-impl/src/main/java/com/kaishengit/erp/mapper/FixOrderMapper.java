@@ -29,4 +29,6 @@ public interface FixOrderMapper {
     int updateByPrimaryKey(FixOrder record);
 
     List<FixOrder> findListWithParts();
+
+    FixOrder findWithPartsById(Integer id);
 }

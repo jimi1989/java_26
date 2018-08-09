@@ -985,6 +985,266 @@ public class FixOrderExample {
             addCriterion("customer_tel not between", value1, value2, "customerTel");
             return (Criteria) this;
         }
+
+        public Criteria andFixEmployeeIdIsNull() {
+            addCriterion("fix_employee_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeIdIsNotNull() {
+            addCriterion("fix_employee_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeIdEqualTo(Integer value) {
+            addCriterion("fix_employee_id =", value, "fixEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeIdNotEqualTo(Integer value) {
+            addCriterion("fix_employee_id <>", value, "fixEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeIdGreaterThan(Integer value) {
+            addCriterion("fix_employee_id >", value, "fixEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("fix_employee_id >=", value, "fixEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeIdLessThan(Integer value) {
+            addCriterion("fix_employee_id <", value, "fixEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("fix_employee_id <=", value, "fixEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeIdIn(List<Integer> values) {
+            addCriterion("fix_employee_id in", values, "fixEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeIdNotIn(List<Integer> values) {
+            addCriterion("fix_employee_id not in", values, "fixEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeIdBetween(Integer value1, Integer value2) {
+            addCriterion("fix_employee_id between", value1, value2, "fixEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("fix_employee_id not between", value1, value2, "fixEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeIdIsNull() {
+            addCriterion("check_employee_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeIdIsNotNull() {
+            addCriterion("check_employee_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeIdEqualTo(Integer value) {
+            addCriterion("check_employee_id =", value, "checkEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeIdNotEqualTo(Integer value) {
+            addCriterion("check_employee_id <>", value, "checkEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeIdGreaterThan(Integer value) {
+            addCriterion("check_employee_id >", value, "checkEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("check_employee_id >=", value, "checkEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeIdLessThan(Integer value) {
+            addCriterion("check_employee_id <", value, "checkEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("check_employee_id <=", value, "checkEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeIdIn(List<Integer> values) {
+            addCriterion("check_employee_id in", values, "checkEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeIdNotIn(List<Integer> values) {
+            addCriterion("check_employee_id not in", values, "checkEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeIdBetween(Integer value1, Integer value2) {
+            addCriterion("check_employee_id between", value1, value2, "checkEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("check_employee_id not between", value1, value2, "checkEmployeeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeNameIsNull() {
+            addCriterion("fix_employee_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeNameIsNotNull() {
+            addCriterion("fix_employee_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeNameEqualTo(String value) {
+            addCriterion("fix_employee_name =", value, "fixEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeNameNotEqualTo(String value) {
+            addCriterion("fix_employee_name <>", value, "fixEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeNameGreaterThan(String value) {
+            addCriterion("fix_employee_name >", value, "fixEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeNameGreaterThanOrEqualTo(String value) {
+            addCriterion("fix_employee_name >=", value, "fixEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeNameLessThan(String value) {
+            addCriterion("fix_employee_name <", value, "fixEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeNameLessThanOrEqualTo(String value) {
+            addCriterion("fix_employee_name <=", value, "fixEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeNameLike(String value) {
+            addCriterion("fix_employee_name like", value, "fixEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeNameNotLike(String value) {
+            addCriterion("fix_employee_name not like", value, "fixEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeNameIn(List<String> values) {
+            addCriterion("fix_employee_name in", values, "fixEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeNameNotIn(List<String> values) {
+            addCriterion("fix_employee_name not in", values, "fixEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeNameBetween(String value1, String value2) {
+            addCriterion("fix_employee_name between", value1, value2, "fixEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFixEmployeeNameNotBetween(String value1, String value2) {
+            addCriterion("fix_employee_name not between", value1, value2, "fixEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeNameIsNull() {
+            addCriterion("check_employee_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeNameIsNotNull() {
+            addCriterion("check_employee_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeNameEqualTo(String value) {
+            addCriterion("check_employee_name =", value, "checkEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeNameNotEqualTo(String value) {
+            addCriterion("check_employee_name <>", value, "checkEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeNameGreaterThan(String value) {
+            addCriterion("check_employee_name >", value, "checkEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeNameGreaterThanOrEqualTo(String value) {
+            addCriterion("check_employee_name >=", value, "checkEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeNameLessThan(String value) {
+            addCriterion("check_employee_name <", value, "checkEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeNameLessThanOrEqualTo(String value) {
+            addCriterion("check_employee_name <=", value, "checkEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeNameLike(String value) {
+            addCriterion("check_employee_name like", value, "checkEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeNameNotLike(String value) {
+            addCriterion("check_employee_name not like", value, "checkEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeNameIn(List<String> values) {
+            addCriterion("check_employee_name in", values, "checkEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeNameNotIn(List<String> values) {
+            addCriterion("check_employee_name not in", values, "checkEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeNameBetween(String value1, String value2) {
+            addCriterion("check_employee_name between", value1, value2, "checkEmployeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckEmployeeNameNotBetween(String value1, String value2) {
+            addCriterion("check_employee_name not between", value1, value2, "checkEmployeeName");
+            return (Criteria) this;
+        }
     }
 
     /**

@@ -1,352 +1,446 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kaishengit.erp.mapper.FixOrderMapper">
-  <resultMap id="BaseResultMap" type="com.kaishengit.erp.entity.FixOrder">
-    <id column="order_id" jdbcType="INTEGER" property="orderId" />
-    <result column="order_type" jdbcType="VARCHAR" property="orderType" />
-    <result column="order_time" jdbcType="TIMESTAMP" property="orderTime" />
-    <result column="state" jdbcType="VARCHAR" property="state" />
-    <result column="order_money" jdbcType="DECIMAL" property="orderMoney" />
-    <result column="order_service_hour" jdbcType="INTEGER" property="orderServiceHour" />
-    <result column="order_service_hour_fee" jdbcType="DECIMAL" property="orderServiceHourFee" />
-    <result column="order_parts_fee" jdbcType="DECIMAL" property="orderPartsFee" />
-    <result column="car_type" jdbcType="VARCHAR" property="carType" />
-    <result column="car_color" jdbcType="VARCHAR" property="carColor" />
-    <result column="car_licence" jdbcType="VARCHAR" property="carLicence" />
-    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
-    <result column="customer_tel" jdbcType="VARCHAR" property="customerTel" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+    <resultMap id="BaseResultMap" type="com.kaishengit.erp.entity.FixOrder">
+        <id column="order_id" jdbcType="INTEGER" property="orderId" />
+        <result column="order_type" jdbcType="VARCHAR" property="orderType" />
+        <result column="order_time" jdbcType="TIMESTAMP" property="orderTime" />
+        <result column="state" jdbcType="VARCHAR" property="state" />
+        <result column="order_money" jdbcType="DECIMAL" property="orderMoney" />
+        <result column="order_service_hour" jdbcType="VARCHAR" property="orderServiceHour" />
+        <result column="order_service_hour_fee" jdbcType="DECIMAL" property="orderServiceHourFee" />
+        <result column="order_parts_fee" jdbcType="DECIMAL" property="orderPartsFee" />
+        <result column="car_type" jdbcType="VARCHAR" property="carType" />
+        <result column="car_color" jdbcType="VARCHAR" property="carColor" />
+        <result column="car_licence" jdbcType="VARCHAR" property="carLicence" />
+        <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+        <result column="customer_tel" jdbcType="VARCHAR" property="customerTel" />
+        <result column="fix_employee_id" jdbcType="INTEGER" property="fixEmployeeId" />
+        <result column="check_employee_id" jdbcType="INTEGER" property="checkEmployeeId" />
+        <result column="fix_employee_name" jdbcType="VARCHAR" property="fixEmployeeName" />
+        <result column="check_employee_name" jdbcType="VARCHAR" property="checkEmployeeName" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    order_id, order_type, order_time, state, order_money, order_service_hour, order_service_hour_fee,
+    order_parts_fee, car_type, car_color, car_licence, customer_name, customer_tel, fix_employee_id,
+    check_employee_id, fix_employee_name, check_employee_name
+  </sql>
+    <select id="selectByExample" parameterType="com.kaishengit.erp.entity.FixOrderExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
         </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    order_id, order_type, order_time, state, order_money, order_service_hour, order_service_hour_fee, 
-    order_parts_fee, car_type, car_color, car_licence, customer_name, customer_tel
-  </sql>
-  <select id="selectByExample" parameterType="com.kaishengit.erp.entity.FixOrderExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from fix_order
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-    <if test="limit != null">
-      <if test="offset != null">
-        limit ${offset}, ${limit}
-      </if>
-      <if test="offset == null">
-        limit ${limit}
-      </if>
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from fix_order
-    where order_id = #{orderId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from fix_order
-    where order_id = #{orderId,jdbcType=INTEGER}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.kaishengit.erp.entity.FixOrderExample">
-    delete from fix_order
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.kaishengit.erp.entity.FixOrder">
-    insert into fix_order (order_id, order_type, order_time, 
-      state, order_money, order_service_hour, 
-      order_service_hour_fee, order_parts_fee, car_type, 
-      car_color, car_licence, customer_name, 
-      customer_tel)
-    values (#{orderId,jdbcType=INTEGER}, #{orderType,jdbcType=VARCHAR}, #{orderTime,jdbcType=TIMESTAMP}, 
-      #{state,jdbcType=VARCHAR}, #{orderMoney,jdbcType=DECIMAL}, #{orderServiceHour,jdbcType=INTEGER}, 
-      #{orderServiceHourFee,jdbcType=DECIMAL}, #{orderPartsFee,jdbcType=DECIMAL}, #{carType,jdbcType=VARCHAR}, 
-      #{carColor,jdbcType=VARCHAR}, #{carLicence,jdbcType=VARCHAR}, #{customerName,jdbcType=VARCHAR}, 
-      #{customerTel,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.kaishengit.erp.entity.FixOrder">
-    insert into fix_order
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="orderId != null">
-        order_id,
-      </if>
-      <if test="orderType != null">
-        order_type,
-      </if>
-      <if test="orderTime != null">
-        order_time,
-      </if>
-      <if test="state != null">
-        state,
-      </if>
-      <if test="orderMoney != null">
-        order_money,
-      </if>
-      <if test="orderServiceHour != null">
-        order_service_hour,
-      </if>
-      <if test="orderServiceHourFee != null">
-        order_service_hour_fee,
-      </if>
-      <if test="orderPartsFee != null">
-        order_parts_fee,
-      </if>
-      <if test="carType != null">
-        car_type,
-      </if>
-      <if test="carColor != null">
-        car_color,
-      </if>
-      <if test="carLicence != null">
-        car_licence,
-      </if>
-      <if test="customerName != null">
-        customer_name,
-      </if>
-      <if test="customerTel != null">
-        customer_tel,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="orderId != null">
-        #{orderId,jdbcType=INTEGER},
-      </if>
-      <if test="orderType != null">
-        #{orderType,jdbcType=VARCHAR},
-      </if>
-      <if test="orderTime != null">
-        #{orderTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="state != null">
-        #{state,jdbcType=VARCHAR},
-      </if>
-      <if test="orderMoney != null">
-        #{orderMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="orderServiceHour != null">
-        #{orderServiceHour,jdbcType=INTEGER},
-      </if>
-      <if test="orderServiceHourFee != null">
-        #{orderServiceHourFee,jdbcType=DECIMAL},
-      </if>
-      <if test="orderPartsFee != null">
-        #{orderPartsFee,jdbcType=DECIMAL},
-      </if>
-      <if test="carType != null">
-        #{carType,jdbcType=VARCHAR},
-      </if>
-      <if test="carColor != null">
-        #{carColor,jdbcType=VARCHAR},
-      </if>
-      <if test="carLicence != null">
-        #{carLicence,jdbcType=VARCHAR},
-      </if>
-      <if test="customerName != null">
-        #{customerName,jdbcType=VARCHAR},
-      </if>
-      <if test="customerTel != null">
-        #{customerTel,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.kaishengit.erp.entity.FixOrderExample" resultType="java.lang.Long">
-    select count(*) from fix_order
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-
-    <resultMap id="resultMapWithParts" type="com.kaishengit.erp.entity.FixOrder"/>
-    <select id="findListWithParts" resultMap="resultMapWithParts">
-        select * from fix_order
-
+        <include refid="Base_Column_List" />
+        from fix_order
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
     </select>
-    <update id="updateByExampleSelective" parameterType="map">
-    update fix_order
-    <set>
-      <if test="record.orderId != null">
-        order_id = #{record.orderId,jdbcType=INTEGER},
-      </if>
-      <if test="record.orderType != null">
-        order_type = #{record.orderType,jdbcType=VARCHAR},
-      </if>
-      <if test="record.orderTime != null">
-        order_time = #{record.orderTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.state != null">
-        state = #{record.state,jdbcType=VARCHAR},
-      </if>
-      <if test="record.orderMoney != null">
-        order_money = #{record.orderMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="record.orderServiceHour != null">
-        order_service_hour = #{record.orderServiceHour,jdbcType=INTEGER},
-      </if>
-      <if test="record.orderServiceHourFee != null">
-        order_service_hour_fee = #{record.orderServiceHourFee,jdbcType=DECIMAL},
-      </if>
-      <if test="record.orderPartsFee != null">
-        order_parts_fee = #{record.orderPartsFee,jdbcType=DECIMAL},
-      </if>
-      <if test="record.carType != null">
-        car_type = #{record.carType,jdbcType=VARCHAR},
-      </if>
-      <if test="record.carColor != null">
-        car_color = #{record.carColor,jdbcType=VARCHAR},
-      </if>
-      <if test="record.carLicence != null">
-        car_licence = #{record.carLicence,jdbcType=VARCHAR},
-      </if>
-      <if test="record.customerName != null">
-        customer_name = #{record.customerName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.customerTel != null">
-        customer_tel = #{record.customerTel,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update fix_order
-    set order_id = #{record.orderId,jdbcType=INTEGER},
-      order_type = #{record.orderType,jdbcType=VARCHAR},
-      order_time = #{record.orderTime,jdbcType=TIMESTAMP},
-      state = #{record.state,jdbcType=VARCHAR},
-      order_money = #{record.orderMoney,jdbcType=DECIMAL},
-      order_service_hour = #{record.orderServiceHour,jdbcType=INTEGER},
-      order_service_hour_fee = #{record.orderServiceHourFee,jdbcType=DECIMAL},
-      order_parts_fee = #{record.orderPartsFee,jdbcType=DECIMAL},
-      car_type = #{record.carType,jdbcType=VARCHAR},
-      car_color = #{record.carColor,jdbcType=VARCHAR},
-      car_licence = #{record.carLicence,jdbcType=VARCHAR},
-      customer_name = #{record.customerName,jdbcType=VARCHAR},
-      customer_tel = #{record.customerTel,jdbcType=VARCHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.kaishengit.erp.entity.FixOrder">
-    update fix_order
-    <set>
-      <if test="orderType != null">
-        order_type = #{orderType,jdbcType=VARCHAR},
-      </if>
-      <if test="orderTime != null">
-        order_time = #{orderTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="state != null">
-        state = #{state,jdbcType=VARCHAR},
-      </if>
-      <if test="orderMoney != null">
-        order_money = #{orderMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="orderServiceHour != null">
-        order_service_hour = #{orderServiceHour,jdbcType=INTEGER},
-      </if>
-      <if test="orderServiceHourFee != null">
-        order_service_hour_fee = #{orderServiceHourFee,jdbcType=DECIMAL},
-      </if>
-      <if test="orderPartsFee != null">
-        order_parts_fee = #{orderPartsFee,jdbcType=DECIMAL},
-      </if>
-      <if test="carType != null">
-        car_type = #{carType,jdbcType=VARCHAR},
-      </if>
-      <if test="carColor != null">
-        car_color = #{carColor,jdbcType=VARCHAR},
-      </if>
-      <if test="carLicence != null">
-        car_licence = #{carLicence,jdbcType=VARCHAR},
-      </if>
-      <if test="customerName != null">
-        customer_name = #{customerName,jdbcType=VARCHAR},
-      </if>
-      <if test="customerTel != null">
-        customer_tel = #{customerTel,jdbcType=VARCHAR},
-      </if>
-    </set>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from fix_order
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fix_order
     where order_id = #{orderId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.kaishengit.erp.entity.FixOrder">
+  </delete>
+    <delete id="deleteByExample" parameterType="com.kaishengit.erp.entity.FixOrderExample">
+        delete from fix_order
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.kaishengit.erp.entity.FixOrder">
+    insert into fix_order (order_id, order_type, order_time,
+      state, order_money, order_service_hour,
+      order_service_hour_fee, order_parts_fee, car_type,
+      car_color, car_licence, customer_name,
+      customer_tel, fix_employee_id, check_employee_id,
+      fix_employee_name, check_employee_name)
+    values (#{orderId,jdbcType=INTEGER}, #{orderType,jdbcType=VARCHAR}, #{orderTime,jdbcType=TIMESTAMP},
+      #{state,jdbcType=VARCHAR}, #{orderMoney,jdbcType=DECIMAL}, #{orderServiceHour,jdbcType=VARCHAR},
+      #{orderServiceHourFee,jdbcType=DECIMAL}, #{orderPartsFee,jdbcType=DECIMAL}, #{carType,jdbcType=VARCHAR},
+      #{carColor,jdbcType=VARCHAR}, #{carLicence,jdbcType=VARCHAR}, #{customerName,jdbcType=VARCHAR},
+      #{customerTel,jdbcType=VARCHAR}, #{fixEmployeeId,jdbcType=INTEGER}, #{checkEmployeeId,jdbcType=INTEGER},
+      #{fixEmployeeName,jdbcType=VARCHAR}, #{checkEmployeeName,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.kaishengit.erp.entity.FixOrder">
+        insert into fix_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="orderType != null">
+                order_type,
+            </if>
+            <if test="orderTime != null">
+                order_time,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="orderMoney != null">
+                order_money,
+            </if>
+            <if test="orderServiceHour != null">
+                order_service_hour,
+            </if>
+            <if test="orderServiceHourFee != null">
+                order_service_hour_fee,
+            </if>
+            <if test="orderPartsFee != null">
+                order_parts_fee,
+            </if>
+            <if test="carType != null">
+                car_type,
+            </if>
+            <if test="carColor != null">
+                car_color,
+            </if>
+            <if test="carLicence != null">
+                car_licence,
+            </if>
+            <if test="customerName != null">
+                customer_name,
+            </if>
+            <if test="customerTel != null">
+                customer_tel,
+            </if>
+            <if test="fixEmployeeId != null">
+                fix_employee_id,
+            </if>
+            <if test="checkEmployeeId != null">
+                check_employee_id,
+            </if>
+            <if test="fixEmployeeName != null">
+                fix_employee_name,
+            </if>
+            <if test="checkEmployeeName != null">
+                check_employee_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="orderType != null">
+                #{orderType,jdbcType=VARCHAR},
+            </if>
+            <if test="orderTime != null">
+                #{orderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="orderMoney != null">
+                #{orderMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="orderServiceHour != null">
+                #{orderServiceHour,jdbcType=VARCHAR},
+            </if>
+            <if test="orderServiceHourFee != null">
+                #{orderServiceHourFee,jdbcType=DECIMAL},
+            </if>
+            <if test="orderPartsFee != null">
+                #{orderPartsFee,jdbcType=DECIMAL},
+            </if>
+            <if test="carType != null">
+                #{carType,jdbcType=VARCHAR},
+            </if>
+            <if test="carColor != null">
+                #{carColor,jdbcType=VARCHAR},
+            </if>
+            <if test="carLicence != null">
+                #{carLicence,jdbcType=VARCHAR},
+            </if>
+            <if test="customerName != null">
+                #{customerName,jdbcType=VARCHAR},
+            </if>
+            <if test="customerTel != null">
+                #{customerTel,jdbcType=VARCHAR},
+            </if>
+            <if test="fixEmployeeId != null">
+                #{fixEmployeeId,jdbcType=INTEGER},
+            </if>
+            <if test="checkEmployeeId != null">
+                #{checkEmployeeId,jdbcType=INTEGER},
+            </if>
+            <if test="fixEmployeeName != null">
+                #{fixEmployeeName,jdbcType=VARCHAR},
+            </if>
+            <if test="checkEmployeeName != null">
+                #{checkEmployeeName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.kaishengit.erp.entity.FixOrderExample" resultType="java.lang.Long">
+        select count(*) from fix_order
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <resultMap id="resultMapWithParts" type="com.kaishengit.erp.entity.FixOrder" extends="BaseResultMap">
+        <collection property="partsList" ofType="com.kaishengit.erp.entity.FixOrderParts">
+            <id property="id" column="id"/>
+            <result property="orderId" column="order_id"/>
+            <result property="partsId" column="parts_id"/>
+            <result property="partsNo" column="parts_no"/>
+            <result property="partsName" column="parts_name"/>
+            <result property="partsNum" column="parts_num"/>
+        </collection>
+
+    </resultMap>
+    <select id="findListWithParts" resultMap="resultMapWithParts">
+        SELECT
+            fo.*, fop.id,
+            fop.parts_id,
+            fop.parts_no,
+            fop.parts_name,
+            fop.parts_num
+        FROM
+            fix_order fo
+        INNER JOIN fix_order_parts fop ON fo.order_id = fop.order_id
+        WHERE fo.state = 2 or fo.state = 3
+        order by fo.state,order_time
+    </select>
+    <select id="findWithPartsById" resultMap="resultMapWithParts">
+        SELECT
+            fo.*, fop.id,
+            fop.parts_id,
+            fop.parts_no,
+            fop.parts_name,
+            fop.parts_num
+        FROM
+            fix_order fo
+        INNER JOIN fix_order_parts fop ON fo.order_id = fop.order_id
+        where fo.order_id = #{id}
+    </select>
+
+    <update id="updateByExampleSelective" parameterType="map">
+        update fix_order
+        <set>
+            <if test="record.orderId != null">
+                order_id = #{record.orderId,jdbcType=INTEGER},
+            </if>
+            <if test="record.orderType != null">
+                order_type = #{record.orderType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.orderTime != null">
+                order_time = #{record.orderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.state != null">
+                state = #{record.state,jdbcType=VARCHAR},
+            </if>
+            <if test="record.orderMoney != null">
+                order_money = #{record.orderMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="record.orderServiceHour != null">
+                order_service_hour = #{record.orderServiceHour,jdbcType=VARCHAR},
+            </if>
+            <if test="record.orderServiceHourFee != null">
+                order_service_hour_fee = #{record.orderServiceHourFee,jdbcType=DECIMAL},
+            </if>
+            <if test="record.orderPartsFee != null">
+                order_parts_fee = #{record.orderPartsFee,jdbcType=DECIMAL},
+            </if>
+            <if test="record.carType != null">
+                car_type = #{record.carType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.carColor != null">
+                car_color = #{record.carColor,jdbcType=VARCHAR},
+            </if>
+            <if test="record.carLicence != null">
+                car_licence = #{record.carLicence,jdbcType=VARCHAR},
+            </if>
+            <if test="record.customerName != null">
+                customer_name = #{record.customerName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.customerTel != null">
+                customer_tel = #{record.customerTel,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fixEmployeeId != null">
+                fix_employee_id = #{record.fixEmployeeId,jdbcType=INTEGER},
+            </if>
+            <if test="record.checkEmployeeId != null">
+                check_employee_id = #{record.checkEmployeeId,jdbcType=INTEGER},
+            </if>
+            <if test="record.fixEmployeeName != null">
+                fix_employee_name = #{record.fixEmployeeName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.checkEmployeeName != null">
+                check_employee_name = #{record.checkEmployeeName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update fix_order
+        set order_id = #{record.orderId,jdbcType=INTEGER},
+        order_type = #{record.orderType,jdbcType=VARCHAR},
+        order_time = #{record.orderTime,jdbcType=TIMESTAMP},
+        state = #{record.state,jdbcType=VARCHAR},
+        order_money = #{record.orderMoney,jdbcType=DECIMAL},
+        order_service_hour = #{record.orderServiceHour,jdbcType=VARCHAR},
+        order_service_hour_fee = #{record.orderServiceHourFee,jdbcType=DECIMAL},
+        order_parts_fee = #{record.orderPartsFee,jdbcType=DECIMAL},
+        car_type = #{record.carType,jdbcType=VARCHAR},
+        car_color = #{record.carColor,jdbcType=VARCHAR},
+        car_licence = #{record.carLicence,jdbcType=VARCHAR},
+        customer_name = #{record.customerName,jdbcType=VARCHAR},
+        customer_tel = #{record.customerTel,jdbcType=VARCHAR},
+        fix_employee_id = #{record.fixEmployeeId,jdbcType=INTEGER},
+        check_employee_id = #{record.checkEmployeeId,jdbcType=INTEGER},
+        fix_employee_name = #{record.fixEmployeeName,jdbcType=VARCHAR},
+        check_employee_name = #{record.checkEmployeeName,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.kaishengit.erp.entity.FixOrder">
+        update fix_order
+        <set>
+            <if test="orderType != null">
+                order_type = #{orderType,jdbcType=VARCHAR},
+            </if>
+            <if test="orderTime != null">
+                order_time = #{orderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="orderMoney != null">
+                order_money = #{orderMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="orderServiceHour != null">
+                order_service_hour = #{orderServiceHour,jdbcType=VARCHAR},
+            </if>
+            <if test="orderServiceHourFee != null">
+                order_service_hour_fee = #{orderServiceHourFee,jdbcType=DECIMAL},
+            </if>
+            <if test="orderPartsFee != null">
+                order_parts_fee = #{orderPartsFee,jdbcType=DECIMAL},
+            </if>
+            <if test="carType != null">
+                car_type = #{carType,jdbcType=VARCHAR},
+            </if>
+            <if test="carColor != null">
+                car_color = #{carColor,jdbcType=VARCHAR},
+            </if>
+            <if test="carLicence != null">
+                car_licence = #{carLicence,jdbcType=VARCHAR},
+            </if>
+            <if test="customerName != null">
+                customer_name = #{customerName,jdbcType=VARCHAR},
+            </if>
+            <if test="customerTel != null">
+                customer_tel = #{customerTel,jdbcType=VARCHAR},
+            </if>
+            <if test="fixEmployeeId != null">
+                fix_employee_id = #{fixEmployeeId,jdbcType=INTEGER},
+            </if>
+            <if test="checkEmployeeId != null">
+                check_employee_id = #{checkEmployeeId,jdbcType=INTEGER},
+            </if>
+            <if test="fixEmployeeName != null">
+                fix_employee_name = #{fixEmployeeName,jdbcType=VARCHAR},
+            </if>
+            <if test="checkEmployeeName != null">
+                check_employee_name = #{checkEmployeeName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.kaishengit.erp.entity.FixOrder">
     update fix_order
     set order_type = #{orderType,jdbcType=VARCHAR},
       order_time = #{orderTime,jdbcType=TIMESTAMP},
       state = #{state,jdbcType=VARCHAR},
       order_money = #{orderMoney,jdbcType=DECIMAL},
-      order_service_hour = #{orderServiceHour,jdbcType=INTEGER},
+      order_service_hour = #{orderServiceHour,jdbcType=VARCHAR},
       order_service_hour_fee = #{orderServiceHourFee,jdbcType=DECIMAL},
       order_parts_fee = #{orderPartsFee,jdbcType=DECIMAL},
       car_type = #{carType,jdbcType=VARCHAR},
       car_color = #{carColor,jdbcType=VARCHAR},
       car_licence = #{carLicence,jdbcType=VARCHAR},
       customer_name = #{customerName,jdbcType=VARCHAR},
-      customer_tel = #{customerTel,jdbcType=VARCHAR}
+      customer_tel = #{customerTel,jdbcType=VARCHAR},
+      fix_employee_id = #{fixEmployeeId,jdbcType=INTEGER},
+      check_employee_id = #{checkEmployeeId,jdbcType=INTEGER},
+      fix_employee_name = #{fixEmployeeName,jdbcType=VARCHAR},
+      check_employee_name = #{checkEmployeeName,jdbcType=VARCHAR}
     where order_id = #{orderId,jdbcType=INTEGER}
   </update>
 </mapper>

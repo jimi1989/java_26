@@ -9,7 +9,16 @@ import java.util.List;
  * @author 
  */
 public class FixOrder implements Serializable {
-    /**
+    
+	/**
+     * 维修订单状态 3：维修中 4：维修完成 5：质检中 6：质检完成
+     */
+    public static final String ORDER_STATE_FIXING = "3";
+    public static final String ORDER_STATE_FIXED = "4";
+    public static final String ORDER_STATE_CHECKING = "5";
+    public static final String ORDER_STATE_CHECKED = "6";
+	
+	/**
      * 订单号
      */
     private Integer orderId;
@@ -25,7 +34,7 @@ public class FixOrder implements Serializable {
     private Date orderTime;
 
     /**
-     * 订单状态：2：已下发 3：维修中 4：维修完成 5：质检中 6：结算中
+     * 订单状态：2：已下发 3：维修中 4：维修完成 5：质检中 6：质检完成
      */
     private String state;
 
@@ -74,7 +83,35 @@ public class FixOrder implements Serializable {
      */
     private String customerTel;
 
-    private List<Parts> partsList;
+    /**
+     * 维修人员id
+     */
+    private Integer fixEmployeeId;
+
+	 /**
+     * 质检人员id
+     */
+    private Integer checkEmployeeId;
+
+	 /**
+     * 维修人员姓名
+     */
+    private String fixEmployeeName;
+
+	 /**
+     * 质检人员姓名
+     */
+    private String checkEmployeeName;
+
+    private List<FixOrderParts> partsList;
+
+    public List<FixOrderParts> getPartsList() {
+        return partsList;
+    }
+
+    public void setPartsList(List<FixOrderParts> partsList) {
+        this.partsList = partsList;
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -182,12 +219,36 @@ public class FixOrder implements Serializable {
         this.customerTel = customerTel;
     }
 
-    public List<Parts> getPartsList() {
-        return partsList;
+    public Integer getFixEmployeeId() {
+        return fixEmployeeId;
     }
 
-    public void setPartsList(List<Parts> partsList) {
-        this.partsList = partsList;
+    public void setFixEmployeeId(Integer fixEmployeeId) {
+        this.fixEmployeeId = fixEmployeeId;
+    }
+
+    public Integer getCheckEmployeeId() {
+        return checkEmployeeId;
+    }
+
+    public void setCheckEmployeeId(Integer checkEmployeeId) {
+        this.checkEmployeeId = checkEmployeeId;
+    }
+
+    public String getFixEmployeeName() {
+        return fixEmployeeName;
+    }
+
+    public void setFixEmployeeName(String fixEmployeeName) {
+        this.fixEmployeeName = fixEmployeeName;
+    }
+
+    public String getCheckEmployeeName() {
+        return checkEmployeeName;
+    }
+
+    public void setCheckEmployeeName(String checkEmployeeName) {
+        this.checkEmployeeName = checkEmployeeName;
     }
 
     @Override
@@ -214,7 +275,11 @@ public class FixOrder implements Serializable {
             && (this.getCarColor() == null ? other.getCarColor() == null : this.getCarColor().equals(other.getCarColor()))
             && (this.getCarLicence() == null ? other.getCarLicence() == null : this.getCarLicence().equals(other.getCarLicence()))
             && (this.getCustomerName() == null ? other.getCustomerName() == null : this.getCustomerName().equals(other.getCustomerName()))
-            && (this.getCustomerTel() == null ? other.getCustomerTel() == null : this.getCustomerTel().equals(other.getCustomerTel()));
+            && (this.getCustomerTel() == null ? other.getCustomerTel() == null : this.getCustomerTel().equals(other.getCustomerTel()))
+            && (this.getFixEmployeeId() == null ? other.getFixEmployeeId() == null : this.getFixEmployeeId().equals(other.getFixEmployeeId()))
+            && (this.getCheckEmployeeId() == null ? other.getCheckEmployeeId() == null : this.getCheckEmployeeId().equals(other.getCheckEmployeeId()))
+            && (this.getFixEmployeeName() == null ? other.getFixEmployeeName() == null : this.getFixEmployeeName().equals(other.getFixEmployeeName()))
+            && (this.getCheckEmployeeName() == null ? other.getCheckEmployeeName() == null : this.getCheckEmployeeName().equals(other.getCheckEmployeeName()));
     }
 
     @Override
@@ -234,6 +299,10 @@ public class FixOrder implements Serializable {
         result = prime * result + ((getCarLicence() == null) ? 0 : getCarLicence().hashCode());
         result = prime * result + ((getCustomerName() == null) ? 0 : getCustomerName().hashCode());
         result = prime * result + ((getCustomerTel() == null) ? 0 : getCustomerTel().hashCode());
+        result = prime * result + ((getFixEmployeeId() == null) ? 0 : getFixEmployeeId().hashCode());
+        result = prime * result + ((getCheckEmployeeId() == null) ? 0 : getCheckEmployeeId().hashCode());
+        result = prime * result + ((getFixEmployeeName() == null) ? 0 : getFixEmployeeName().hashCode());
+        result = prime * result + ((getCheckEmployeeName() == null) ? 0 : getCheckEmployeeName().hashCode());
         return result;
     }
 
@@ -256,6 +325,10 @@ public class FixOrder implements Serializable {
         sb.append(", carLicence=").append(carLicence);
         sb.append(", customerName=").append(customerName);
         sb.append(", customerTel=").append(customerTel);
+        sb.append(", fixEmployeeId=").append(fixEmployeeId);
+        sb.append(", checkEmployeeId=").append(checkEmployeeId);
+        sb.append(", fixEmployeeName=").append(fixEmployeeName);
+        sb.append(", checkEmployeeName=").append(checkEmployeeName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
