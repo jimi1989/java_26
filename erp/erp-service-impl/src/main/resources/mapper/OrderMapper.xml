@@ -218,6 +218,7 @@
           car.licence_no,
           car.car_no,
           car.customer_id,
+          car.color,
           customer.user_name,
           customer.id_card,
           customer.tel

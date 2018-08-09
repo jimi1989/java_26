@@ -5,23 +5,23 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- 开启扫描-->
-    <context:component-scan base-package="com.kaishengit"/>
+    <!--<context:component-scan base-package="com.kaishengit"/>-->
 
     <!--0.设置重试机制-->
-    <bean id="redeliveryPolicy" class="org.apache.activemq.RedeliveryPolicy">
-        <!--重试次数-->
-        <property name="maximumRedeliveries" value="3"/>
-        <!--首次重试的延迟时间-->
-        <property name="initialRedeliveryDelay" value="3000"/>
-        <!--每次重试的延迟时间-->
-        <property name="redeliveryDelay" value="3000"/>
-    </bean>
+    <!--<bean id="redeliveryPolicy" class="org.apache.activemq.RedeliveryPolicy">-->
+        <!--&lt;!&ndash;重试次数&ndash;&gt;-->
+        <!--<property name="maximumRedeliveries" value="3"/>-->
+        <!--&lt;!&ndash;首次重试的延迟时间&ndash;&gt;-->
+        <!--<property name="initialRedeliveryDelay" value="3000"/>-->
+        <!--&lt;!&ndash;每次重试的延迟时间&ndash;&gt;-->
+        <!--<property name="redeliveryDelay" value="3000"/>-->
+    <!--</bean>-->
 
 
     <!--1. 配置ActiveMQ ConnectionFactory-->
     <bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
         <property name="brokerURL" value="tcp://localhost:61616"/>
-        <property name="redeliveryPolicy" ref="redeliveryPolicy"/>
+        <!--<property name="redeliveryPolicy" ref="redeliveryPolicy"/>-->
     </bean>
 
     <!--2. Spring适配的连接工厂-->
@@ -42,7 +42,7 @@
     <bean id="consumerListener4" class="com.kaishengit.mq.ConsumerListener4"/>
 
     <!--5. 配置多个监听器-->
-    <jms:listener-container acknowledge="client" connection-factory="connectionFactory" concurrency="3-10">
+    <jms:listener-container acknowledge="client">
         <jms:listener destination="spring-queue" ref="consumerListener4"/>
     </jms:listener-container>
 

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.springframework.org/schema/jms"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--0.设置重试机制-->
+    <bean id="redeliveryPolicy" class="org.apache.activemq.RedeliveryPolicy">
+        <!--重试次数-->
+        <property name="maximumRedeliveries" value="3"/>
+        <!--首次重试的延迟时间-->
+        <property name="initialRedeliveryDelay" value="3000"/>
+        <!--每次重试的延迟时间-->
+        <property name="redeliveryDelay" value="3000"/>
+    </bean>
+
+
+    <!--1. 配置ActiveMQ ConnectionFactory-->
+    <bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://118.24.153.214:61616"/>
+        <property name="redeliveryPolicy" ref="redeliveryPolicy"/>
+    </bean>
+
+    <!--2. Spring适配的连接工厂-->
+    <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+        <property name="targetConnectionFactory" ref="activeMQConnectionFactory"/>
+    </bean>
+
+    <!-- 3. 配置jmsTemplate-->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <!--配置的默认的目的地地址-->
+        <property name="defaultDestinationName" value="order-queue"/>
+        <!--客户端签收模式-->
+        <property name="sessionAcknowledgeMode" value="2"/>
+    </bean>
+
+    <!--4. 配置消费者的监听器-->
+    <bean id="fixOrderListener" class="com.kaishengit.erp.mq.FixOrderListener"/>
+
+    <!--5. 配置多个监听器-->
+    <jms:listener-container acknowledge="client" concurrency="3-10">
+        <jms:listener destination="order-queue" ref="fixOrderListener"/>
+    </jms:listener-container>
+
+</beans>

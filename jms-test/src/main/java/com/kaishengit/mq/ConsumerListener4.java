@@ -15,11 +15,11 @@ public class ConsumerListener4 implements SessionAwareMessageListener {
 
         try {
             System.out.println("====>" + textMessage.getText());
-            if(textMessage.getText().startsWith("spring,mq")) {
-                throw new JMSException("出异常了");
-            }
+//            if(textMessage.getText().startsWith("spring,mq")) {
+//                throw new JMSException("出异常了");
+//            }
 
-            textMessage.acknowledge();
+            // textMessage.acknowledge();
         } catch (JMSException e) {
             e.printStackTrace();
             session.recover();

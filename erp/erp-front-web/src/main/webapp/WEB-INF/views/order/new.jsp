@@ -289,7 +289,11 @@
                 for(var i = 0; i < this.choosePartsList.length; i++) {
                     if(this.chooseParts == this.choosePartsList[i]) {
                         addFlag = true;
-                        this.choosePartsList[i].num = this.choosePartsList[i].num + 1;
+                        if(this.choosePartsList[i].num < this.choosePartsList[i].inventory) {
+                            this.choosePartsList[i].num = this.choosePartsList[i].num + 1;
+                        } else {
+                            layer.msg("库存不足");
+                        }
                         break;
                     }
                 }
@@ -316,7 +320,11 @@
                 }
             },
             plus:function(item){
-                item.num++;
+                if(item.num < item.inventory) {
+                    item.num++;
+                } else {
+                    layer.msg("库存不足")
+                }
             },
             delParts:function(item){
                 var index = this.choosePartsList.indexOf(item);

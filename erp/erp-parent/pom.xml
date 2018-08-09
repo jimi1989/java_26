@@ -14,6 +14,7 @@
         <module>../erp-service-impl</module>
         <module>../erp-admin-web</module>
         <module>../erp-front-web</module>
+        <module>../erp-fix-web</module>
     </modules>
 
     <properties>

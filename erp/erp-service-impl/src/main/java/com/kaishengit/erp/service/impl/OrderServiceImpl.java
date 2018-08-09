@@ -2,6 +2,8 @@ package com.kaishengit.erp.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
+import com.kaishengit.erp.dto.OrderInfoDto;
 import com.kaishengit.erp.entity.*;
 import com.kaishengit.erp.exception.ServiceException;
 import com.kaishengit.erp.mapper.*;
@@ -12,11 +14,17 @@ import com.kaishengit.erp.vo.PartsVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
 import java.util.List;
 import java.util.Map;
+
 
 /**
  * @author jinjianghao
@@ -42,6 +50,11 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderPartsMapper orderPartsMapper;
 
+    @Autowired
+    private PartsMapper partsMapper;
+
+    @Autowired
+    JmsTemplate jmsTemplate;
     /**
      * 查询所有的类型
      *
@@ -178,6 +191,7 @@ public class OrderServiceImpl implements OrderService {
      * @param id
      */
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public void transOrder(Integer id) throws ServiceException{
         Order order = orderMapper.selectByPrimaryKey(id);
         if(order == null) {
@@ -191,6 +205,38 @@ public class OrderServiceImpl implements OrderService {
         // 设置订单状态为已下发
         order.setState(Order.ORDER_STATE_TRANS);
         orderMapper.updateByPrimaryKeySelective(order);
+
+        // 订单下发后将订单信息发送到消息队列
+       sendOrderInfoToMq(id);
+
+    }
+
+    /**
+     * 发送订单详情信息到队列中
+     * @param id
+     */
+    private void sendOrderInfoToMq(Integer id) {
+        // 获得订单信息
+        Order order = orderMapper.findWithCarInfoById(id);
+        // 获得订单服务类型信息
+        ServiceType serviceType = serviceTypeMapper.selectByPrimaryKey(order.getServiceTypeId());
+        // 获得订单配件列表
+        List<Parts> partsList = partsMapper.findByOrderId(id);
+
+        OrderInfoDto orderInfoDto = new OrderInfoDto();
+        orderInfoDto.setOrder(order);
+        orderInfoDto.setServiceType(serviceType);
+        orderInfoDto.setPartsList(partsList);
+
+        // 转成json发送到mq队列
+        String json = new Gson().toJson(orderInfoDto);
+
+        jmsTemplate.send(new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                return session.createTextMessage(json);
+            }
+        });
     }
 
 

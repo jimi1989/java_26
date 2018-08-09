@@ -134,7 +134,9 @@ public class PartsServiceImpl implements PartsService {
     @Override
     public List<Parts> findPartsByType(Integer id) {
         PartsExample partsExample = new PartsExample();
-        partsExample.createCriteria().andTypeIdEqualTo(id);
+        // 查找库存量大于0
+        partsExample.createCriteria().andTypeIdEqualTo(id)
+            .andInventoryGreaterThan(0);
         return partsMapper.selectByExample(partsExample);
     }
 

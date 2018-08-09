@@ -48,7 +48,7 @@
     <!--配置shiroFilter过滤器-->
     <!--id属性值必须和web.xml中的filter的filter-name节点保持一致-->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-       <!--配置安全管理器-->
+        <!--配置安全管理器-->
         <property name="securityManager" ref="securityManager"/>
         <!--配置登录的URL-->
         <property name="loginUrl" value="/"/>
