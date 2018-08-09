@@ -1,9 +1,12 @@
 package com.kaishengit.erp.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.kaishengit.erp.entity.Employee;
 import com.kaishengit.erp.entity.Parts;
 import com.kaishengit.erp.entity.Type;
 import com.kaishengit.erp.service.PartsService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,7 +65,9 @@ public class PartsController {
 
     @PostMapping("/new")
     public String partsNew(Parts parts, RedirectAttributes redirectAttributes) {
-        partsService.saveParts(parts);
+        Subject subject = SecurityUtils.getSubject();
+        Employee employee = (Employee) subject.getPrincipal();
+        partsService.saveParts(parts, employee.getId());
         redirectAttributes.addFlashAttribute("message", "入库成功");
         return "redirect:/parts";
     }

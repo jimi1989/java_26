@@ -1,7 +1,9 @@
 package com.kaishengit.erp.controller;
 
+import com.kaishengit.erp.dto.ResponseBean;
 import com.kaishengit.erp.entity.Employee;
 import com.kaishengit.erp.entity.FixOrder;
+import com.kaishengit.erp.exception.ServiceException;
 import com.kaishengit.erp.service.FixOrderService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -11,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -33,12 +36,17 @@ public class FixController {
     }
 
     @GetMapping("/{id:\\d+}/receive")
-    public String receiveTask(@PathVariable Integer id) {
+    @ResponseBody
+    public ResponseBean receiveTask(@PathVariable Integer id) {
         // 获得当前登录的员工对象
         Subject subject = SecurityUtils.getSubject();
         Employee employee = (Employee) subject.getPrincipal();
-        fixOrderService.taskReceive(id, employee);
-        return "redirect:/fix/" + id + "/detail";
+        try {
+            fixOrderService.taskReceive(id, employee);
+        }catch (ServiceException e) {
+            return ResponseBean.error(e.getMessage());
+        }
+        return ResponseBean.success();
     }
 
     @GetMapping("/{id:\\d+}/detail")
@@ -51,6 +59,12 @@ public class FixController {
         model.addAttribute("curr_employee_id", employee.getId());
         model.addAttribute("fixOrder", fixOrder);
         return "fix/detail";
+    }
+
+    @GetMapping("/{id:\\d+}/done")
+    public String taskDone(@PathVariable Integer id){
+        fixOrderService.taskDone(id);
+        return "redirect:/fix/list";
     }
 
 }

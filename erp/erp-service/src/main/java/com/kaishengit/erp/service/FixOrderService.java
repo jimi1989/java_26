@@ -2,6 +2,7 @@ package com.kaishengit.erp.service;
 
 import com.kaishengit.erp.entity.Employee;
 import com.kaishengit.erp.entity.FixOrder;
+import com.kaishengit.erp.exception.ServiceException;
 
 import java.util.List;
 
@@ -26,13 +27,20 @@ public interface FixOrderService {
     /**
      * 任务领取
      * @param id
-     * @param Employee
+     * @param employee
+     * @throws ServiceException 还有未完成的任务，不能接收新任务
      */
-    void taskReceive(Integer id, Employee Employee);
+    void taskReceive(Integer id, Employee employee) throws ServiceException;
 
     /**
      * 任务详情服务页面
      * @param id
      */
     FixOrder getFixOrder(Integer id);
+
+    /**
+     * 任务完成
+     * @param id
+     */
+    void taskDone(Integer id);
 }

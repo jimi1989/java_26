@@ -34,6 +34,10 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-body">
+                    <c:if test="${empty fixOrderList}">
+                        <h4>暂无任务</h4>
+                    </c:if>
+
                     <c:forEach items="${fixOrderList}" var="fixOrder">
                         <div class="panel panel-info">
                             <!-- Default panel contents -->
@@ -74,8 +78,14 @@
         $(".receiveBtn").click(function() {
             var orderId = $(this).attr("rel");
             layer.confirm("确定接收该任务么？", function(){
-                // 改成ajax方式：error：当前员工已有正在进行的维修任务
-                window.location.href = "/fix/" + orderId + "/receive";
+                $.get("/fix/" + orderId + "/receive",function (res) {
+                    if(res.state == "success") {
+                        window.location.href = "/fix/" + orderId + "/detail";
+                    } else {
+                        layer.msg(res.message);
+                    }
+                })
+
             })
         })
     })

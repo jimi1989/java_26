@@ -2,10 +2,10 @@ package com.kaishengit.erp.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.kaishengit.erp.entity.Parts;
-import com.kaishengit.erp.entity.PartsExample;
-import com.kaishengit.erp.entity.Type;
-import com.kaishengit.erp.entity.TypeExample;
+import com.google.gson.Gson;
+import com.kaishengit.erp.dto.FixOrderPartsVo;
+import com.kaishengit.erp.entity.*;
+import com.kaishengit.erp.mapper.PartsStreamMapper;
 import com.kaishengit.erp.service.PartsService;
 import com.kaishengit.erp.mapper.PartsMapper;
 import com.kaishengit.erp.mapper.TypeMapper;
@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,9 @@ public class PartsServiceImpl implements PartsService {
 
     @Autowired
     private TypeMapper typeMapper;
+
+    @Autowired
+    private PartsStreamMapper partsStreamMapper;
 
     /**
      * 根据id查询对应的配件对象
@@ -99,10 +103,26 @@ public class PartsServiceImpl implements PartsService {
      * @param parts
      */
     @Override
-    public void saveParts(Parts parts) {
-        partsMapper.insertSelective(parts);
-        // TODO 增加配件入库流水业务 如果该配件存在则修改库存数量
-        logger.debug("新增的配件：{}", parts);
+    public void saveParts(Parts parts, Integer employeeId) {
+        Parts dbParts = partsMapper.selectByPrimaryKey(parts.getId());
+
+        if(dbParts == null) {
+            partsMapper.insertSelective(parts);
+        } else {
+            // 如果该配件存在则修改库存数量
+            dbParts.setInventory(dbParts.getInventory() + parts.getInventory());
+            partsMapper.updateByPrimaryKey(dbParts);
+        }
+
+        //  增加配件入库流水业务
+        PartsStream partsStream = new PartsStream();
+        partsStream.setEmployeeId(employeeId);
+        partsStream.setPartsId(parts.getId());
+        partsStream.setNum(parts.getInventory());
+        partsStream.setType(PartsStream.PARTS_STREAM_TYPE_IN);
+
+        partsStreamMapper.insertSelective(partsStream);
+        logger.debug("配件入库：{}", parts);
     }
 
     /**
@@ -150,6 +170,36 @@ public class PartsServiceImpl implements PartsService {
     public List<Parts> findPartsByOrderId(Integer orderId) {
         List<Parts> partsList = partsMapper.findByOrderId(orderId);
         return partsList;
+    }
+
+    /**
+     * 减少库存
+     *
+     * @param json
+     */
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void subInventory(String json) {
+        FixOrderPartsVo fixOrderPartsVo = new Gson().fromJson(json, FixOrderPartsVo.class);
+        for(FixOrderParts fixOrderParts : fixOrderPartsVo.getFixOrderPartsList()) {
+            // 更新库存
+            Parts parts = partsMapper.selectByPrimaryKey(fixOrderParts.getPartsId());
+            parts.setInventory(parts.getInventory() - fixOrderParts.getPartsNum());
+
+            partsMapper.updateByPrimaryKeySelective(parts);
+
+            // 生成出库流水
+            PartsStream partsStream = new PartsStream();
+            partsStream.setOrderId(fixOrderParts.getOrderId());
+            partsStream.setEmployeeId(fixOrderPartsVo.getEmployeeId());
+            partsStream.setPartsId(fixOrderParts.getPartsId());
+            partsStream.setNum(fixOrderParts.getPartsNum());
+            partsStream.setType(PartsStream.PARTS_STREAM_TYPE_OUT);
+
+            partsStreamMapper.insertSelective(partsStream);
+            logger.info("{} 配件出库", partsStream);
+        }
+
     }
 
 

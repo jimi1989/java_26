@@ -290,7 +290,7 @@
                     if(this.chooseParts == this.choosePartsList[i]) {
                         addFlag = true;
                         if(this.choosePartsList[i].num < this.choosePartsList[i].inventory) {
-                            this.choosePartsList[i].num = this.choosePartsList[i].num + 1;
+                            this.choosePartsList[i].num ++;
                         } else {
                             layer.msg("库存不足");
                         }

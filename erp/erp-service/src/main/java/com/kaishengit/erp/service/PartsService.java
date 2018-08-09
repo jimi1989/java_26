@@ -44,7 +44,7 @@ public interface PartsService {
      * 配件入库
      * @param parts
      */
-    void saveParts(Parts parts);
+    void saveParts(Parts parts, Integer employeeId);
 
     /**
      * 删除配件
@@ -67,4 +67,10 @@ public interface PartsService {
      * @return
      */
     List<Parts> findPartsByOrderId(Integer id);
+
+    /**
+     * 减少库存
+     * @param json
+     */
+    void subInventory(String json);
 }

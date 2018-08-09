@@ -231,11 +231,15 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.updateByPrimaryKeySelective(order);
 
         // 新增订单操作员工
-        OrderEmployee orderEmployee = new OrderEmployee();
-        orderEmployee.setEmployeeId(orderStateDto.getEmployeeId());
-        orderEmployee.setOrderId(order.getId());
+        // 如果员工的employeeId==null 则代表员工订单关联关系不需要新增
+        if (orderStateDto.getEmployeeId() != null) {
+            OrderEmployee orderEmployee = new OrderEmployee();
+            orderEmployee.setEmployeeId(orderStateDto.getEmployeeId());
+            orderEmployee.setOrderId(order.getId());
 
-        orderEmployeeMapper.insertSelective(orderEmployee);
+            orderEmployeeMapper.insertSelective(orderEmployee);
+        }
+
     }
 
     /**
