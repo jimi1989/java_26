@@ -1,4 +1,4 @@
-package erp.shiro;
+package com.kaishengit.erp.shiro;
 
 import com.kaishengit.erp.entity.Permission;
 import com.kaishengit.erp.service.RolePermissionService;

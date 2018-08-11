@@ -1,4 +1,4 @@
-package erp.controller;
+package com.kaishengit.erp.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.kaishengit.erp.entity.Employee;
@@ -72,7 +72,7 @@ public class PartsController {
         return "redirect:/parts";
     }
 
-    @GetMapping
+    @GetMapping("/home")
     public String list(@RequestParam(name = "p",defaultValue = "1",required = false) Integer pageNo,
                        @RequestParam(required = false) String partsName,
                        @RequestParam(required = false) Integer partsType,

@@ -1,4 +1,4 @@
-package erp.controller.exceptionHandler;
+package com.kaishengit.erp.controller.exceptionHandler;
 
 import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;

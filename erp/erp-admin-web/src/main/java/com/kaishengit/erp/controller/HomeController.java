@@ -64,15 +64,19 @@ public class HomeController {
         try {
             subject.login(usernamePasswordToken);
 
-            // 判断跳转路径
-            SavedRequest savedRequest = WebUtils.getSavedRequest(request);
-            String url = "/home";
-            if(savedRequest != null) {
-                // 获得callback的url
-                url = savedRequest.getRequestUrl();
-            }
+            if(subject.hasRole("admin")) {
+                // 判断跳转路径
+                SavedRequest savedRequest = WebUtils.getSavedRequest(request);
+                String url = "/home";
+                if(savedRequest != null) {
+                    // 获得callback的url
+                    url = savedRequest.getRequestUrl();
+                }
 
-            return "redirect:" + url;
+                return "redirect:" + url;
+            } else {
+                redirectAttributes.addFlashAttribute("message", "您没有访问该系统的权限");
+            }
         }catch (UnknownAccountException|IncorrectCredentialsException e) {
             redirectAttributes.addFlashAttribute("message", "用户名或者密码错误");
         } catch (LockedAccountException e) {

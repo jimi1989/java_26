@@ -1,4 +1,4 @@
-package erp.shiro;
+package com.kaishengit.erp.shiro;
 
 import com.kaishengit.erp.entity.Employee;
 import com.kaishengit.erp.entity.EmployeeLoginLog;

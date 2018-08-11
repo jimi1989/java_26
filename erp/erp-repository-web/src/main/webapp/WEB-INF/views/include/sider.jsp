@@ -7,21 +7,24 @@
     <section class="sidebar">
         <!-- 菜单 -->
         <ul class="sidebar-menu">
-            <li class="header">系统功能</li>
-            <!-- 汽车服务 -->
-            <li class="treeview ${param.menu == 'order' ? 'active' : ''}">
+            <li class="header ${param.menu == 'home' ? 'active' : ''}">系统功能</li>
+
+            <!-- 库存管理 -->
+            <li class="treeview  ${param.menu == 'parts'? 'active' : ''}">
                 <a href="#">
-                    <i class="fa fa-share-alt"></i> <span>汽车服务</span>
+                    <i class="fa fa-home"></i> <span>库存管理</span>
                     <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/order/undone/list"><i class="fa fa-circle-o"></i>订单查询</a></li>
-                    <li><a href="/order/new"><i class="fa fa-circle-o"></i>新增订单</a></li>
+                    <li><a href="/parts/home"><i class="fa fa-circle-o"></i>配件管理</a></li>
+                    <li><a href="/parts/type/home"><i class="fa fa-circle-o"></i>类型管理</a></li>
+                    <li><a href="/parts/new"><i class="fa fa-circle-o"></i>配件入库</a></li>
+                    <li><a href="/parts/stream/in"><i class="fa fa-circle-o"></i>入库查询</a></li>
+                    <li><a href="/parts/stream/out"><i class="fa fa-circle-o"></i>出库查询</a></li>
                 </ul>
             </li>
-
         </ul>
     </section>
     <!-- /.sidebar -->

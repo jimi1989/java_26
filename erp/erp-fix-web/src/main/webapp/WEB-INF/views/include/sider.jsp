@@ -17,8 +17,8 @@
               </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/fix/home"><i class="fa fa-circle-o"></i>保养维修</a></li>
-                    <li><a href="/check/home"><i class="fa fa-circle-o"></i>质量检测</a></li>
+                    <li><a href="/fix/list"><i class="fa fa-circle-o"></i>保养维修</a></li>
+                    <li><a href="/check/list"><i class="fa fa-circle-o"></i>质量检测</a></li>
                 </ul>
             </li>
 

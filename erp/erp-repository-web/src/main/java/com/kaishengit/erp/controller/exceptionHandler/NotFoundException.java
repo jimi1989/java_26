@@ -1,4 +1,4 @@
-package erp.controller.exceptionHandler;
+package com.kaishengit.erp.controller.exceptionHandler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

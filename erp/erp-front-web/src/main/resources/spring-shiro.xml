@@ -27,14 +27,14 @@
         <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
     </bean>
     <!--3.配置自定义的realm-->
-    <bean id="myRealm" class="com.kaishengit.erp.shiro.MyRealm">
+    <bean id="myRealm" class="com.kaishengit.MyRealm">
     </bean>
 
     <!--配置生命周期管理器-->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
 
-    <bean id="filterChainDefinitionMap" class="com.kaishengit.erp.shiro.CustomerFilterChainDefinition">
+    <bean id="filterChainDefinitionMap" class="com.kaishengit.CustomerFilterChainDefinition">
         <property name="shiroFilter" ref="shiroFilter"/>
         <property name="filterChainDefinitions">
             <value>
