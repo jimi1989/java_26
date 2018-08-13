@@ -45,7 +45,7 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath*:spring*.xml</param-value>
+        <param-value>classpath*:spring/*.xml</param-value>
     </context-param>
 
     <!--配置中央控制器-->

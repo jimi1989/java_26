@@ -27,7 +27,6 @@ import java.util.List;
  * @author jinjianghao
  * @date 2018/8/8
  */
-@Service
 public class FixOrderServiceImpl implements FixOrderService {
 
     @Autowired

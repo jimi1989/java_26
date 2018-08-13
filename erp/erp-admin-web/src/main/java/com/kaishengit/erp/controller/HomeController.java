@@ -24,9 +24,6 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class HomeController {
 
-    @Autowired
-    private EmployeeService employeeService;
-
     @GetMapping("/home")
     public String home() {
         return "home";

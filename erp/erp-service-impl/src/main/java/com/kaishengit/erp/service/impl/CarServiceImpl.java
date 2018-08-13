@@ -19,7 +19,6 @@ import java.util.List;
  * @author jinjianghao
  * @date 2018/8/2
  */
-@Service
 public class CarServiceImpl implements CarService {
 
     private Logger logger = LoggerFactory.getLogger(CarServiceImpl.class);

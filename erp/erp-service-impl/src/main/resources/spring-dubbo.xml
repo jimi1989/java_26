@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="ErpServiceProvider"/>
+
+    <dubbo:registry address="zookeeper://192.168.1.179:2181"/>
+
+    <dubbo:protocol host="192.168.1.179" port="20880"/>
+
+    <!--暴露服务-->
+    <bean id="partsService" class="com.kaishengit.erp.service.impl.PartsServiceImpl"/>
+    <bean id="carService" class="com.kaishengit.erp.service.impl.CarServiceImpl"/>
+    <bean id="employeeService" class="com.kaishengit.erp.service.impl.EmployeeServiceImpl"/>
+    <bean id="fixOrderService" class="com.kaishengit.erp.service.impl.FixOrderServiceImpl"/>
+    <bean id="orderService" class="com.kaishengit.erp.service.impl.OrderServiceImpl"/>
+    <bean id="rolePermissionService" class="com.kaishengit.erp.service.impl.RolePermissionServiceImpl"/>
+
+    <dubbo:service interface="com.kaishengit.erp.service.PartsService" ref="partsService"/>
+    <dubbo:service interface="com.kaishengit.erp.service.CarService" ref="carService"/>
+    <dubbo:service interface="com.kaishengit.erp.service.EmployeeService" ref="employeeService"/>
+    <dubbo:service interface="com.kaishengit.erp.service.FixOrderService" ref="fixOrderService"/>
+    <dubbo:service interface="com.kaishengit.erp.service.OrderService" ref="orderService"/>
+    <dubbo:service interface="com.kaishengit.erp.service.RolePermissionService" ref="rolePermissionService"/>
+
+</beans>

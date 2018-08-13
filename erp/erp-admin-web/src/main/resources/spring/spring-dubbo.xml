@@ -3,19 +3,13 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-    <!--自定义服务名称-->
-    <dubbo:application name="UserServiceProvider"/>
+    <dubbo:application name="ErpAdminWeb"/>
 
-    <!--声明注册中心-->
     <dubbo:registry address="zookeeper://192.168.1.179:2181"/>
 
-    <!--dubbo的协议端口和使用的网卡（客户端ip）-->
-    <dubbo:protocol host="192.168.1.179" name="dubbo" port="20881"/>
+    <!--接收消费服务-->
+    <dubbo:reference interface="com.kaishengit.erp.service.EmployeeService" id="employeeService"/>
+    <dubbo:reference interface="com.kaishengit.erp.service.RolePermissionService" id="rolePermissionService"/>
 
-    <!--服务的bean添加到spring容器-->
-    <bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl"/>
-
-    <!--暴露服务-->
-    <dubbo:service interface="com.kaishengit.service.UserService" ref="userService"/>
-
+    
 </beans>
