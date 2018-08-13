@@ -5,7 +5,7 @@
 
     <dubbo:application name="ErpAdminWeb"/>
 
-    <dubbo:registry address="zookeeper://192.168.1.179:2181"/>
+    <dubbo:registry address="zookeeper://192.168.1.203:2181"/>
 
     <!--接收消费服务-->
     <dubbo:reference interface="com.kaishengit.erp.service.EmployeeService" id="employeeService"/>
