@@ -8,8 +8,8 @@
     <dubbo:registry address="zookeeper://192.168.1.203:2181"/>
 
     <!--接收消费服务-->
-    <dubbo:reference interface="com.kaishengit.erp.service.EmployeeService" id="employeeService"/>
-    <dubbo:reference interface="com.kaishengit.erp.service.RolePermissionService" id="rolePermissionService"/>
+    <dubbo:reference interface="com.kaishengit.erp.service.EmployeeService" id="employeeService" timeout="5000"/>
+    <dubbo:reference interface="com.kaishengit.erp.service.RolePermissionService" id="rolePermissionService" timeout="5000"/>
 
     
 </beans>
