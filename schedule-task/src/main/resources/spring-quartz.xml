@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--<bean id="jobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">-->
+        <!--<property name="durability" value="true"/>-->
+        <!--<property name="jobClass" value="com.kaishengit.springQuartz.SendWeixinJob"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">-->
+        <!--<property name="jobDetail" ref="jobDetail"/>-->
+        <!--<property name="cronExpression" value="0 52 16 16 8 ? 2018"/>-->
+    <!--</bean>-->
+
+    <!--配置数据源-->
+    <bean id="datasource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql:///car_service"/>
+        <property name="username" value="root"/>
+        <property name="password" value="rootroot"/>
+    </bean>
+
+    <!--配置事务-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="datasource"/>
+    </bean>
+
+    <!--开启基于注解的事务-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="dataSource" ref="datasource"/>
+        <property name="transactionManager" ref="transactionManager"/>
+        <property name="configLocation" value="classpath:config/quartz.properties"/>
+        <property name="overwriteExistingJobs" value="true"/>
+
+    </bean>
+
+</beans>

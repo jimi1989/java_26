@@ -37,7 +37,7 @@ public class MyQuartzJobTestCase {
     }
 
     @Test
-    public void cromTest() throws SchedulerException, IOException {
+    public void cronTest() throws SchedulerException, IOException {
         // 创建jobDetail指定执行的任务
         JobDetail jobDetail = JobBuilder.newJob(MyQuartzJob.class).build();
 
