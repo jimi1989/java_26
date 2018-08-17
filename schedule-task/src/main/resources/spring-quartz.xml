@@ -4,6 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!--<bean id="jobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">-->
+        <!--任务完成之后是否依然保留到数据库，默认false-->
         <!--<property name="durability" value="true"/>-->
         <!--<property name="jobClass" value="com.kaishengit.springQuartz.SendWeixinJob"/>-->
     <!--</bean>-->
@@ -14,6 +15,21 @@
     <!--</bean>-->
 
     <!--配置数据源-->
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="dataSource" ref="datasource"/>
+        <property name="transactionManager" ref="transactionManager"/>
+        <property name="configLocation" value="classpath:config/quartz.properties"/>
+        <!--是否覆盖已有的job-->
+        <property name="overwriteExistingJobs" value="true"/>
+
+        <!--<property name="triggers">-->
+        <!--<list>-->
+        <!--<ref bean="cronTrigger"/>-->
+        <!--</list>-->
+        <!--</property>-->
+    </bean>
+
+    <!--配置事务-->
     <bean id="datasource" class="org.apache.commons.dbcp2.BasicDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql:///car_service"/>
@@ -21,20 +37,11 @@
         <property name="password" value="rootroot"/>
     </bean>
 
-    <!--配置事务-->
+    <!--开启基于注解的事务-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="datasource"/>
     </bean>
 
-    <!--开启基于注解的事务-->
     <tx:annotation-driven transaction-manager="transactionManager"/>
-
-    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-        <property name="dataSource" ref="datasource"/>
-        <property name="transactionManager" ref="transactionManager"/>
-        <property name="configLocation" value="classpath:config/quartz.properties"/>
-        <property name="overwriteExistingJobs" value="true"/>
-
-    </bean>
 
 </beans>

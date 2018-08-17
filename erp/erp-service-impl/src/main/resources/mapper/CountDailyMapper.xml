@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.erp.mapper.CountDailyMapper">
+  <resultMap id="BaseResultMap" type="com.kaishengit.erp.entity.CountDaily">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sumNum" jdbcType="INTEGER" property="sumnum" />
+    <result column="sumMoney" jdbcType="DECIMAL" property="summoney" />
+    <result column="date_time" jdbcType="VARCHAR" property="dateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, sumNum, sumMoney, date_time
+  </sql>
+  <select id="selectByExample" parameterType="com.kaishengit.erp.entity.CountDailyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from count_daily
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from count_daily
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from count_daily
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kaishengit.erp.entity.CountDailyExample">
+    delete from count_daily
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kaishengit.erp.entity.CountDaily">
+    insert into count_daily (id, sumNum, sumMoney, 
+      date_time)
+    values (#{id,jdbcType=INTEGER}, #{sumnum,jdbcType=INTEGER}, #{summoney,jdbcType=DECIMAL}, 
+      #{dateTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kaishengit.erp.entity.CountDaily">
+    insert into count_daily
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sumnum != null">
+        sumNum,
+      </if>
+      <if test="summoney != null">
+        sumMoney,
+      </if>
+      <if test="dateTime != null">
+        date_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sumnum != null">
+        #{sumnum,jdbcType=INTEGER},
+      </if>
+      <if test="summoney != null">
+        #{summoney,jdbcType=DECIMAL},
+      </if>
+      <if test="dateTime != null">
+        #{dateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kaishengit.erp.entity.CountDailyExample" resultType="java.lang.Long">
+    select count(*) from count_daily
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update count_daily
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.sumnum != null">
+        sumNum = #{record.sumnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.summoney != null">
+        sumMoney = #{record.summoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dateTime != null">
+        date_time = #{record.dateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update count_daily
+    set id = #{record.id,jdbcType=INTEGER},
+      sumNum = #{record.sumnum,jdbcType=INTEGER},
+      sumMoney = #{record.summoney,jdbcType=DECIMAL},
+      date_time = #{record.dateTime,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kaishengit.erp.entity.CountDaily">
+    update count_daily
+    <set>
+      <if test="sumnum != null">
+        sumNum = #{sumnum,jdbcType=INTEGER},
+      </if>
+      <if test="summoney != null">
+        sumMoney = #{summoney,jdbcType=DECIMAL},
+      </if>
+      <if test="dateTime != null">
+        date_time = #{dateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kaishengit.erp.entity.CountDaily">
+    update count_daily
+    set sumNum = #{sumnum,jdbcType=INTEGER},
+      sumMoney = #{summoney,jdbcType=DECIMAL},
+      date_time = #{dateTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

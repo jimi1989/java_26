@@ -229,7 +229,16 @@
       LEFT JOIN customer ON car.customer_id = customer.id
       where `order`.id = #{id}
     </select>
-    <update id="updateByExampleSelective" parameterType="map">
+  <select id="findDailyOrderByState" resultType="com.kaishengit.erp.entity.Order">
+        SELECT
+            *
+        FROM
+            `order`
+        WHERE
+            `order`.state = #{state}
+        AND date(`order`.create_time) = #{dateTime}
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
     update `order`
     <set>
       <if test="record.id != null">

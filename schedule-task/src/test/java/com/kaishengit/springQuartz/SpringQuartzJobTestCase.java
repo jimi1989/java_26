@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * @author jinjianghao
@@ -19,7 +20,7 @@ import java.io.IOException;
 @ContextConfiguration(locations = "classpath:spring-quartz.xml")
 public class SpringQuartzJobTestCase {
 
-    private int taskId = 1001;
+    private int taskId = 1004;
 
     @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
@@ -37,9 +38,9 @@ public class SpringQuartzJobTestCase {
 
     @Test
     public void addTaskTest() {
+        // schedulerFactoryBean.setOverwriteExistingJobs(true);
 
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
-
         try {
             JobDataMap jobDataMap = new JobDataMap();
             jobDataMap.put("message", "come for dinner?");
@@ -49,10 +50,9 @@ public class SpringQuartzJobTestCase {
                     .setJobData(jobDataMap)
                     .build();
 
-            String cronExpression = "0/10 * 16 16 8 ? *";
+            String cronExpression = "0/10 * 22 16 8 ? 2018";
             CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
             Trigger trigger = TriggerBuilder.newTrigger().withSchedule(scheduleBuilder).build();
-
 
             scheduler.scheduleJob(jobDetail, trigger);
             scheduler.start();
@@ -65,7 +65,7 @@ public class SpringQuartzJobTestCase {
     @Test
     public void delJob() throws SchedulerException {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
-        scheduler.deleteJob(new JobKey("task:" + taskId, "weixin"));
+        scheduler.deleteJob(new JobKey("jobDetail", "default"));
     }
 
 
