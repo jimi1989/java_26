@@ -65,7 +65,7 @@ public class SpringQuartzJobTestCase {
     @Test
     public void delJob() throws SchedulerException {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
-        scheduler.deleteJob(new JobKey("jobDetail", "default"));
+        scheduler.deleteJob(new JobKey("fix:100004-4", "fixOrder"));
     }
 
 

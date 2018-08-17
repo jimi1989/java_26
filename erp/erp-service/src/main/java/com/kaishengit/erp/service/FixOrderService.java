@@ -43,4 +43,11 @@ public interface FixOrderService {
      * @param id
      */
     void taskDone(Integer id);
+
+    /**
+     * 添加超时数据
+     * @param jobName
+     */
+    void addFixOrderTimeout(String jobName);
+
 }

@@ -6,13 +6,18 @@ import com.kaishengit.erp.dto.OrderInfoDto;
 import com.kaishengit.erp.dto.OrderStateDto;
 import com.kaishengit.erp.entity.*;
 import com.kaishengit.erp.exception.ServiceException;
+import com.kaishengit.erp.mapper.CountTimeoutMapper;
 import com.kaishengit.erp.mapper.FixOrderMapper;
 import com.kaishengit.erp.mapper.FixOrderPartsMapper;
+import com.kaishengit.erp.quartz.CheckFixTimeOut;
 import com.kaishengit.erp.service.FixOrderService;
 import com.kaishengit.erp.util.Constant;
+import org.joda.time.DateTime;
+import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +26,7 @@ import javax.jms.Message;
 import javax.jms.Session;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,6 +43,12 @@ public class FixOrderServiceImpl implements FixOrderService {
 
     @Autowired
     private JmsTemplate jmsTemplate;
+
+    @Autowired
+    private SchedulerFactoryBean schedulerFactoryBean;
+
+    @Autowired
+    private CountTimeoutMapper countTimeoutMapper;
 
     /**
      * 将队列中的数据解析生成维修订单
@@ -135,6 +147,40 @@ public class FixOrderServiceImpl implements FixOrderService {
 
         // 减少库存
         changePartsInventory(id, employee.getId());
+        // 添加超时的定时任务
+        setFixOrderTimeOutTask(id, employee.getId(), Integer.parseInt(fixOrder.getOrderServiceHour()));
+    }
+
+    /**
+     * 添加超时的定时任务
+     * @param orderId
+     * @param employeeId
+     */
+    private void setFixOrderTimeOutTask(Integer orderId, Integer employeeId, Integer serviceHour) {
+
+        Scheduler scheduler = schedulerFactoryBean.getScheduler();
+        try {
+            JobDetail jobDetail = JobBuilder.newJob(CheckFixTimeOut.class)
+                    .withIdentity("fix:" + orderId + "-" + employeeId, "fixOrder")
+                    .build();
+
+            DateTime dateTime = new DateTime();
+            dateTime = dateTime.plusHours(serviceHour);
+//            dateTime = dateTime.plusMinutes(serviceHour);
+
+            // 23 34 12 17 8 ? 2018
+            String cronExpression = dateTime.getSecondOfMinute() + " " + dateTime.getMinuteOfHour() + " " + dateTime.getHourOfDay()
+                    + " " + dateTime.getDayOfMonth() + " " + dateTime.getMonthOfYear() + " ? " + dateTime.getYear();
+
+            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
+            Trigger trigger = TriggerBuilder.newTrigger().withSchedule(scheduleBuilder).build();
+
+            scheduler.scheduleJob(jobDetail, trigger);
+            scheduler.start();
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -191,6 +237,46 @@ public class FixOrderServiceImpl implements FixOrderService {
         orderStateDto.setState(FixOrder.ORDER_STATE_FIXED);
 
         sendStateToMQ(orderStateDto);
+
+        // 删除检测超时的定时器任务
+        Scheduler scheduler = schedulerFactoryBean.getScheduler();
+        try {
+            scheduler.deleteJob(new JobKey("fix:" + fixOrder.getOrderId() + "-" + fixOrder.getFixEmployeeId(), "fixOrder"));
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 添加超时数据
+     * @param jobName
+     */
+    @Override
+    public void addFixOrderTimeout(String jobName) {
+        Integer orderId = Integer.valueOf(jobName.split(":")[1].split("-")[0]);
+        Integer employeeId = Integer.valueOf(jobName.split(":")[1].split("-")[1]);
+        // Integer serviceHour = Integer.valueOf(jobName.split(":")[1].split("-")[2]);
+
+        CountTimeoutExample countTimeoutExample = new CountTimeoutExample();
+        countTimeoutExample.createCriteria().andEmployeeIdEqualTo(employeeId)
+                .andOrderIdEqualTo(orderId);
+
+        /*List<CountTimeout> countTimeoutList = countTimeoutMapper.selectByExample(countTimeoutExample);
+        // 是否已经超时过,已经超时 num++
+        if(countTimeoutList != null && countTimeoutList.size() > 0) {
+            CountTimeout countTimeout = countTimeoutList.get(0);
+            countTimeout.setNum(countTimeout.getNum() + 1);
+
+            countTimeoutMapper.updateByPrimaryKeySelective(countTimeout);
+        } else {*/
+            CountTimeout countTimeout = new CountTimeout();
+            countTimeout.setEmployeeId(employeeId);
+            countTimeout.setOrderId(orderId);
+
+            countTimeoutMapper.insertSelective(countTimeout);
+        /*}
+
+        setFixOrderTimeOutTask(orderId, employeeId, serviceHour);*/
     }
 
     /**
