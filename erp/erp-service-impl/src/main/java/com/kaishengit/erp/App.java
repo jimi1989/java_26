@@ -19,6 +19,7 @@ public class App {
         System.out.println("容器启动成功...");
 
         System.in.read();
+
     }
 
 }
