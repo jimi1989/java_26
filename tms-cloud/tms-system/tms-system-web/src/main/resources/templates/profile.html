@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                个人设置
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="box" shiro:hasPermission="agency-bank-card:query">
+                <div class="box-header">
+                    <h3 class="box-title">个人银行卡绑定</h3>
+                </div>
+                <div class="box-body">
+                    <form method="post" id="bindCardForm">
+                        <div th:if="${card != null and card != ''}">
+                            <input type="hidden" th:value = "${card.id}" name="id">
+                            <div class="form-group">
+                                <label class="control-label">持卡人姓名:</label>
+                                <input type="text" class="form-control" name="cardName" placeholder="请输入持卡人姓名" th:value="${card.cardName}">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">银行卡号:</label>
+                                <input type="text" class="form-control" name="cardNo" placeholder="请输入银行卡号" th:value="${card.cardNo}">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">开户行:</label>
+                                <select name="bankName" class="form-control" th:value="${card.bankName}" id="bankName">
+                                    <option value="">-----请选择开户行-----</option>
+                                    <option th:each="bankname:${bankNames}" th:value="${bankname}" th:text="${bankname}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">开户行网点(省市支行名称):</label>
+                                <input type="text" class="form-control" name="bankAddress" placeholder="请输入开户行地址" th:value="${card.bankAddress}">
+                            </div>
+                        </div>
+                        <div th:unless="${card != null and card != ''}">
+                            <div class="form-group">
+                                <label class="control-label">持卡人姓名:</label>
+                                <input type="text" class="form-control" name="cardName" placeholder="请输入持卡人姓名">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">银行卡号:</label>
+                                <input type="text" class="form-control" name="cardNo" placeholder="请输入银行卡号" >
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">开户行:</label>
+                                <select name="bankName" class="form-control" >
+                                    <option value="">-----请选择开户行-----</option>
+                                    <option th:each="bankname:${bankNames}" th:value="${bankname}" th:text="${bankname}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">开户行网点(省市支行名称):</label>
+                                <input type="text" class="form-control" name="bankAddress" placeholder="请输入开户行地址" >
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="box-footer">
+                    <button class="btn btn-primary pull-right" id="bindBtn">保存</button>
+                </div>
+            </div>
+
+
+
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">修改密码</h3>
+                </div>
+                <div class="box-body">
+                    <form method="post" class="saveForm">
+                        <div class="form-group">
+                            <label>原始密码</label>
+                            <input type="password" class="form-control" name="oldPassword">
+                        </div>
+                        <div class="form-group">
+                            <label>新密码</label>
+                            <input type="password" class="form-control" id="newPassword" name="newPassword">
+                        </div>
+                        <div class="form-group">
+                            <label>确认新密码</label>
+                            <input type="password" class="form-control"  name="reNewPassword">
+                        </div>
+                    </form>
+                </div>
+                <div class="box-footer">
+                    <button class="btn btn-primary pull-right" id="saveBtn">保存</button>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <script layout:fragment="js" th:inline="javascript">
+        $(function(){
+
+            var card = [[${card}]];
+
+            if(card) {
+                $("#bankName").val(card.bankName);
+            }
+
+
+            $("#saveBtn").click(function () {
+                $(".saveForm").submit();
+            });
+            $(".saveForm").validate({
+                errorClass:"text-danger",
+                errorElement:"span",
+                rules:{
+                    oldPassword:{
+                        required:true
+                    },
+                    newPassword:{
+                        required:true,
+                        rangelength:[6,18]
+                    },
+                    reNewPassword:{
+                        required:true,
+                        rangelength:[6,18],
+                        equalTo:"#newPassword"
+                    }
+                },
+                messages:{
+                    oldPassword:{
+                        required:"请输入原始密码"
+                    },
+                    newPassword:{
+                        required:"请输入新密码",
+                        rangelength:"密码长度6-18位"
+                    },
+                    reNewPassword:{
+                        required:"请输入确认密码",
+                        rangelength:"密码长度6-18位",
+                        equalTo:"两次密码不一致"
+                    }
+                },
+                submitHandler:function(){
+                    $.post("/profile",$(".saveForm").serialize()).done(function(resp){
+                        if(resp.status == 'success') {
+                            layer.msg("密码修改成功,请重新登录",{time:2000},function(){
+                                window.location.href = "/";
+                            });
+                        } else {
+                            layer.msg(resp.message);
+                        }
+                    }).error(function(){
+                        layer.msg("服务器忙");
+                    });
+                }
+            });
+            $("#bindBtn").click(function () {
+                $("#bindCardForm").submit();
+            })
+            $("#bindCardForm").validate({
+                errorClass:"text-danger",
+                errorElement:"span",
+                rules : {
+                    cardName : {
+                        required : true
+                    },
+                    cardNo:{
+                        required:true,
+                        digits:true,
+                        rangelength:[1,19]
+                    },
+                    bankName:{
+                        required:true
+                    },
+                    bankAddress:{
+                        required:true
+                    }
+
+                },
+                messages : {
+                    cardName : {
+                        required : "请输入持卡人姓名"
+                    },
+                    cardNo:{
+                        required:"请输入卡号",
+                        digits:"卡号必须是整数",
+                        rangelength:"卡号长度应该是19位以内",
+                    },
+                    bankName:{
+                        required:"请选择开户行"
+                    },
+                    bankAddress:{
+                        required:"请输入开户行地址"
+                    }
+
+
+
+
+                },
+                submitHandler:function () {
+                    $.ajax({
+                        url:"/bankcard/new/own",
+                        type:"post",
+                        data:$("#bindCardForm").serialize(),
+                        success:function (data) {
+                            if(data.status == "success") {
+                                layer.msg("绑定成功!",{icon:1,time:1000},function(){
+                                    //前往题库管理
+                                    window.history.go(0);
+                                });
+                            } else {
+                                layer.msg(data.message);
+                            }
+                        },
+                        error:function () {
+                            layer.msg("系统繁忙")
+                        }
+                    });
+                }
+
+            });
+        });
+    </script>
+</body>
+</html>

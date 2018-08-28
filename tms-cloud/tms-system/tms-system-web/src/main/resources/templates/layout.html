@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">OTC管理系统</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/dist/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="/plugins/pace/pace.css">
+    <link rel="stylesheet" href="/dist/css/skins/_all-skins.css">
+    <link rel="stylesheet" href="/plugins/alertifyjs/css/alertify.min.css">
+    <link rel="stylesheet" href="/plugins/alertifyjs/css/themes/default.min.css">
+    <!--[if lt
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="/plugins/validate/jquery.validate.min.js"></script>
+    <script src="/plugins/fastclick/fastclick.js"></script>
+    <script src="/plugins/layer/layer.js"></script>
+    <script src="/plugins/pace/pace.js"></script>
+    <script src="/dist/js/app.js"></script>
+    <script src="/js/message.polling.js"></script>
+    <script src="/js/newOrder.polling.js"></script>
+    <script src="/js/agencyTrans.pollling.js"></script>
+    <!--<script src="/js/webSocketMessageOrder.js"></script>-->
+    <script src="/plugins/alertifyjs/alertify.min.js"></script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper" style="overflow: hidden">
+    <!-- 顶部导航栏部分 -->
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="/home" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>OTC</b></span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>OTC</b>系统</span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!-- User Account: style can be found in dropdown.less -->
+                    <li class="notifications-menu">
+                        <a href="/messages/info">
+                            <i class="fa fa-envelope-o"></i>
+                            <span class="label label-success" id="countMessages"></span>
+                        </a>
+                    </li>
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="/dist/img/default-avatar.png" class="user-image" alt="User Image">
+                            <span class="hidden-xs"><shiro:principal property="accountName"></shiro:principal></span>
+                            <span hidden id="accountId"><shiro:principal property="id"></shiro:principal></span>
+                            <span hidden id="messageUrl" th:text="${@environment.getProperty('webSocket.new.message.address')}"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header">
+                                <img src="/dist/img/default-avatar.png" class="img-circle" alt="User Image">
+
+                                <p>
+                                    <shiro:principal property="accountName"></shiro:principal>
+                                </p>
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="/profile" class="btn btn-default btn-flat">个人设置</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="/logout" class="btn btn-default btn-flat">安全退出</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- 左侧菜单栏 -->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- 菜单 -->
+            <ul class="sidebar-menu">
+                <li><a href="/home"><i class="fa fa-home"></i> <span>首页</span></a></li>
+
+                <li shiro:hasPermission="agency-bank-card:query" class="header">代理商</li>
+                <li shiro:hasPermission="agency-bank-card:query"><a href="/agency/bankcard"><i class="fa fa-circle-o"></i> <span>银行卡管理</span></a></li>
+                <li shiro:hasPermission="agency-new-order:query"><a href="/agency/order/new"><i class="fa fa-circle-o"></i> <span>新订单</span> <span id="agencyNewOrderNum" class="label label-success pull-right"></span></a></li>
+                <li shiro:hasPermission="agency-history-order:query"><a href="/agency/order/history"><i class="fa fa-circle-o"></i> <span>历史订单</span></a></li>
+                <li shiro:hasPermission="agency-finance-trans:query"><a href="/agency/finance/trans/records"><i class="fa fa-circle-o"></i> <span>财务打款记录</span></a></li>
+                <li shiro:hasPermission="agency:commission"><a href="/agency/commission/stream"><i class="fa fa-circle-o"></i> <span>我的佣金</span></a></li>
+
+                <li shiro:hasPermission="finance-card:query" class="header">财务</li>
+                <li shiro:hasPermission="finance-card:query"><a href="/finance/bankcard"><i class="fa fa-circle-o"></i> <span>银行卡管理</span></a></li>
+                <li shiro:hasPermission="finance-agency:query"><a href="/finance/agency"><i class="fa fa-circle-o"></i> <span>代理商管理</span></a></li>
+                <li shiro:hasPermission="finance-new-order:query"><a href="/finance/trans/order/new"><i class="fa fa-circle-o"></i> <span>提现订单</span><span id="financeNewOrderNum" class="label label-success pull-right"></span></a></li>
+                <li shiro:hasPermission="finance-history-order:query"><a href="/finance/trans/order/history"><i class="fa fa-circle-o"></i> <span>历史订单</span> </a></li>
+                <li shiro:hasPermission="finance-agency-trans:query"><a href="/finance/agency/trans/records"><i class="fa fa-circle-o"></i> <span>代理商打款记录</span><span id="agencyTransFinance" class="label label-success pull-right"></span></a></li>
+                <li shiro:hasPermission="finance:commission:stream"><a href="/finance/commission/stream"><i class="fa fa-circle-o"></i> <span>佣金支付流水</span></a></li>
+
+                <li shiro:hasPermission="finance:manage" class="header">财务主管</li>
+                <li shiro:hasPermission="finance:manage:agency:order"><a href="/finance/manage/user/recharge/list"><i class="fa fa-circle-o"></i> <span>用户充值订单</span></a></li>
+                <li shiro:hasPermission="finance:manage:finance:order"><a href="/finance/manage/order/withdraw"><i class="fa fa-circle-o"></i> <span>用户提现订单</span></a></li>
+                <li shiro:hasPermission="finance:manage:agency:finance"><a href="/finance/manage/trans/agency_to_finance"><i class="fa fa-circle-o"></i> <span>代理商财务转账</span></a></li>
+                <li shiro:hasPermission="finance:manage:commission"><a href="/finance/manage/commission/stream"><i class="fa fa-circle-o"></i> <span>佣金支付流水</span></a></li>
+                <li shiro:hasPermission="finance:manage:card:card"><a href="/finance/manage/card/trans/card"><i class="fa fa-circle-o"></i> <span>卡卡转账</span></a></li>
+                <li shiro:hasPermission="finance:manage:statistics"><a href="/finance/manage/statistics/recharge_withdraw"><i class="fa fa-circle-o"></i> <span>充值/提现统计</span></a></li>
+                <li shiro:hasPermission="user:online:state"><a href="/admin/account/list"><i class="fa fa-circle-o"></i> <span>用户在线状态</span></a></li>
+                <li shiro:hasPermission="finance:transaction:stream"><a href="/finance/transaction/stream"><i class="fa fa-circle-o"></i> <span>平台交易流水</span></a></li>
+                <li shiro:hasPermission="finance:account:stream"><a href="/finance/account/stream"><i class="fa fa-circle-o"></i> <span>系统账号流水</span></a></li>
+                <li shiro:hasPermission="finance:platform:balance"><a href="/finance/platform/balance"><i class="fa fa-circle-o"></i> <span>平台账号资产统计</span></a></li>
+                <li shiro:hasPermission="finance:user:balance"><a href="/finance/user/balance"><i class="fa fa-circle-o"></i> <span>用户账号资产统计</span></a></li>
+                <li shiro:hasPermission="finance:nb:database"><a href="/finance/nb/refer"><i class="fa fa-circle-o"></i> <span>NB数据库</span></a></li>
+                <li shiro:hasPermission="finance:nb:dividend"><a href="/finance/nb/dividend"><i class="fa fa-circle-o"></i> <span>NB分红统计</span></a></li>
+
+                <li shiro:hasAnyPermissions="admin:agency:card,admin:finance:card" class="header">管理员</li>
+                <li shiro:hasPermission="admin:agency:card"><a href="/admin/agency/cards"><i class="fa fa-circle-o"></i> <span>代理商银行卡</span></a></li>
+                <li shiro:hasPermission="admin:finance:card"><a href="/admin/finance/cards"><i class="fa fa-circle-o"></i> <span>财务银行卡</span></a></li>
+
+
+
+                <li shiro:hasPermission="robot:robot" class="header">机器人</li>
+                <li shiro:hasPermission="robot:robot"><a href="/robot"><i class="fa fa-circle-o"></i> <span>挂单机器人</span></a></li>
+
+                <li shiro:hasAnyPermissions="app:push,app:version" class="header">APP</li>
+                <li shiro:hasPermission="app:push"><a href="/app/push"><i class="fa fa-circle-o"></i> <span>通知推送</span></a></li>
+                <li shiro:hasPermission="app:version"><a href="/app/version/new"><i class="fa fa-circle-o"></i> <span>发布新版</span></a></li>
+
+                <li shiro:hasPermission="operating-user-data:query" class="header">运营</li>
+                <li shiro:hasPermission="operating-user-data:query"><a href="/user/data/list"><i class="fa fa-circle-o"></i> <span>用户数据</span></a></li>
+                <li shiro:hasPermission="promotion-channel:query"><a href="/promotion/channel/list"><i class="fa fa-circle-o"></i> <span>渠道推广</span></a></li>
+                <li shiro:hasPermission="promotion-channel:query"><a href="/promotion/channel/analyze/list"><i class="fa fa-circle-o"></i> <span>渠道分析</span></a></li>
+                <li shiro:hasPermission="operating-sales-account:query"><a href="/sales/account/list"><i class="fa fa-circle-o"></i> <span>推广员账号</span></a></li>
+                <li shiro:hasPermission="operating-sales-account-business-info:query"><a href="/sales/account/business/list"><i class="fa fa-circle-o"></i> <span>推广员业绩统计</span></a></li>
+
+
+                <li shiro:hasPermission="account:query" class="header">系统管理</li>
+                <li shiro:hasPermission="account:query"><a href="/manage/account"><i class="fa fa-circle-o"></i> <span>账号管理</span></a></li>
+                <li shiro:hasRole="developer"><a href="/manage/roles"><i class="fa fa-circle-o"></i> <span>角色管理</span></a></li>
+                <li shiro:hasRole="developer"><a href="/manage/permission"><i class="fa fa-circle-o"></i> <span>权限管理</span></a></li>
+                <li shiro:hasPermission="setting:query"><a href="/manage/setting"><i class="fa fa-circle-o"></i> <span>系统设置</span></a></li>
+
+
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+    <!-- 右侧内容部分 -->
+    <div class="content-wrapper" layout:fragment="content"></div>
+</div>
+<script layout:fragment="js"></script>
+</body>
+</html>

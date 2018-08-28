@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.tms.mapper.StoreLoginLogMapper">
+  <resultMap id="BaseResultMap" type="com.kaishengit.tms.entity.StoreLoginLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="login_ip" jdbcType="VARCHAR" property="loginIp" />
+    <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
+    <result column="store_account_id" jdbcType="INTEGER" property="storeAccountId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, login_ip, login_time, store_account_id
+  </sql>
+  <select id="selectByExample" parameterType="com.kaishengit.tms.entity.StoreLoginLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from store_login_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from store_login_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from store_login_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kaishengit.tms.entity.StoreLoginLogExample">
+    delete from store_login_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kaishengit.tms.entity.StoreLoginLog">
+    insert into store_login_log (id, login_ip, login_time, 
+      store_account_id)
+    values (#{id,jdbcType=BIGINT}, #{loginIp,jdbcType=VARCHAR}, #{loginTime,jdbcType=TIMESTAMP}, 
+      #{storeAccountId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kaishengit.tms.entity.StoreLoginLog">
+    insert into store_login_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="loginIp != null">
+        login_ip,
+      </if>
+      <if test="loginTime != null">
+        login_time,
+      </if>
+      <if test="storeAccountId != null">
+        store_account_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="loginIp != null">
+        #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null">
+        #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storeAccountId != null">
+        #{storeAccountId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kaishengit.tms.entity.StoreLoginLogExample" resultType="java.lang.Long">
+    select count(*) from store_login_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update store_login_log
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.loginIp != null">
+        login_ip = #{record.loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginTime != null">
+        login_time = #{record.loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.storeAccountId != null">
+        store_account_id = #{record.storeAccountId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update store_login_log
+    set id = #{record.id,jdbcType=BIGINT},
+      login_ip = #{record.loginIp,jdbcType=VARCHAR},
+      login_time = #{record.loginTime,jdbcType=TIMESTAMP},
+      store_account_id = #{record.storeAccountId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kaishengit.tms.entity.StoreLoginLog">
+    update store_login_log
+    <set>
+      <if test="loginIp != null">
+        login_ip = #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null">
+        login_time = #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storeAccountId != null">
+        store_account_id = #{storeAccountId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kaishengit.tms.entity.StoreLoginLog">
+    update store_login_log
+    set login_ip = #{loginIp,jdbcType=VARCHAR},
+      login_time = #{loginTime,jdbcType=TIMESTAMP},
+      store_account_id = #{storeAccountId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
