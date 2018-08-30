@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>系统管理 - 新增角色</title>
+    <!-- iCheck -->
+    <link rel="stylesheet" href="/plugins/iCheck/square/blue.css">
+    <script src="/plugins/treegrid/js/jquery.treegrid.min.js"></script>
+    <script src="/plugins/treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+    <!-- iCheck -->
+    <script src="/plugins/iCheck/icheck.min.js"></script>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                角色管理
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">新增角色</h3>
+                    <div class="box-tools">
+                    </div>
+                </div>
+                <div class="box-body">
+                    <form method="post" id="saveForm">
+                        <div class="form-group">
+                            <label>角色名称</label>
+                            <input type="text" name="rolesName" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>角色代号</label>
+                            <input type="text" name="rolesCode" class="form-control">
+                        </div>
+                        <table class="table tree">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>权限名称</th>
+                                <th>权限代号</th>
+                                <th>资源URL</th>
+                                <th>类型</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="permission : ${permissionList}">
+                                <tr th:class="treegrid-+${permission.id}" th:classappend="${permission.parentId != 0} ? 'treegrid-parent-' + ${permission.parentId} ">
+                                    <th>
+                                        <input type="checkbox" name="permissionId" th:value="${permission.id}">
+                                    </th>
+                                    <td th:text="${permission.permissionName}"></td>
+                                    <td th:text="${permission.permissionCode}"></td>
+                                    <td th:text="${permission.url}"></td>
+                                    <td th:text="${permission.permissionType}"></td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div class="box-footer">
+                    <button class="btn pull-right btn-primary" id="saveBtn">保存</button>
+                    <a href="/manage/roles" class="btn btn-default pull-right" style="margin-right: 20px">返回</a>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <script layout:fragment="js">
+        $(function () {
+            $("#saveBtn").click(function () {
+                $("#saveForm").submit();
+            });
+            $('.tree').treegrid();
+            $('input[type=checkbox]').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' /* optional */
+            });
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                TMS | 年票入库
+            </h1>
+        </section>
+
+        <section class="content">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">入库列表</h3>
+                    <div class="box-tools">
+                        <a href="/ticket/storage/new" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> 新增入库</a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>入库时间</th>
+                            <th>内容</th>
+                            <th>起始票号</th>
+                            <th>截至票号</th>
+                            <th>数量</th>
+                            <th>入库人</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:if="${empty pageInfo.list}">
+                            <tr>
+                                <td colspan="7">暂无记录</td>
+                            </tr>
+                        </th:block>
+                        <th:block th:each="record : ${pageInfo.list}">
+                            <tr>
+                                <td th:text="${#calendars.format(record.createTime,'yyyy-MM-dd')}"></td>
+                                <td th:text="${record.content}"></td>
+                                <td th:text="${record.beginTicketNum}"></td>
+                                <td th:text="${record.endTicketNum}"></td>
+                                <td th:text="${record.totalNum}"></td>
+                                <td th:text="${record.accountName}"></td>
+                                <td>
+                                    <a href="javascript:;" class="btn btn-sm del_link" rel="${record.id}"><i class="fa fa-trash text-danger"></i></a>
+                                </td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                    <th:block th:if="${pageInfo.pages > 1}">
+                        <ul id="pagination-demo" class="pagination pull-right"></ul>
+                    </th:block>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <script layout:fragment="js">
+        $(function () {
+            $('#pagination-demo').twbsPagination({
+                totalPages:[[${pageInfo.pages}]],
+                visiblePages: 10,
+                first:'首页',
+                last:'末页',
+                prev:'←',
+                next:'→',
+                href:"?p={{number}}"
+            });
+
+            $(".del_link").click(function () {
+                var id = $(this).attr("rel");
+                layer.confirm("确定要删除该入库记录?",function (index) {
+                    layer.close(index);
+                    window.location.href = "/ticket/storage/"+id+"/del";
+                })
+            });
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.kaishengit</groupId>
+    <artifactId>tms-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.15.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <modules>
+        <module>../tms-commons</module>
+        <module>../tms-system</module>
+        <module>../tms-storage</module>
+        <module>../tms-finance</module>
+    </modules>
+
+    <packaging>pom</packaging>
+
+    <distributionManagement>
+        <!--快照版本-->
+        <snapshotRepository>
+            <id>kaishengit-snapshot</id>
+            <url>http://192.168.1.206:8081/repository/kaishengit-snapshot/</url>
+        </snapshotRepository>
+        <!--正式版本-->
+        <repository>
+            <id>kaishengit-release</id>
+            <url>http://192.168.1.206:8081/repository/kaishengit-release/</url>
+        </repository>
+    </distributionManagement>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Edgware.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!--开发阶段使用snapshot的最新版本-->
+    <repositories>
+        <repository>
+            <id>kaishengit</id>
+            <name>kaishengit_group</name>
+            <url>http://192.168.1.206:8081/repository/kaishengit-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>

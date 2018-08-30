@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                TMS | 年票出库
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">下发列表</h3>
+                    <div class="box-tools">
+                        <a href="/ticket/out/new" class="btn btn-sm btn-success"><i class="fa fa-plus"> 新增下发</i></a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>下发时间</th>
+                            <th>下发网点</th>
+                            <th>内容</th>
+                            <th>起始票号</th>
+                            <th>截至票号</th>
+                            <th>数量</th>
+                            <th>单价</th>
+                            <th>总价</th>
+                            <th>支付方式</th>
+                            <th>下发人</th>
+                            <th>状态</th>
+                            <th>收款人</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:if="${empty page.list}">
+                            <tr>
+                                <td colspan="13">暂无记录</td>
+                            </tr>
+                        </th:block>
+                        <th:block th:each="record : ${page.list}">
+                            <tr>
+                                <td th:text="${#calendars.format(record.createTime,'yyyy-MM-dd')}"></td>
+                                <td th:text="${record.storeAccountName}"></td>
+                                <td th:text="${record.content}"></td>
+                                <td th:text="${record.beginTicketNum}"></td>
+                                <td th:text="${record.endTicketNum}"></td>
+                                <td th:text="${record.totalNum}"></td>
+                                <td th:text="${record.price}"></td>
+                                <td th:text="${record.totalPrice}"></td>
+                                <td th:text="${record.payType}"></td>
+                                <td th:text="${record.outAccountName}"></td>
+                                <td>
+                                    <span th:class="label ${record.state == '未支付' ? 'label-danger' : 'label-success'}" th:text="${record.state}"></span>
+                                </td>
+                                <td th="${record.financeAccountName}"></td>
+                                <td>
+                                    <th:block th:if="${record.state == '未支付'}">
+                                        <a href="javascript:;" rel="${record.id}" class="del_link" title="取消"><i class="fa fa-trash text-danger"></i></a>
+                                    </th:block>
+                                </td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                    <th:block th:if="${page.pages > 1}">
+                        <ul id="pagination-demo" class="pagination pull-right"></ul>
+                    </th:block>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <script layout:fragment="js">
+        $(function () {
+            $('#pagination-demo').twbsPagination({
+                totalPages:[[${page.pages}]] ,
+                visiblePages: 10,
+                first:'首页',
+                last:'末页',
+                prev:'←',
+                next:'→',
+                href:"?p={{number}}"
+            });
+
+            $(".del_link").click(function () {
+                var id = $(this).attr("rel");
+                layer.confirm("确定要取消吗",function (index) {
+                    layer.close(index);
+                    $.get("/ticket/out/"+id+"/del").done(function (result) {
+                        if(result.status == 'success') {
+                            layer.msg("删除成功");
+                            window.history.go(0);
+                        }
+                    }).error(function () {
+                        layer.msg("服务器异常");
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.tms.mapper.TicketOutRecordMapper">
+  <resultMap id="BaseResultMap" type="com.kaishengit.tms.entity.TicketOutRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="out_account_name" jdbcType="VARCHAR" property="outAccountName" />
+    <result column="finance_account_name" jdbcType="VARCHAR" property="financeAccountName" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="begin_ticket_num" jdbcType="VARCHAR" property="beginTicketNum" />
+    <result column="end_ticket_num" jdbcType="VARCHAR" property="endTicketNum" />
+    <result column="total_num" jdbcType="INTEGER" property="totalNum" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="store_account_name" jdbcType="VARCHAR" property="storeAccountName" />
+    <result column="store_account_id" jdbcType="INTEGER" property="storeAccountId" />
+    <result column="out_account_id" jdbcType="INTEGER" property="outAccountId" />
+    <result column="finance_account_id" jdbcType="INTEGER" property="financeAccountId" />
+    <result column="pay_type" jdbcType="VARCHAR" property="payType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, create_time, update_time, out_account_name, finance_account_name, state, content, 
+    begin_ticket_num, end_ticket_num, total_num, price, total_price, store_account_name, 
+    store_account_id, out_account_id, finance_account_id, pay_type
+  </sql>
+  <select id="selectByExample" parameterType="com.kaishengit.tms.entity.TicketOutRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ticket_out_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ticket_out_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ticket_out_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kaishengit.tms.entity.TicketOutRecordExample">
+    delete from ticket_out_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kaishengit.tms.entity.TicketOutRecord">
+    insert into ticket_out_record (id, create_time, update_time, 
+      out_account_name, finance_account_name, state, 
+      content, begin_ticket_num, end_ticket_num, 
+      total_num, price, total_price, 
+      store_account_name, store_account_id, out_account_id, 
+      finance_account_id, pay_type)
+    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{outAccountName,jdbcType=VARCHAR}, #{financeAccountName,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{beginTicketNum,jdbcType=VARCHAR}, #{endTicketNum,jdbcType=VARCHAR}, 
+      #{totalNum,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{totalPrice,jdbcType=DECIMAL}, 
+      #{storeAccountName,jdbcType=VARCHAR}, #{storeAccountId,jdbcType=INTEGER}, #{outAccountId,jdbcType=INTEGER}, 
+      #{financeAccountId,jdbcType=INTEGER}, #{payType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kaishengit.tms.entity.TicketOutRecord">
+    insert into ticket_out_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="outAccountName != null">
+        out_account_name,
+      </if>
+      <if test="financeAccountName != null">
+        finance_account_name,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="beginTicketNum != null">
+        begin_ticket_num,
+      </if>
+      <if test="endTicketNum != null">
+        end_ticket_num,
+      </if>
+      <if test="totalNum != null">
+        total_num,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+      <if test="storeAccountName != null">
+        store_account_name,
+      </if>
+      <if test="storeAccountId != null">
+        store_account_id,
+      </if>
+      <if test="outAccountId != null">
+        out_account_id,
+      </if>
+      <if test="financeAccountId != null">
+        finance_account_id,
+      </if>
+      <if test="payType != null">
+        pay_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outAccountName != null">
+        #{outAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="financeAccountName != null">
+        #{financeAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="beginTicketNum != null">
+        #{beginTicketNum,jdbcType=VARCHAR},
+      </if>
+      <if test="endTicketNum != null">
+        #{endTicketNum,jdbcType=VARCHAR},
+      </if>
+      <if test="totalNum != null">
+        #{totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="storeAccountName != null">
+        #{storeAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAccountId != null">
+        #{storeAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="outAccountId != null">
+        #{outAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="financeAccountId != null">
+        #{financeAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="payType != null">
+        #{payType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kaishengit.tms.entity.TicketOutRecordExample" resultType="java.lang.Long">
+    select count(*) from ticket_out_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ticket_out_record
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.outAccountName != null">
+        out_account_name = #{record.outAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.financeAccountName != null">
+        finance_account_name = #{record.financeAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beginTicketNum != null">
+        begin_ticket_num = #{record.beginTicketNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endTicketNum != null">
+        end_ticket_num = #{record.endTicketNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalNum != null">
+        total_num = #{record.totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalPrice != null">
+        total_price = #{record.totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.storeAccountName != null">
+        store_account_name = #{record.storeAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeAccountId != null">
+        store_account_id = #{record.storeAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="record.outAccountId != null">
+        out_account_id = #{record.outAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="record.financeAccountId != null">
+        finance_account_id = #{record.financeAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="record.payType != null">
+        pay_type = #{record.payType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ticket_out_record
+    set id = #{record.id,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      out_account_name = #{record.outAccountName,jdbcType=VARCHAR},
+      finance_account_name = #{record.financeAccountName,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      begin_ticket_num = #{record.beginTicketNum,jdbcType=VARCHAR},
+      end_ticket_num = #{record.endTicketNum,jdbcType=VARCHAR},
+      total_num = #{record.totalNum,jdbcType=INTEGER},
+      price = #{record.price,jdbcType=DECIMAL},
+      total_price = #{record.totalPrice,jdbcType=DECIMAL},
+      store_account_name = #{record.storeAccountName,jdbcType=VARCHAR},
+      store_account_id = #{record.storeAccountId,jdbcType=INTEGER},
+      out_account_id = #{record.outAccountId,jdbcType=INTEGER},
+      finance_account_id = #{record.financeAccountId,jdbcType=INTEGER},
+      pay_type = #{record.payType,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kaishengit.tms.entity.TicketOutRecord">
+    update ticket_out_record
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outAccountName != null">
+        out_account_name = #{outAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="financeAccountName != null">
+        finance_account_name = #{financeAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="beginTicketNum != null">
+        begin_ticket_num = #{beginTicketNum,jdbcType=VARCHAR},
+      </if>
+      <if test="endTicketNum != null">
+        end_ticket_num = #{endTicketNum,jdbcType=VARCHAR},
+      </if>
+      <if test="totalNum != null">
+        total_num = #{totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="storeAccountName != null">
+        store_account_name = #{storeAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAccountId != null">
+        store_account_id = #{storeAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="outAccountId != null">
+        out_account_id = #{outAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="financeAccountId != null">
+        finance_account_id = #{financeAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="payType != null">
+        pay_type = #{payType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kaishengit.tms.entity.TicketOutRecord">
+    update ticket_out_record
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      out_account_name = #{outAccountName,jdbcType=VARCHAR},
+      finance_account_name = #{financeAccountName,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      begin_ticket_num = #{beginTicketNum,jdbcType=VARCHAR},
+      end_ticket_num = #{endTicketNum,jdbcType=VARCHAR},
+      total_num = #{totalNum,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      total_price = #{totalPrice,jdbcType=DECIMAL},
+      store_account_name = #{storeAccountName,jdbcType=VARCHAR},
+      store_account_id = #{storeAccountId,jdbcType=INTEGER},
+      out_account_id = #{outAccountId,jdbcType=INTEGER},
+      finance_account_id = #{financeAccountId,jdbcType=INTEGER},
+      pay_type = #{payType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                新增年票下发
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="box">
+                <div class="box-body">
+                    <form method="post" id="saveForm">
+                        <div class="form-group">
+                            <label>下发日期</label>
+                            <input type="text" class="form-control" value="${today}" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>下发网点</label>
+                            <select name="storeAccountId" class="form-control">
+                                <th:block th:each="store : ${ticketStoreList}" >
+                                    <option value="${store.id}">${store.storeName}</option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>起始票号</label>
+                            <input type="text" class="form-control" name="beginTicketNum">
+                        </div>
+                        <div class="form-group">
+                            <label>截至票号</label>
+                            <input type="text" class="form-control" name="endTicketNum">
+                        </div>
+                        <div class="form-group">
+                            <label>单价/张</label>
+                            <input type="text" class="form-control" name="price">
+                        </div>
+                    </form>
+                </div>
+                <div class="box-footer">
+                    <button id="saveBtn" class="btn btn-primary pull-right">保存</button>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+
+    <script layout:fragment="js">
+        $(function() {
+            $("#saveBtn").click(function () {
+                $("#saveForm").submit();
+            });
+        });
+    </script>
+
+</body>
+</html>

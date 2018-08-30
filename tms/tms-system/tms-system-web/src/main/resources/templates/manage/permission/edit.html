@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>系统管理 - 编辑权限</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                权限管理
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">编辑权限</h3>
+                    <div class="box-tools">
+
+                    </div>
+                </div>
+                <div class="box-body">
+                    <form method="post" id="saveForm">
+                        <input type="hidden" name="id" th:value="${permission.id}">
+                        <div class="form-group">
+                            <label>权限名称</label>
+                            <input type="text" name="permissionName" class="form-control" th:value="${permission.permissionName}">
+                        </div>
+                        <div class="form-group">
+                            <label>权限代号</label>
+                            <input type="text" name="permissionCode" class="form-control" th:value="${permission.permissionCode}">
+                        </div>
+                        <div class="form-group">
+                            <label>资源URL</label>
+                            <input type="text" name="url" class="form-control" th:value="${permission.url}">
+                        </div>
+                        <div class="form-group">
+                            <label>权限类型</label>
+                            <select name="permissionType" class="form-control">
+                                <option th:selected="${permission.permissionType == '菜单'}" value="菜单">菜单</option>
+                                <option th:selected="${permission.permissionType == '按钮'}" value="按钮">按钮</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>父权限</label>
+                            <select name="parentId" class="form-control">
+                                <option value="0">顶级菜单</option>
+                                <th:block th:each="per : ${menuPermissionList}">
+                                    <option th:value="${per.id}" th:text="${per.permissionName}"></option>
+                                </th:block>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="box-footer">
+                    <button class="btn pull-right btn-primary" id="saveBtn">保存</button>
+                    <a href="/manage/permission" class="btn btn-default pull-right" style="margin-right: 20px">返回</a>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script layout:fragment="js">
+        $(function () {
+            $("#saveBtn").click(function () {
+                $("#saveForm").submit();
+            });
+        })
+    </script>
+</body>
+</html>

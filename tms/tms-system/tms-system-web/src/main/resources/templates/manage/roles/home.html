@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>系统管理 - 角色管理</title>
+    <script src="/plugins/treegrid/js/jquery.treegrid.min.js"></script>
+    <script src="/plugins/treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+    <script src="/plugins/layer/layer.js"></script>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                角色管理
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">角色列表</h3>
+                    <div class="box-tools">
+                        <a href="/manage/roles/new" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增角色</a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <table class="table tree">
+                        <tbody>
+
+                            <th:block th:each="roles : ${rolesList}">
+                            <tr class="bg-blue">
+                                <td>
+                                    角色名称：<strong th:text="${roles.rolesName}"></strong>
+                                    <span class="pull-right">
+                                        <a style="color: #fff;" th:href="@{/manage/roles/{id}/edit(id=${roles.id})}"><i class="fa fa-pencil"></i></a>
+                                        <a style="color: #fff;" class="delLink" th:rel="${roles.id}" href="javascript:;"><i class="fa fa-trash"></i></a>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <th:block th:each="per : ${roles.permissionList}">
+                                        <i class="fa fa-circle"></i> <span th:text="${per.permissionName}"></span>
+                                    </th:block>
+                                </td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <script layout:fragment="js">
+        $(function () {
+
+            $('.tree').treegrid();
+            //删除
+            $(".delLink").click(function () {
+                var id = $(this).attr("rel");
+                layer.confirm("确定要删除该角色？",function (index) {
+                    layer.close(index);
+                    $.get("/manage/roles/"+id+"/del").done(function (result) {
+                        if(result.status == 'success') {
+                            window.history.go(0);
+                        } else {
+                            layer.msg(result.message);
+                        }
+                    }).error(function () {
+                        layer.msg("服务器忙");
+                    });
+                })
+            });
+        });
+    </script>
+</body>
+</html>

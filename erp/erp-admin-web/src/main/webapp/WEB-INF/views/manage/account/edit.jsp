@@ -58,9 +58,9 @@
                                         </c:if>
                                     </c:forEach>
 
-                                <div class="checkbox-inline">
-                                    <input type="checkbox" value="${role.id}" name="roleIds" ${flag ? 'checked': ''}> ${role.roleName}
-                                </div>
+                                    <div class="checkbox-inline">
+                                        <input type="checkbox" value="${role.id}" name="roleIds" ${flag ? 'checked': ''}> ${role.roleName}
+                                    </div>
                                 </c:forEach>
                             </div>
                         </div>

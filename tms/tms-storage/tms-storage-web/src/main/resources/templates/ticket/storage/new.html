@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                账号管理
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">新增入库</h3>
+                </div>
+                <div class="box-body">
+                    <form method="post" id="saveForm">
+                        <div class="form-group">
+                            <label>入库时间</label>
+                            <input type="text" class="form-control" disabled value="${today}">
+                        </div>
+                        <div class="form-group">
+                            <label>起始票号</label>
+                            <input type="text" class="form-control" name="beginTicketNum" id="beginNum">
+                        </div>
+                        <div class="form-group">
+                            <label>截至票号</label>
+                            <input type="text" class="form-control" name="endTicketNum" id="endNum">
+                        </div>
+                    </form>
+                </div>
+                <div class="box-footer">
+                    <button class="btn btn-primary pull-right" id="saveBtn">保存</button>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+
+    <script layout:fragment="js">
+        $(function() {
+            $("#saveBtn").click(function () {
+                $("#saveForm").submit();
+            });
+        });
+    </script>
+
+</body>
+</html>
