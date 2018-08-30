@@ -14,7 +14,7 @@ import java.util.Date;
  * @author jinjianghao
  * @date 2018/8/29
  */
-@Component
+//@Component
 public class TencentCos {
 
     @Value("${cos.bucketName}")

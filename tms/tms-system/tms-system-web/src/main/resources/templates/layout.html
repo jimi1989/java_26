@@ -93,6 +93,7 @@
             <!-- 菜单 -->
             <ul class="sidebar-menu">
                 <li><a href="/home"><i class="fa fa-home"></i> <span>首页</span></a></li>
+                <li shiro:hasPermission="store:query"><a href="/ticketstore"><i class="fa fa-circle-o"></i> <span>售票点信息管理</span></a></li>
 
                 <li shiro:hasPermission="account:query" class="header">系统管理</li>
                 <li shiro:hasPermission="account:query"><a href="/manage/account"><i class="fa fa-circle-o"></i> <span>账号管理</span></a></li>

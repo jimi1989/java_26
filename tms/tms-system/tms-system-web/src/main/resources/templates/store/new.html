@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/static/plugins/uploader/webuploader.css">
+    <link rel="stylesheet" href="/plugins/uploader/webuploader.css">
     <style>
         .photo {
             width: 100%;
@@ -17,16 +17,10 @@
             line-height: 300px;
         }
     </style>
+    <script src="/plugins/uploader/webuploader.min.js"></script>
 </head>
 <body>
     <div layout:fragment="content">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                账号管理
-            </h1>
-        </section>
-
         <!-- Main content -->
         <section class="content">
             <!-- Content Header (Page header) -->
@@ -84,7 +78,7 @@
 
 <script layout:fragment="js">
     $(function () {
-
+        var upToken = "[[${upToken}]]";
         $("#saveBtn").click(function () {
             $("#saveForm").submit();
         });
@@ -99,7 +93,7 @@
             server: 'http://upload-z1.qiniup.com',
             fileVal:'file',
             formData:{
-                "token":"${upToken}"
+                "token":upToken
             },
             // 选择文件的按钮。可选。
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.
@@ -148,7 +142,7 @@
             server: 'http://upload-z1.qiniup.com',
             fileVal:'file',
             formData:{
-                "token":"${upToken}"
+                "token":upToken
             },
             // 选择文件的按钮。可选。
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.

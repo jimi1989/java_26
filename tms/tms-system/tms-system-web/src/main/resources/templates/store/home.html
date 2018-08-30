@@ -21,9 +21,9 @@
             <div class="box">
                 <div class="box-body">
                     <form method="get" class="form-inline">
-                        <input type="text" name="storeName" class="form-control" placeholder="售票点名称" value="${param.storeName}">
-                        <input type="text" name="storeManager" class="form-control" placeholder="联系人" value="${param.storeManager}">
-                        <input type="text" name="storeTel" class="form-control" placeholder="联系电话" value="${param.storeTel}">
+                        <input type="text" name="storeName" class="form-control" placeholder="售票点名称">
+                        <input type="text" name="storeManager" class="form-control" placeholder="联系人" >
+                        <input type="text" name="storeTel" class="form-control" placeholder="联系电话">
                         <button class="btn btn-default">搜索</button>
                     </form>
                 </div>
@@ -47,9 +47,9 @@
                         <tbody>
                         <th:block th:each="store : ${pageInfo.list}">
                             <tr>
-                                <td><a href="/ticketstore/${store.id}">${store.storeName}</a></td>
-                                <td>${store.storeManager}</td>
-                                <td>${store.storeTel}</td>
+                                <td><a th:href="@{/ticketstore/{storeId}(storeId=${store.id})}" th:text="${store.storeName}"></a></td>
+                                <td th:text="${store.storeManager}"></td>
+                                <td th:text="${store.storeTel}"></td>
                             </tr>
                         </th:block>
                         </tbody>
