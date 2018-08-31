@@ -46,8 +46,8 @@ public class TicketStoreServiceImpl implements TicketStoreService {
         StoreAccount storeAccount = new StoreAccount();
         storeAccount.setId(ticketStore.getId());
         storeAccount.setStoreAccount(ticketStore.getStoreTel());
-        //默认密码为手机号码后六位
-        storeAccount.setStorePassword(DigestUtils.md5Hex(ticketStore.getStoreTel().substring(5)));
+        //默认密码为123123
+        storeAccount.setStorePassword(DigestUtils.md5Hex("123123"));
         storeAccount.setCreateTime(new Date());
         storeAccount.setStoreState(StoreAccount.ACCOUNT_STATE_NORMAL);
 

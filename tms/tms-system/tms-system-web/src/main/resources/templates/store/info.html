@@ -85,12 +85,12 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="photo">
-                                <img src="http://p7f6tjc1h.bkt.clouddn.com/${ticketStore.storeManagerAttachment}-preview" alt="">
+                                <img th:src="@{http://pea3t6vef.bkt.clouddn.com/{storeManagerAttachment}-preview(storeManagerAttachment=${ticketStore.storeManagerAttachment})}" alt="">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="photo">
-                                <img src="http://p7f6tjc1h.bkt.clouddn.com/${ticketStore.storeAttachment}-preview" alt="">
+                                <img th:src="@{http://pea3t6vef.bkt.clouddn.com/{storeAttachment}-preview(storeAttachment=${ticketStore.storeAttachment})}" alt="">
                             </div>
                         </div>
                     </div>

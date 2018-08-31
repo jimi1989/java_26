@@ -90,7 +90,7 @@
             // swf文件路径
             swf: '/static/plugins/uploader/Uploader.swf',
             // 文件接收服务端。
-            server: 'http://upload-z1.qiniup.com',
+            server: 'http://upload-z2.qiniup.com',
             fileVal:'file',
             formData:{
                 "token":upToken
@@ -115,7 +115,7 @@
             $("#userPhoto").html("");
 
             var fileName = response.key;
-            var $img = $("<img>").attr("src","http://p7f6tjc1h.bkt.clouddn.com/"+fileName+"-preview");
+            var $img = $("<img>").attr("src","http://pea3t6vef.bkt.clouddn.com/"+fileName+"-preview");
             $img.appendTo($("#userPhoto"));
 
             //将key存放到隐藏域中
@@ -139,7 +139,7 @@
             // swf文件路径
             swf: '/static/plugins/uploader/Uploader.swf',
             // 文件接收服务端。
-            server: 'http://upload-z1.qiniup.com',
+            server: 'http://upload-z2.qiniup.com',
             fileVal:'file',
             formData:{
                 "token":upToken
@@ -162,7 +162,7 @@
         uploader2.on( 'uploadSuccess', function( file,response ) {
             $("#storePhoto").html("");
             var fileName = response.key;
-            var $img = $("<img>").attr("src","http://p7f6tjc1h.bkt.clouddn.com/"+fileName+"-preview");
+            var $img = $("<img>").attr("src","http://pea3t6vef.bkt.clouddn.com/"+fileName+"-preview");
             $img.appendTo($("#storePhoto"));
 
             //将key存放到隐藏域中
