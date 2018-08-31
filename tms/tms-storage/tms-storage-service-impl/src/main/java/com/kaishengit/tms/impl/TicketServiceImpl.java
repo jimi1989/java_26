@@ -1,5 +1,6 @@
 package com.kaishengit.tms.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Function;
@@ -17,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -31,7 +31,7 @@ import java.util.Map;
  * 年票业务类
  * @author jinjianghao
  */
-@Service
+@Service(version = "1.0", timeout = 5000)
 public class TicketServiceImpl implements TicketService {
 
     private static final Logger logger = LoggerFactory.getLogger(TicketServiceImpl.class);
@@ -91,7 +91,6 @@ public class TicketServiceImpl implements TicketService {
 
         //设置入库的内容
         ticketInRecord.setContent(ticketInRecord.getBeginTicketNum()+"-"+ticketInRecord.getEndTicketNum());
-
         ticketInRecordMapper.insertSelective(ticketInRecord);
 
         logger.info("新增年票入库： {} 入库人：{}",ticketInRecord, currAccount);

@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="/plugins/twbsPagination/jquery.twbsPagination.min.js"></script>
 </head>
 <body>
     <div layout:fragment="content">
@@ -45,33 +46,35 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <th:block th:if="${empty page.list}">
+                        <th:block th:if="${#lists.isEmpty(page.list)}">
                             <tr>
                                 <td colspan="13">暂无记录</td>
                             </tr>
                         </th:block>
-                        <th:block th:each="record : ${page.list}">
-                            <tr>
-                                <td th:text="${#calendars.format(record.createTime,'yyyy-MM-dd')}"></td>
-                                <td th:text="${record.storeAccountName}"></td>
-                                <td th:text="${record.content}"></td>
-                                <td th:text="${record.beginTicketNum}"></td>
-                                <td th:text="${record.endTicketNum}"></td>
-                                <td th:text="${record.totalNum}"></td>
-                                <td th:text="${record.price}"></td>
-                                <td th:text="${record.totalPrice}"></td>
-                                <td th:text="${record.payType}"></td>
-                                <td th:text="${record.outAccountName}"></td>
-                                <td>
-                                    <span th:class="label ${record.state == '未支付' ? 'label-danger' : 'label-success'}" th:text="${record.state}"></span>
-                                </td>
-                                <td th="${record.financeAccountName}"></td>
-                                <td>
-                                    <th:block th:if="${record.state == '未支付'}">
-                                        <a href="javascript:;" rel="${record.id}" class="del_link" title="取消"><i class="fa fa-trash text-danger"></i></a>
-                                    </th:block>
-                                </td>
-                            </tr>
+                        <th:block th:unless="${#lists.isEmpty(page.list)}">
+                            <th:block th:each="record : ${page.list}">
+                                <tr>
+                                    <td th:text="${#calendars.format(record.createTime,'yyyy-MM-dd')}"></td>
+                                    <td th:text="${record.storeAccountName}"></td>
+                                    <td th:text="${record.content}"></td>
+                                    <td th:text="${record.beginTicketNum}"></td>
+                                    <td th:text="${record.endTicketNum}"></td>
+                                    <td th:text="${record.totalNum}"></td>
+                                    <td th:text="${record.price}"></td>
+                                    <td th:text="${record.totalPrice}"></td>
+                                    <td th:text="${record.payType}"></td>
+                                    <td th:text="${record.outAccountName}"></td>
+                                    <td>
+                                        <span th:class="${record.state == '未支付' ? 'label label-danger' : 'label label-success'}" th:text="${record.state}"></span>
+                                    </td>
+                                    <td th="${record.financeAccountName}"></td>
+                                    <td>
+                                        <th:block th:if="${record.state == '未支付'}">
+                                            <a href="javascript:;" rel="${record.id}" class="del_link" title="取消"><i class="fa fa-trash text-danger"></i></a>
+                                        </th:block>
+                                    </td>
+                                </tr>
+                            </th:block>
                         </th:block>
                         </tbody>
                     </table>

@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="/plugins/twbsPagination/jquery.twbsPagination.min.js"></script>
 </head>
 <body>
     <div layout:fragment="content">
@@ -38,23 +39,25 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <th:block th:if="${empty pageInfo.list}">
+                        <th:block th:if="${#lists.isEmpty(pageInfo.list)}">
                             <tr>
                                 <td colspan="7">暂无记录</td>
                             </tr>
                         </th:block>
-                        <th:block th:each="record : ${pageInfo.list}">
-                            <tr>
-                                <td th:text="${#calendars.format(record.createTime,'yyyy-MM-dd')}"></td>
-                                <td th:text="${record.content}"></td>
-                                <td th:text="${record.beginTicketNum}"></td>
-                                <td th:text="${record.endTicketNum}"></td>
-                                <td th:text="${record.totalNum}"></td>
-                                <td th:text="${record.accountName}"></td>
-                                <td>
-                                    <a href="javascript:;" class="btn btn-sm del_link" rel="${record.id}"><i class="fa fa-trash text-danger"></i></a>
-                                </td>
-                            </tr>
+                        <th:block th:unless="${#lists.isEmpty(pageInfo.list)}">
+                            <th:block th:each="record : ${pageInfo.list}">
+                                <tr>
+                                    <td th:text="${#calendars.format(record.createTime,'yyyy-MM-dd')}"></td>
+                                    <td th:text="${record.content}"></td>
+                                    <td th:text="${record.beginTicketNum}"></td>
+                                    <td th:text="${record.endTicketNum}"></td>
+                                    <td th:text="${record.totalNum}"></td>
+                                    <td th:text="${record.accountName}"></td>
+                                    <td>
+                                        <a href="javascript:;" class="btn btn-sm del_link" rel="${record.id}"><i class="fa fa-trash text-danger"></i></a>
+                                    </td>
+                                </tr>
+                            </th:block>
                         </th:block>
                         </tbody>
                     </table>

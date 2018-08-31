@@ -10,6 +10,7 @@ public class StoreAccount implements Serializable {
 
     public static final String ACCOUNT_STATE_NORMAL = "正常";
     public static final String ACCOUNT_STATE_DISABLE = "禁用";
+    public static final String ACCOUNT_INIT_PASSWORD = "123123";
 
     private Integer id;
 

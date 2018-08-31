@@ -23,13 +23,13 @@
                     <form method="post" id="saveForm">
                         <div class="form-group">
                             <label>下发日期</label>
-                            <input type="text" class="form-control" value="${today}" disabled>
+                            <input type="text" class="form-control" th:value="${today}" disabled>
                         </div>
                         <div class="form-group">
                             <label>下发网点</label>
                             <select name="storeAccountId" class="form-control">
                                 <th:block th:each="store : ${ticketStoreList}" >
-                                    <option value="${store.id}">${store.storeName}</option>
+                                    <option th:value="${store.id}" th:text="${store.storeName}"></option>
                                 </th:block>
                             </select>
                         </div>

@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/static/plugins/uploader/webuploader.css">
+    <link rel="stylesheet" href="/plugins/uploader/webuploader.css">
     <style>
         .photo {
             width: 100%;
@@ -17,6 +17,7 @@
             line-height: 320px;
         }
     </style>
+    <script src="/plugins/uploader/webuploader.min.js"></script>
 </head>
 <body>
     <div layout:fragment="content">
@@ -46,31 +47,31 @@
                         <input type="hidden" name="storeAccountId" value="${ticketStore.storeAccountId}">
                         <div class="form-group">
                             <label>售票点名称</label>
-                            <input type="text" class="form-control" name="storeName" value="${ticketStore.storeName}">
+                            <input type="text" class="form-control" name="storeName" th:value="${ticketStore.storeName}">
                         </div>
                         <div class="form-group">
                             <label>售票点地址</label>
-                            <input type="text" class="form-control" name="storeAddress" value="${ticketStore.storeAddress}">
+                            <input type="text" class="form-control" name="storeAddress" th:value="${ticketStore.storeAddress}">
                         </div>
                         <div class="form-group">
                             <label>联系人</label>
-                            <input type="text" class="form-control" name="storeManager" value="${ticketStore.storeManager}">
+                            <input type="text" class="form-control" name="storeManager" th:value="${ticketStore.storeManager}">
                         </div>
                         <div class="form-group">
                             <label>联系电话</label>
-                            <input type="text" class="form-control" name="storeTel" value="${ticketStore.storeTel}">
+                            <input type="text" class="form-control" name="storeTel" th:value="${ticketStore.storeTel}">
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div id="picker">选择联系人身份证照片</div>
                                 <div class="photo" id="userPhoto">
-                                    <img src="http://p7f6tjc1h.bkt.clouddn.com/${ticketStore.storeManagerAttachment}-preview" alt="">
+                                    <img th:src="@{http://pea3t6vef.bkt.clouddn.com/{storeManagerAttachment}-preview(storeManagerAttachment=${ticketStore.storeManagerAttachment})}" alt="">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div id="picker2">选择营业执照照片</div>
                                 <div class="photo" id="storePhoto">
-                                    <img src="http://p7f6tjc1h.bkt.clouddn.com/${ticketStore.storeAttachment}-preview" alt="">
+                                    <img th:src="@{http://pea3t6vef.bkt.clouddn.com/{storeAttachment}-preview(storeAttachment=${ticketStore.storeAttachment})}" alt="">
                                 </div>
                             </div>
                         </div>
