@@ -1,6 +1,7 @@
 package com.kaishengit.controller;
 
 import com.kaishengit.client.MovieServiceClient;
+import com.kaishengit.entity.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -32,8 +33,16 @@ public class MovieConsumerController {
     }
 
     @PostMapping("/buy/movie/new")
+    public String newMovie(String movieName, String year) {
+        return movieServiceClient.newMovie(movieName, year);
+    }
+
+    @PostMapping("/buy/movie/save")
     public String saveMovie(String movieName, String year) {
-        return movieServiceClient.saveMovie(movieName, year);
+        Movie movie = new Movie();
+        movie.setMovieName("007");
+        movie.setYear("1998");
+        return movieServiceClient.saveMovie(movie);
     }
 
 //    @GetMapping("/buy/movie/{id:\\d+}")

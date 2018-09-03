@@ -1,9 +1,7 @@
 package com.kaishengit.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.kaishengit.entity.Movie;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author jinjianghao
@@ -19,9 +17,16 @@ public class MovieController {
     }
 
     @PostMapping("/movie/new")
-    public String saveMovie(String movieName, String year) {
+    public String newMovie(String movieName, String year) {
         System.out.println("movieName: " + movieName);
         System.out.println("year:" + year);
+        return "save success!";
+    }
+
+    @PostMapping("/movie/save")
+    public String saveMovie(@RequestBody Movie movie) {
+        System.out.println("movieName: " + movie.getMovieName());
+        System.out.println("year:" + movie.getYear());
         return "save success!";
     }
 

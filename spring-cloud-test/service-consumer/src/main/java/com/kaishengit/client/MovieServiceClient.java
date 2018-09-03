@@ -1,5 +1,6 @@
 package com.kaishengit.client;
 
+import com.kaishengit.entity.Movie;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,10 @@ public interface MovieServiceClient {
     String buyMovie(@PathVariable(name = "id") Integer id);
 
     @PostMapping("/movie/new")
-    String saveMovie(@RequestParam(name = "movieName") String movieName,
+    String newMovie(@RequestParam(name = "movieName") String movieName,
                      @RequestParam(name = "year") String year);
 
+
+    @PostMapping("/movie/save")
+    String saveMovie(Movie movie);
 }
