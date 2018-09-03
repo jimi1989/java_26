@@ -23,6 +23,19 @@
     </properties>
 
     <dependencies>
+
+        <!--提供优雅下线-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!--下线需要认证-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
         <!--eureka-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
