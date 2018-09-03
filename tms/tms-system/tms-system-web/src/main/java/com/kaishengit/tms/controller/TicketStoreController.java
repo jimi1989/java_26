@@ -4,9 +4,11 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
 import com.kaishengit.tms.controller.exception.NotFoundException;
+import com.kaishengit.tms.dto.ResponseBean;
 import com.kaishengit.tms.entity.StoreAccount;
 import com.kaishengit.tms.entity.TicketStore;
 import com.kaishengit.tms.fileStore.QiniuStore;
+import com.kaishengit.tms.fileStore.TencentCos;
 import com.kaishengit.tms.service.TicketStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,8 +24,11 @@ public class TicketStoreController {
 
     @Reference(version = "1.0")
     private TicketStoreService ticketStoreService;
+//    @Autowired
+//    private QiniuStore qiniuStore;
+
     @Autowired
-    private QiniuStore qiniuStore;
+    private TencentCos tencentCos;
 
     @GetMapping
     public String home(Model model,
@@ -41,6 +46,13 @@ public class TicketStoreController {
         return "store/home";
     }
 
+    @GetMapping("/getToken")
+    public ResponseBean getToken(String bucket, String regoin) {
+        System.out.println(bucket);
+        System.out.println(regoin);
+        return ResponseBean.success();
+    }
+
     /**
      * 新增售票点
      * @return
@@ -48,9 +60,9 @@ public class TicketStoreController {
     @GetMapping("/new")
     public String newStore(Model model) {
         //获取七牛文件上传token
-        String upToken = qiniuStore.getUploadToken();
-        model.addAttribute("upToken",upToken);
-        return "store/new";
+//        String upToken = qiniuStore.getUploadToken();
+//        model.addAttribute("upToken",upToken);
+        return "store/new-cos";
     }
 
     @PostMapping("/new")
@@ -93,9 +105,9 @@ public class TicketStoreController {
         }
 
         //获取七牛上传的Token
-        String uploadToken = qiniuStore.getUploadToken();
+        //String uploadToken = qiniuStore.getUploadToken();
+        //model.addAttribute("uploadToken",uploadToken);
 
-        model.addAttribute("uploadToken",uploadToken);
         model.addAttribute("ticketStore",ticketStore);
         return "store/edit";
     }
